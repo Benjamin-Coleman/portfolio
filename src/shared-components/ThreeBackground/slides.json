@@ -1,0 +1,262 @@
+{
+	"home": [
+		{
+			"name": "home",
+			"backgroundColor": "#011832",
+			"shapes": [
+				{
+					"x": 11,
+					"y": -1,
+					"z": -1.5,
+					"size": 0.8,
+					"edges": 8,
+					"materialId": 1
+				},{
+					"x": -5,
+					"y": -3,
+					"z": 2,
+					"size": 0.8,
+					"edges": 8,
+					"materialId": 3
+				},{
+					"x": -15,
+					"y": -0.5,
+					"z": -7,
+					"size": 0.8,
+					"edges": 30,
+					"materialId": 5
+				},
+				{
+					"x": -7,
+					"y": 3.5,
+					"z": 3,
+					"size": 1,
+					"edges": 30,
+					"materialId": 6
+				},
+				{
+					"x": -2,
+					"y": 5,
+					"z": -3,
+					"size": 0.6,
+					"edges": 3,
+					"materialId": 8
+				},
+				{
+					"x": 3,
+					"y": 5.5,
+					"z": 0,
+					"size": 0.9,
+					"edges": 30,
+					"materialId": 7
+				},
+				{
+					"x": 11,
+					"y": 4,
+					"z": -6,
+					"size": 1,
+					"edges": 30,
+					"materialId": 9
+				},
+				{
+					"x": 7.5,
+					"y": 4,
+					"z": 3,
+					"size": 0.8,
+					"edges": 3,
+					"materialId": 10
+				},
+				{
+					"x": 8,
+					"y": -8,
+					"z": -6,
+					"size": 1,
+					"edges": 3,
+					"materialId": 11
+				}
+			]
+		}
+	],
+	"work": [
+		{
+			"name": "lightswan",
+			"backgroundColor": "#F7F3EA",
+			"shapes": [
+				{
+					"x": 11,
+					"y": -1,
+					"z": -1.5,
+					"size": 0.8,
+					"edges": 30,
+					"materialId": 0
+				},{
+					"x": -5,
+					"y": -3,
+					"z": 2,
+					"size": 0.8,
+					"edges": 30,
+					"materialId": 0
+				},{
+					"x": -15,
+					"y": -0.5,
+					"z": -7,
+					"size": 0.8,
+					"edges": 30,
+					"materialId": 0
+				},
+				{
+					"x": -7,
+					"y": 3.5,
+					"z": 3,
+					"size": 1,
+					"edges": 30,
+					"materialId": 0
+				},
+				{
+					"x": -2,
+					"y": 5,
+					"z": -3,
+					"size": 0.6,
+					"edges": 30,
+					"materialId": 0
+				},
+				{
+					"x": 3,
+					"y": 5.5,
+					"z": 0,
+					"size": 0.9,
+					"edges": 30,
+					"materialId":0
+				},
+				{
+					"x": 11,
+					"y": 4,
+					"z": -6,
+					"size": 1,
+					"edges": 30,
+					"materialId":0
+				},
+				{
+					"x": 7.5,
+					"y": 4,
+					"z": 3,
+					"size": 0.8,
+					"edges": 30,
+					"materialId": 0
+				},
+				{
+					"x": 8,
+					"y": -8,
+					"z": -6,
+					"size": 1,
+					"edges": 30,
+					"materialId": 0
+				}
+			]
+		},
+		{
+			"name": "shopsquare",
+			"backgroundColor": "#E3F0FF",
+			"shapes": [
+				{
+					"x": 11,
+					"y": -1,
+					"z": -1.5,
+					"size": 0.8,
+					"edges": 8,
+					"materialId": 1
+				},{
+					"x": -5,
+					"y": -3,
+					"z": 2,
+					"size": 0.8,
+					"edges": 8,
+					"materialId": 1
+				},{
+					"x": -15,
+					"y": -0.5,
+					"z": -7,
+					"size": 0.8,
+					"edges": 8,
+					"materialId": 1
+				},
+				{
+					"x": 11,
+					"y": 4,
+					"z": -6,
+					"size": 1,
+					"edges": 8,
+					"materialId": 1
+				},
+				{
+					"x": 7.5,
+					"y": 4,
+					"z": 3,
+					"size": 0.8,
+					"edges": 8,
+					"materialId": 1
+				},
+				{
+					"x": 8,
+					"y": -8,
+					"z": -6,
+					"size": 1,
+					"edges": 8,
+					"materialId": 1
+				}
+			]
+		},
+		{
+			"name": "maje",
+			"backgroundColor": "#303496",
+			"shapes": [
+				{
+					"x": 11,
+					"y": -1,
+					"z": -1.5,
+					"size": 0.8,
+					"edges": 3,
+					"materialId": 2
+				},{
+					"x": -5,
+					"y": -3,
+					"z": 2,
+					"size": 0.8,
+					"edges": 3,
+					"materialId": 2
+				},{
+					"x": -15,
+					"y": -0.5,
+					"z": -7,
+					"size": 0.8,
+					"edges": 3,
+					"materialId": 2
+				},
+				{
+					"x": -7,
+					"y": 3.5,
+					"z": 3,
+					"size": 1,
+					"edges": 3,
+					"materialId": 2
+				},
+				{
+					"x": -2,
+					"y": 5,
+					"z": -3,
+					"size": 0.6,
+					"edges": 3,
+					"materialId": 2
+				},
+				{
+					"x": 8,
+					"y": -8,
+					"z": -6,
+					"size": 1,
+					"edges": 3,
+					"materialId": 2
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,28 @@
+@font-face {
+	font-family: 'SorrenMedium';
+	src: url('../../assets/fonts/Sorren/Sorren-Medium.eot?#iefix') format('embedded-opentype'),  url('../../assets/fonts/Sorren/Sorren-Medium.otf')  format('opentype'),
+	url('../../assets/fonts/Sorren/Sorren-Medium.woff') format('woff'), url('../../assets/fonts/Sorren/Sorren-Medium.ttf')  format('truetype'), url('../../assets/fonts/Sorren/Sorren-Medium.svg#Sorren-Medium') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+  font-family: 'PlayfairDisplay';
+  src: url('../../assets/fonts/PlayfairDisplayItalic/PlayfairDisplay-Italic.eot?#iefix') format('embedded-opentype'),  url('../../assets/fonts/PlayfairDisplayItalic/PlayfairDisplay-Italic.otf')  format('opentype'),
+	     url('../../assets/fonts/PlayfairDisplayItalic/PlayfairDisplay-Italic.woff') format('woff'), url('../../assets/fonts/PlayfairDisplayItalic/PlayfairDisplay-Italic.ttf')  format('truetype'), url('../../assets/fonts/PlayfairDisplayItalic/PlayfairDisplay-Italic.svg#PlayfairDisplay-Italic') format('svg');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'PlayfairDisplay';
+  src: url('../../assets/fonts/PlayfairDisplay/PlayfairDisplay-Regular.eot?#iefix') format('embedded-opentype'),  url('../../assets/fonts/PlayfairDisplay/PlayfairDisplay-Regular.otf')  format('opentype'),
+	     url('../../assets/fonts/PlayfairDisplay/PlayfairDisplay-Regular.woff') format('woff'), url('../../assets/fonts/PlayfairDisplay/PlayfairDisplay-Regular.ttf')  format('truetype'), url('../../assets/fonts/PlayfairDisplay/PlayfairDisplay-Regular.svg#PlayfairDisplay-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
