@@ -23,7 +23,6 @@ export default {
 	},
 
 	mounted(){
-		console.log(this)
 		this.init()
 		this.animate()
 		this.events()
@@ -164,7 +163,7 @@ export default {
 
 		initBg(page){
 			let targetedBg = slides[page][0].backgroundColor
-			TweenLite.to(this.$el, 1, {backgroundColor: targetedBg, ease: Expo.easeOut})
+			TweenLite.set(this.$el, {backgroundColor: targetedBg})
 			this.generateShapesForSlide(page, 0)
 		},
 
