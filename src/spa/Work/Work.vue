@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="work">
 		<navigation></navigation>
-		<slider :slideId="$route.params.slideId"></slider>
+		<slider></slider>
   </div>
 </template>
 
@@ -9,6 +9,7 @@
 
 import Navigation from '../../shared-components/Navigation/Navigation.vue'
 import Slider from '../../shared-components/Slider/Slider.vue'
+import LeaveAnimationDelay from '../../commons/script/LeaveAnimationDelay.js'
 
 export default {
 	data() {

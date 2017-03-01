@@ -34,7 +34,7 @@
 		data(){
 			return {
 				slides: slides.slides,
-				currentSlideId: 0,
+				currentSlideId: 0
 			}
 		},
 

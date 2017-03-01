@@ -1,14 +1,12 @@
 <template lang="html">
-	<transition
-		v-on:leave="leave"
-		>
+
 		<div class="slide-indicator">
 			<div class="slide-indicator__current-slide" ref="currentSlide">{{ currentSlide }}</div>
 			<div class="slide-indicator__separator" ref="separator"></div>
 			<div class="slide-indicator__slider-length" ref="sliderLength">{{ sliderLength }}</div>
 			<div class="slide-indicator__slider-name" ref="sliderName">{{ sliderName }}</div>
 		</div>
-	</transition>
+
 </template>
 
 <script>
@@ -44,15 +42,6 @@ export default {
 			this.nextAnim.to(this.$refs.currentSlide, 1.2, {y: -30, autoAlpha: 0, ease: Expo.easeIn})
 			this.nextAnim.set(this.$refs.currentSlide, {y: 30})
 			this.nextAnim.to(this.$refs.currentSlide, 2, {y: 0, autoAlpha: 1, ease: Expo.easeOut})
-	},
-
-	methods: {
-
-		leave(el, done){
-			this.appearAnim.eventCallback('onReverseComplete', done)
-			this.appearAnim.reverse(0, true)
-		}
-
 	}
 
 }
