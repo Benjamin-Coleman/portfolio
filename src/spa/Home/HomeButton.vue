@@ -32,11 +32,18 @@
 				this.appearAnim.from(this.$refs.square.$el, 1.5, {autoAlpha: 0, ease: Expo.easeOut}, .05, 0)
 
 			this.homeButtonHoverAnim = new TimelineLite({paused: true})
-				this.homeButtonHoverAnim.fromTo(this.$refs.square.$el, .5, {y:0, rotateY: 0}, {y:5, rotateY:90, ease: Expo.easeInOut})
-				this.homeButtonHoverAnim.fromTo(this.$refs.line, .5, {y:0, scaleY:1}, {y:5, scaleY:1.3, ease: Expo.easeInOut}, 0)
+				this.homeButtonHoverAnim.to(this.$refs.square.$el, .5, {y:5, rotateY:90, ease: Expo.easeInOut})
+				this.homeButtonHoverAnim.to(this.$refs.line, .5, {y:5, scaleY:1.3, ease: Expo.easeInOut}, 0)
 				this.homeButtonHoverAnim.to(this.$refs.arrowImg, .5, {y:12, ease: Expo.easeInOut}, 0)
 				this.homeButtonHoverAnim.to(this.$refs.buttonText, .5, {y:5, ease: Expo.easeInOut}, 0)
 
+			this.events()
+
+		},
+		computed: {
+			leaveDelay(){
+				return this.appearAnim.totalDuration()
+			}
 		},
 		methods: {
 			mouseover: function(){
@@ -45,6 +52,11 @@
 			mouseout: function(){
 				this.homeButtonHoverAnim.reverse()
 			},
+			events(){
+				EventBus.$on('route-leave', ()=>{
+					this.appearAnim.reverse(0)
+				})
+			}
 		}
 	}
 </script>

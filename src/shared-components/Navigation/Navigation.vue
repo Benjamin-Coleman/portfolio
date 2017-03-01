@@ -24,17 +24,18 @@
 <script>
 
 import {TimelineLite, TweenLite, Power4} from 'gsap'
-import _ from 'lodash'
 import SplitText from '../../commons/script/SplitText.js'
-import {EventBus} from '../../event-bus.js'
 
+import {EventBus} from '../../event-bus.js'
 import NavItem from './NavItem.vue'
+
+import menuStore from '../../stores/MenuStore.js'
 
 export default {
 
   data: function(){
     return {
-      isClosed: true,
+      state: menuStore.state,
       navItems: [
         {
           title: 'Home',
@@ -55,6 +56,12 @@ export default {
     }
   },
 
+  computed: {
+    isClosed(){
+      return this.state.isClosed
+    }
+  },
+
   mounted: function(){
     let el = this.$el
 
@@ -64,7 +71,7 @@ export default {
 
     this.iconEnter()
 
-    this.openMenuAnim = new TimelineLite({paused: true, onComplete: this.toggleMenuCallback})
+    this.openMenuAnim = new TimelineLite({paused: true})
     this.openMenuAnim
       .to(this.$menuLines[1], 0.5, {x:-10, autoAlpha: 0, ease: Expo.easeInOut})
       .to(this.$menuLines[0], 0.5, {rotation: 45, scaleX:0.7 , ease: Expo.easeInOut}, 0)
@@ -73,7 +80,7 @@ export default {
       .to(this.$refs.menuBackground, 1, {autoAlpha: 1, ease: Expo.easeOut}, 0)
       .staggerTo(this.$menuLinks, 1.5, {y:0 , autoAlpha:1,  ease: Expo.easeOut}, 0.08, 0)
 
-    this.closeMenuAnim = new TimelineLite({paused: true, onComplete: this.toggleMenuCallback})
+    this.closeMenuAnim = new TimelineLite({paused: true})
     this.closeMenuAnim
       .to(this.$menuLines[1], 0.5, {x:0, autoAlpha: 1, ease: Expo.easeInOut})
       .to(this.$menuLines[0], 0.5, {rotation: 0, scaleX:1 , ease: Expo.easeInOut}, 0)
@@ -129,16 +136,15 @@ export default {
         return true
       }
     },
-    toggleMenuCallback: function(){
-      this.isClosed = !this.isClosed
-    },
     openMenu: function(){
       this.openMenuAnim.play(0)
-      EventBus.$emit('toggle-menu', !this.isClosed)
+      menuStore.openMenu()
+      EventBus.$emit('toggle-menu', this.isClosed)
     },
     closeMenu: function(){
       this.closeMenuAnim.play(0)
-      EventBus.$emit('toggle-menu', !this.isClosed)
+      menuStore.closeMenu()
+      EventBus.$emit('toggle-menu', this.isClosed)
     }
   },
 
