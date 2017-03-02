@@ -1,7 +1,7 @@
 <template lang="html">
 
 		<div class="slide-indicator">
-			<div class="slide-indicator__current-slide" ref="currentSlide">{{ currentSlide }}</div>
+			<div class="slide-indicator__current-slide" ref="currentSlide">{{ currentSlideId + 1 }}</div>
 			<div class="slide-indicator__separator" ref="separator"></div>
 			<div class="slide-indicator__slider-length" ref="sliderLength">{{ sliderLength }}</div>
 			<div class="slide-indicator__slider-name" ref="sliderName">{{ sliderName }}</div>
@@ -14,15 +14,26 @@
 import SplitText from '../../commons/script/SplitText.js'
 import {TimelineLite, Expo} from 'gsap'
 import {EventBus} from '../../event-bus.js'
-const slides = require('./slides.json')
+import sliderStore from '../../stores/SliderStore.js'
+const slides = require('./slides.json').slides
 
 export default {
 
 	data(){
 		return {
-			currentSlide: 1,
-			sliderLength: slides.slides.length,
+			state: sliderStore.state,
+			currentSlideId: sliderStore.state.currentSlideId,
+			sliderLength: slides.length,
 			sliderName: 'Projets'
+		}
+	},
+
+	computed: {
+		titleColor(){
+			return slides[this.state.currentSlideId].titleColor
+		},
+		textColor(){
+			return slides[this.state.currentSlideId].textColor
 		}
 	},
 
@@ -33,15 +44,63 @@ export default {
 		})
 
 		this.appearAnim = new TimelineLite({delay: .3})
+			this.appearAnim.set(this.$refs.currentSlide, {color: this.titleColor})
+			this.appearAnim.set(this.$refs.sliderLength, {color: this.titleColor})
+			this.appearAnim.set(this.$refs.separator, {backgroundColor: this.titleColor})
+			this.appearAnim.set(this.$refs.sliderName, {color: this.textColor})
 			this.appearAnim.from(this.$refs.currentSlide, 2, {y: -30,autoAlpha: 0, ease: Expo.easeOut})
 			this.appearAnim.from(this.$refs.sliderLength, 2, {y: 30,autoAlpha: 0, ease: Expo.easeOut}, 0)
 			this.appearAnim.from(this.$refs.separator, 2, {scaleY: 0,autoAlpha: 0, ease: Expo.easeOut}, '-=1.5')
 			this.appearAnim.staggerFrom(this.$refs.sliderName.children, 2, {y: 10, autoAlpha: 0, ease: Expo.easeOut}, .06, 0)
 
-		this.nextAnim = new TimelineLite({paused: true})
-			this.nextAnim.to(this.$refs.currentSlide, 1.2, {y: -30, autoAlpha: 0, ease: Expo.easeIn})
-			this.nextAnim.set(this.$refs.currentSlide, {y: 30})
-			this.nextAnim.to(this.$refs.currentSlide, 2, {y: 0, autoAlpha: 1, ease: Expo.easeOut})
+		this.events()
+
+	},
+
+	methods: {
+
+		events(){
+
+			EventBus.$on('slide-next', ()=>{
+				this.nextAnim()
+			})
+
+			EventBus.$on('slide-prev', ()=>{
+				this.prevAnim()
+			})
+
+		},
+
+		prevAnim(){
+			let tl = new TimelineLite()
+				tl.to(this.$refs.currentSlide, 1, {y: 30, autoAlpha: 0, ease: Expo.easeIn})
+				tl.set(this.$refs.currentSlide, {y: -30})
+				tl.call(this.setNewSlideId)
+				tl.to(this.$refs.currentSlide, 2, {y: 0, color: this.titleColor, autoAlpha: 1, ease: Expo.easeOut})
+				tl.to(this.$refs.sliderLength, 2, {color: this.titleColor, ease: Expo.easeOut}, '-=2')
+				tl.to(this.$refs.separator, 2, {backgroundColor: this.titleColor, ease: Expo.easeOut}, '-=2')
+				tl.to(this.$refs.sliderName, 2, {color: this.textColor, ease: Expo.easeOut}, '-=2')
+
+			return tl
+		},
+
+		nextAnim(){
+
+			let tl = new TimelineLite()
+				tl.to(this.$refs.currentSlide, 1, {y: -30, autoAlpha: 0, ease: Expo.easeIn})
+				tl.set(this.$refs.currentSlide, {y: 30})
+				tl.call(this.setNewSlideId)
+				tl.to(this.$refs.currentSlide, 2, {y: 0, color: this.titleColor, autoAlpha: 1, ease: Expo.easeOut})
+				tl.to(this.$refs.sliderLength, 2, {color: this.titleColor, ease: Expo.easeOut}, '-=2')
+				tl.to(this.$refs.separator, 2, {backgroundColor: this.titleColor, ease: Expo.easeOut}, '-=2')
+				tl.to(this.$refs.sliderName, 2, {color: this.textColor, ease: Expo.easeOut}, '-=2')
+
+			return tl
+		},
+
+		setNewSlideId(){
+			this.currentSlideId = sliderStore.state.currentSlideId
+		}
 	}
 
 }
@@ -56,7 +115,7 @@ export default {
 		transform: translateY(-50%);
 		font-family: 'SorrenMedium';
 		text-transform: uppercase;
-		font-size: 21px;
+		font-size: 22px;
 		text-align: center;
 	}
 
@@ -64,7 +123,6 @@ export default {
 		display: inline-block;
 		width: 1px;
 		height: 2.4em;
-		background-color: #000;
 		margin: 0px .3em;
 		transform-origin: center;
 	}
@@ -78,6 +136,7 @@ export default {
 		display: inline-block;
 		vertical-align: bottom;
 		font-size: 3em;
+		width: .2em;
 	}
 
 	.slide-indicator__slider-name {

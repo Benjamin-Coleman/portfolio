@@ -20,11 +20,11 @@
 	import {EventBus} from '../../event-bus.js'
 	import Slide from './Slide.vue'
 	import SlideIndicator from './SlideIndicator.vue'
-	const slides = require('./slides.json')
+	import sliderStore from '../../stores/SliderStore.js'
+
+	const slides = require('./slides.json').slides
 
 	export default {
-
-		props: ['slideId'],
 
 		mounted(){
 			this.events()
@@ -33,8 +33,14 @@
 
 		data(){
 			return {
-				slides: slides.slides,
-				currentSlideId: 0
+				slides: slides,
+				state: sliderStore.state
+			}
+		},
+
+		computed: {
+			currentSlideId(){
+				return this.state.currentSlideId
 			}
 		},
 
@@ -56,17 +62,11 @@
 			},
 
 			initSlider(){
-				if (this.slideId !== undefined && this.containSlide(this.slideId)) {
-					this.currentSlideId = parseInt(this.slideId)
-				}
-				else {
-					this.$router.push({name: 'work'})
-				}
 				EventBus.$emit('slide-appear', this.currentSlideId)
 			},
 
 			containSlide(slideId){
-				if (slideId >= 0 && slideId <= slides.slides.length - 1) {
+				if (slideId >= 0 && slideId <= slides.length - 1) {
 					return true
 				}
 				else {
@@ -80,8 +80,8 @@
 				}
 				let direction
 				this.currentSlideId < slideId ? direction = 'next' : direction= 'prev'
+				direction === 'next' ? sliderStore.increment() : sliderStore.decrement()
 				EventBus.$emit('slide-'+direction, this.currentSlideId)
-				this.currentSlideId = slideId
 			}
 
 		},

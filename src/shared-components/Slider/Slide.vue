@@ -53,12 +53,13 @@ import HexToRgba from '../../commons/script/HexToRgba.js'
 import SplitText from '../../commons/script/SplitText.js'
 import {TimelineLite, Expo} from 'gsap'
 import {EventBus} from '../../event-bus.js'
-
+import sliderStore from '../../stores/SliderStore.js'
 
 export default {
 	props: ['title', 'description', 'context', 'role', 'period', 'slideId', 'titleColor', 'textColor'],
 	data(){
 		return {
+			state: sliderStore.state,
 			textColorStyle: {
 				color: this.textColor
 			},
@@ -71,13 +72,16 @@ export default {
 			}
 		}
 	},
+	computed: {
+		currentSlideId(){
+			return this.state.currentSlideId
+		}
+	},
 	mounted(){
 
 		let splitButtonText = new SplitText(this.$refs.button, {
 			classToGive: 'slide__button__splitted-text'
 		})
-
-		this.events()
 
 		this.appearSlideAnim = new TimelineLite({paused: true})
 			this.appearSlideAnim.set(this.$el, {autoAlpha: 1})
@@ -108,17 +112,23 @@ export default {
 			this.buttonHoverAnim.to(this.$refs.button.children, .2,{y: 0, rotationX: 0,autoAlpha: 1, ease: Expo.easeOut})
 			this.buttonHoverAnim.to(this.$refs.button, .5, {borderColor: new HexToRgba().convert(this.textColor, 1), ease: Expo.easeInOut}, 0)
 
+
+		this.events()
+
 	},
 	methods: {
 		events(){
-			EventBus.$on('slide-prev', currentSlideId=>{
-				this.slidePrev(currentSlideId)
+
+			EventBus.$on('slide-prev', ()=>{
+				this.slidePrev()
 			})
-			EventBus.$on('slide-next', currentSlideId=>{
-				this.slideNext(currentSlideId)
+
+			EventBus.$on('slide-next', ()=>{
+				this.slideNext()
 			})
-			EventBus.$on('slide-appear', currentSlideId=>{
-				currentSlideId === this.slideId ? this.appearSlideAnim.play(0) : undefined
+
+			EventBus.$on('slide-appear', ()=>{
+				this.currentSlideId === this.slideId ? this.appearSlideAnim.play(0) : undefined
 			})
 		},
 		buttonHover(){
@@ -127,13 +137,13 @@ export default {
 		buttonOut(){
 			this.buttonHoverAnim.reverse()
 		},
-		slidePrev(currentSlideId){
-			currentSlideId === this.slideId ? this.goDownAnim.restart(true) : undefined
-			currentSlideId - 1 === this.slideId ? this.appearUpAnim.restart(true) : undefined
+		slidePrev(){
+			this.currentSlideId + 1 === this.slideId ? this.goDownAnim.restart(true) : undefined
+			this.currentSlideId === this.slideId ? this.appearUpAnim.restart(true) : undefined
 		},
-		slideNext(currentSlideId){
-			currentSlideId === this.slideId ? this.goUpAnim.restart(true) : undefined
-			currentSlideId + 1 === this.slideId ? this.appearDownAnim.restart(true) : undefined
+		slideNext(){
+			this.currentSlideId - 1 === this.slideId ? this.goUpAnim.restart(true) : undefined
+			this.currentSlideId === this.slideId ? this.appearDownAnim.restart(true) : undefined
 		}
 	}
 }

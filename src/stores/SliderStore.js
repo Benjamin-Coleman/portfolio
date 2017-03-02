@@ -2,16 +2,16 @@ class SliderStore {
 
 	constructor() {
 		this.state = {
-			currentSliderId: 0
+			currentSlideId: 0
 		}
 	}
 
 	increment(){
-		this.state.currentSliderId ++
+		this.state.currentSlideId ++
 	}
 
 	decrement(){
-		this.state.currentSliderId --
+		this.state.currentSlideId --
 	}
 
 }

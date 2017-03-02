@@ -11,14 +11,23 @@ import {TimelineLite, TweenLite, Expo} from 'gsap'
 import {EventBus} from '../../event-bus.js'
 const THREE = require('three')
 
-const materials = require('./materials.json')
+const materials = require('./materials.json').materials
 const slides = require('./slides.json')
+
+import sliderStore from '../../stores/SliderStore.js'
 
 export default {
 
 	data(){
 		return {
-			cameraY: 0
+			cameraY: 0,
+			state: sliderStore.state
+		}
+	},
+
+	computed: {
+		currentSlideId(){
+			return this.state.currentSlideId
 		}
 	},
 
@@ -80,33 +89,31 @@ export default {
 				isClosed ? this.closeMenuAnim.play(0) : this.openMenuAnim.play(0)
 			});
 
-			EventBus.$on('slide-next', currentSlide=>{
-				let targetedSlideId = currentSlide + 1
-				this.nextAnim(targetedSlideId)
+			EventBus.$on('slide-next', ()=>{
+				this.nextAnim()
 			})
 
-			EventBus.$on('slide-prev', currentSlide=>{
-				let targetedSlideId = currentSlide - 1
-				this.prevAnim(targetedSlideId)
+			EventBus.$on('slide-prev', ()=>{
+				this.prevAnim()
 			})
 		},
 
-		nextAnim(targetedSlideId){
-			let targetedBg = slides[this.$route.name][targetedSlideId].backgroundColor
+		nextAnim(){
+			let targetedBg = slides[this.$route.name][this.currentSlideId].backgroundColor
 			let tl = new TimelineLite()
 				tl.to(this.camera.position, 1,{y: -25, ease: Expo.easeIn})
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
-				tl.call(this.generateShapesForSlide, [this.$route.name, targetedSlideId])
+				tl.call(this.generateShapesForSlide, [this.$route.name, this.currentSlideId])
 				tl.set(this.camera.position, {y: 25})
 				tl.to(this.camera.position, 1,{z: 10, y: 0, ease: Expo.easeOut})
 		},
 
-		prevAnim(targetedSlideId){
-			let targetedBg = slides[this.$route.name][targetedSlideId].backgroundColor
+		prevAnim(){
+			let targetedBg = slides[this.$route.name][this.currentSlideId].backgroundColor
 			let tl = new TimelineLite()
 				tl.to(this.camera.position, 1,{y: 25, ease: Expo.easeIn})
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
-				tl.call(this.generateShapesForSlide, [this.$route.name, targetedSlideId])
+				tl.call(this.generateShapesForSlide, [this.$route.name, this.currentSlideId])
 				tl.set(this.camera.position, {y: -25})
 				tl.to(this.camera.position, 1,{z: 10, y: 0, ease: Expo.easeOut})
 		},
@@ -168,10 +175,10 @@ export default {
 		},
 
 		generateMaterials(){
-			for (let i = 0; i < materials.materials.length; i++) {
+			for (let i = 0; i < materials.length; i++) {
 
-				let colorStart = materials.materials[i].colorStart
-				let colorStop = materials.materials[i].colorStop
+				let colorStart = materials[i].colorStart
+				let colorStop = materials[i].colorStop
 				let texture = new THREE.Texture(this.createGradientTexture(colorStart, colorStop))
 				texture.needsUpdate = true
 				let material = new THREE.MeshBasicMaterial({
