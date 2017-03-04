@@ -104,7 +104,7 @@ export default {
 				tl.to(this.camera.position, 1,{y: -25, ease: Expo.easeIn})
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
 				tl.call(this.generateShapesForSlide, [this.$route.name, this.currentSlideId])
-				tl.set(this.camera.position, {y: 25})
+				tl.set(this.camera.position, {y: 20})
 				tl.to(this.camera.position, 1,{z: 10, y: 0, ease: Expo.easeOut})
 		},
 
@@ -114,7 +114,7 @@ export default {
 				tl.to(this.camera.position, 1,{y: 25, ease: Expo.easeIn})
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
 				tl.call(this.generateShapesForSlide, [this.$route.name, this.currentSlideId])
-				tl.set(this.camera.position, {y: -25})
+				tl.set(this.camera.position, {y: -20})
 				tl.to(this.camera.position, 1,{z: 10, y: 0, ease: Expo.easeOut})
 		},
 

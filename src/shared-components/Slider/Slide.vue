@@ -1,5 +1,11 @@
 <template lang="html">
 	<div class="slide">
+		<div class="slide-img">
+			<img :src="'src/assets/imgs/slider/'+imgName+'.png'" alt=""
+					 :srcset="'src/assets/imgs/slider/'+imgName+'@2x.png 2x'"
+					 class="slide-img__img" ref="slideImg"
+			>
+		</div>
 		<div class="slide__info" ref="slideInfo">
 			<div class="slide__id" :style="titleColorStyle">
 				<div class="slide__id__text">0{{ slideId + 1 }}.</div>
@@ -42,8 +48,6 @@
 			</div>
 			<a class="slide__button" @mouseover="buttonHover" @mouseout="buttonOut" href="#" ref="button" :style="buttonStyle">view more</a>
 		</div>
-
-
 	</div>
 </template>
 
@@ -54,12 +58,15 @@ import SplitText from '../../commons/script/SplitText.js'
 import {TimelineLite, Expo} from 'gsap'
 import {EventBus} from '../../event-bus.js'
 import sliderStore from '../../stores/SliderStore.js'
+import menuStore from '../../stores/MenuStore.js'
 
 export default {
 	props: ['title', 'description', 'context', 'role', 'period', 'slideId', 'titleColor', 'textColor'],
 	data(){
 		return {
 			state: sliderStore.state,
+			menuState: menuStore.state,
+			imgName: this.title,
 			textColorStyle: {
 				color: this.textColor
 			},
@@ -75,6 +82,9 @@ export default {
 	computed: {
 		currentSlideId(){
 			return this.state.currentSlideId
+		},
+		menuIsClosed(){
+			return this.menuState.isClosed
 		}
 	},
 	mounted(){
@@ -86,25 +96,47 @@ export default {
 		this.appearSlideAnim = new TimelineLite({paused: true})
 			this.appearSlideAnim.set(this.$el, {autoAlpha: 1})
 			this.appearSlideAnim.set(this.$refs.slideInfo.children, {y:200 , autoAlpha: 0})
-			this.appearSlideAnim.staggerTo(this.$refs.slideInfo.children, 2, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .05)
+			this.appearSlideAnim.set(this.$refs.slideImg, {z: -800})
+			this.appearSlideAnim.to(this.$refs.slideImg, 3, {z: 0, ease: Expo.easeOut})
+			this.appearSlideAnim.staggerTo(this.$refs.slideInfo.children, 2, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .05, '-=3')
 
 		this.appearDownAnim = new TimelineLite({paused: true, delay: 1.4})
 			this.appearDownAnim.set(this.$el, {autoAlpha: 1})
 			this.appearDownAnim.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
-			this.appearDownAnim.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .08)
+			this.appearDownAnim.set(this.$refs.slideImg, {y: window.innerHeight})
+			this.appearDownAnim.to(this.$refs.slideImg, .9, {y: 0,ease: Expo.easeOut})
+			this.appearDownAnim.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .08, 0)
 
 		this.appearUpAnim = new TimelineLite({paused: true, delay: 1.4})
 			this.appearUpAnim.set(this.$el, {autoAlpha: 1})
 			this.appearUpAnim.set(this.$refs.slideInfo.children, {y: -100, autoAlpha:0})
-			this.appearUpAnim.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, -.05)
+			this.appearUpAnim.set(this.$refs.slideImg, {y: -window.innerHeight})
+			this.appearUpAnim.to(this.$refs.slideImg, .9, {y: 0, ease: Expo.easeOut})
+			this.appearUpAnim.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, -.05, 0)
 
 		this.goUpAnim = new TimelineLite({paused: true})
 			this.goUpAnim.staggerTo(this.$refs.slideInfo.children, .5, {y: -100, autoAlpha: 0,ease: Expo.easeIn}, .05)
+			this.goUpAnim.to(this.$refs.slideImg, .8, {y: -window.innerHeight, ease: Expo.easeIn}, 0)
 			this.goUpAnim.set(this.$el, {autoAlpha: 0})
 
 		this.goDownAnim = new TimelineLite({paused: true})
 			this.goDownAnim.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0,ease: Expo.easeIn}, -.05)
+			this.goDownAnim.to(this.$refs.slideImg, .8, {y: window.innerHeight,ease: Expo.easeIn}, 0)
 			this.goDownAnim.set(this.$el, {autoAlpha: 0})
+
+		this.openMenuAnim = new TimelineLite({paused: true})
+			this.openMenuAnim.call(()=>{
+				this.closeMenuAnim.kill()
+			})
+			this.openMenuAnim.staggerTo(this.$refs.slideInfo.children, 1.4, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .05)
+			this.openMenuAnim.to(this.$refs.slideImg, 2, {z: 0,ease: Expo.easeOut}, 0)
+
+		this.closeMenuAnim = new TimelineLite({paused: true})
+			this.closeMenuAnim.call(()=>{
+				this.openMenuAnim.kill()
+			})
+			this.closeMenuAnim.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0,ease: Expo.easeIn}, -.05)
+			this.closeMenuAnim.to(this.$refs.slideImg, 2, {z: -800, ease: Expo.easeOut}, 0)
 
 		this.buttonHoverAnim = new TimelineLite({paused: true})
 			this.buttonHoverAnim.to(this.$refs.button.children, .2,{y: -20, rotationX: 45,autoAlpha: 0, ease: Expo.easeIn})
@@ -127,6 +159,11 @@ export default {
 				this.slideNext()
 			})
 
+			EventBus.$on('toggle-menu', ()=>{
+				this.currentSlideId === this.slideId && this.menuIsClosed ? this.openMenuAnim.play(0) : undefined
+				this.currentSlideId === this.slideId && !this.menuIsClosed ? this.closeMenuAnim.play(0) : undefined
+			})
+
 			EventBus.$on('slide-appear', ()=>{
 				this.currentSlideId === this.slideId ? this.appearSlideAnim.play(0) : undefined
 			})
@@ -144,6 +181,12 @@ export default {
 		slideNext(){
 			this.currentSlideId - 1 === this.slideId ? this.goUpAnim.restart(true) : undefined
 			this.currentSlideId === this.slideId ? this.appearDownAnim.restart(true) : undefined
+		},
+		menuOpen(){
+
+		},
+		menuClose(){
+
 		}
 	}
 }
@@ -152,17 +195,18 @@ export default {
 <style lang="scss">
 
 	.slide {
+		position: absolute;
 		opacity: 0;
 		visibility: hidden;
+		display: flex;
+		width: 100%;
+		height: 100%;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.slide__info {
-		position: absolute;
 		max-width: 500px;
-		top: 50%;
-		left: 60%;
-		transform: translateY(-50%);
-		perspective: 1000px;
 		font-family: 'SorrenMedium';
 	}
 
@@ -194,6 +238,16 @@ export default {
 			margin-left: 0px;
 		}
 
+	}
+
+	.slide-img {
+		margin-right: 200px;
+		perspective-origin: 150% 50%;
+		perspective: 1000px;
+	}
+
+	.slide-img__img {
+		display: block;
 	}
 
 	.slide__sub-info__info__title {
