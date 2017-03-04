@@ -30,12 +30,16 @@ import {EventBus} from '../../event-bus.js'
 import NavItem from './NavItem.vue'
 
 import menuStore from '../../stores/MenuStore.js'
+import sliderStore from '../../stores/SliderStore.js'
+
+const slides = require('../ThreeBackground/slides.json')
 
 export default {
 
   data: function(){
     return {
       state: menuStore.state,
+      sliderState: sliderStore.state,
       navItems: [
         {
           title: 'Home',
@@ -59,6 +63,9 @@ export default {
   computed: {
     isClosed(){
       return this.state.isClosed
+    },
+    currentSlideId(){
+      return this.sliderState.currentSlideId
     }
   },
 
@@ -69,7 +76,9 @@ export default {
     this.$menuCircleHover = this.$refs.menuCircleHover
     this.$menuLinks = this.$refs.menuLinks.children
 
+    this.changeColor()
     this.iconEnter()
+    this.events()
 
     this.openMenuAnim = new TimelineLite({paused: true})
     this.openMenuAnim
@@ -103,6 +112,20 @@ export default {
   },
 
   methods: {
+    events(){
+      EventBus.$on('slide-next', ()=>{
+        this.changeColor()
+      })
+      EventBus.$on('slide-prev', ()=>{
+        this.changeColor()
+      })
+    },
+    changeColor(){
+      let gradient = slides[this.$route.name][this.currentSlideId].navigationGradient
+      let backgroundImage = "linear-gradient(to right ,"+gradient[0]+","+gradient[1]+")"
+      let tl = new TimelineLite()
+        tl.to(this.$menuLines, 3,{backgroundImage: backgroundImage, ease: Power0.easeInOut})
+    },
     toggleClose: function(){
       if (this.isClosed && this.menuIsNotAnimated()){
         this.openMenu()

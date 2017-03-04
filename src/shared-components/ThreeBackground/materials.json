@@ -1,5 +1,6 @@
 {
-	"materials": [{
+	"materials": [
+		{
 			"id": 0,
 			"colorStart": "#BFBBB5",
 			"colorStop": "#F7F3EA"

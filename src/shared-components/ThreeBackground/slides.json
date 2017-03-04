@@ -3,6 +3,7 @@
 		{
 			"name": "home",
 			"backgroundColor": "#011832",
+			"navigationGradient": ["#8A86BE", "#EEE0FB"],
 			"shapes": [
 				{
 					"x": 11,
@@ -81,6 +82,7 @@
 		{
 			"name": "lightswan",
 			"backgroundColor": "#F7F3EA",
+			"navigationGradient": ["#8F8D89", "#DAD9D7"],
 			"shapes": [
 				{
 					"x": 11,
@@ -157,6 +159,7 @@
 		{
 			"name": "shopsquare",
 			"backgroundColor": "#E3F0FF",
+			"navigationGradient": ["#8A86BE", "#EEE0FB"],
 			"shapes": [
 				{
 					"x": 11,
@@ -209,6 +212,7 @@
 		{
 			"name": "maje",
 			"backgroundColor": "#303496",
+			"navigationGradient": ["#8A86BE", "#EEE0FB"],
 			"shapes": [
 				{
 					"x": 11,
