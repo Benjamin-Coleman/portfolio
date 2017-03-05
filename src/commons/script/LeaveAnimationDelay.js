@@ -6,7 +6,7 @@ class LeaveAnimationDelay {
 
 	getLeaveDelay(component){
 		this.getChildrenDelay(component)
-		return this.delay
+		return this.delay * 1000
 	}
 
 	getChildrenDelay(component){

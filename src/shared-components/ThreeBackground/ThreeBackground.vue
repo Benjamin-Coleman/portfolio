@@ -15,19 +15,24 @@ const materials = require('./materials.json').materials
 const slides = require('./slides.json')
 
 import sliderStore from '../../stores/SliderStore.js'
+import menuStore from '../../stores/MenuStore.js'
 
 export default {
 
 	data(){
 		return {
 			cameraY: 0,
-			state: sliderStore.state
+			state: sliderStore.state,
+			menuState: menuStore.state
 		}
 	},
 
 	computed: {
 		currentSlideId(){
 			return this.state.currentSlideId
+		},
+		menuIsClosed(){
+			return this.state.isClosed
 		}
 	},
 
@@ -96,6 +101,21 @@ export default {
 			EventBus.$on('slide-prev', ()=>{
 				this.prevAnim()
 			})
+
+			EventBus.$on('leave-page', pageName=>{
+				this.goToPage(pageName)
+			})
+
+		},
+
+		goToPage(pageName){
+			let targetedBg = slides[pageName][0].backgroundColor
+			let tl = new TimelineLite()
+				tl.to(this.camera.position, 1,{y: -25, ease: Expo.easeIn})
+				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
+				tl.call(this.generateShapesForSlide, [pageName, 0])
+				tl.set(this.camera.position, {y: 20})
+				tl.to(this.camera.position, 1,{z: 10, y: 0, ease: Expo.easeOut})
 		},
 
 		nextAnim(){

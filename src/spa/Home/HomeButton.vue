@@ -37,13 +37,11 @@
 				this.homeButtonHoverAnim.to(this.$refs.arrowImg, .5, {y:12, ease: Expo.easeInOut}, 0)
 				this.homeButtonHoverAnim.to(this.$refs.buttonText, .5, {y:5, ease: Expo.easeInOut}, 0)
 
+			this.leaveAnim = new TimelineLite({paused: true})
+				this.leaveAnim.to(this.$el, .6, {autoAlpha: 0, ease: Expo.easeIn})
+
 			this.events()
 
-		},
-		computed: {
-			leaveDelay(){
-				return this.appearAnim.totalDuration()
-			}
 		},
 		methods: {
 			mouseover: function(){
@@ -53,8 +51,8 @@
 				this.homeButtonHoverAnim.reverse()
 			},
 			events(){
-				EventBus.$on('route-leave', ()=>{
-					this.appearAnim.reverse(0)
+				EventBus.$on('leave-page', ()=>{
+					this.leaveAnim.play(0)
 				})
 			}
 		}

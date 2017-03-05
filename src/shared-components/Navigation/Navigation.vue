@@ -116,16 +116,23 @@ export default {
       EventBus.$on('slide-next', ()=>{
         this.changeColor()
       })
+
       EventBus.$on('slide-prev', ()=>{
         this.changeColor()
       })
+
+      EventBus.$on('leave-page', ()=>{
+        !this.isClosed ? this.closeMenu() : undefined
+      })
     },
+
     changeColor(){
       let gradient = slides[this.$route.name][this.currentSlideId].navigationGradient
       let backgroundImage = "linear-gradient(to right ,"+gradient[0]+","+gradient[1]+")"
       let tl = new TimelineLite()
         tl.to(this.$menuLines, 3,{backgroundImage: backgroundImage, ease: Power0.easeInOut})
     },
+
     toggleClose: function(){
       if (this.isClosed && this.menuIsNotAnimated()){
         this.openMenu()
@@ -134,23 +141,27 @@ export default {
         this.closeMenu()
       }
     },
+
     iconEnter: function(){
       let tl = new TimelineLite()
       tl.from(this.$menuLines[0], 0.4, {scaleX:0, ease:Power4.easeInOut}, '0.5')
       tl.from(this.$menuLines[2], 0.4, {scaleX:0, ease:Power4.easeInOut}, '-=0.2')
       tl.from(this.$menuLines[1], 0.4, {scaleX:0, ease:Power4.easeInOut}, '-=0.3')
     },
+
     iconMouseOver: function(){
       if (this.isClosed || (!this.iconMouseOverAnim.isActive() || !this.iconMouseOutAnim.isActive())) {
         this.iconMouseOverAnim.play()
         this.circleWaveAnim.play(0)
       }
     },
+
     iconMouseOut: function(){
       if (this.isClosed) {
         this.iconMouseOverAnim.reverse()
       }
     },
+
     menuIsNotAnimated: function(){
       if (this.openMenuAnim.isActive() || this.closeMenuAnim.isActive()) {
         return false
@@ -159,11 +170,13 @@ export default {
         return true
       }
     },
+
     openMenu: function(){
       this.openMenuAnim.play(0)
       menuStore.openMenu()
       EventBus.$emit('toggle-menu', this.isClosed)
     },
+
     closeMenu: function(){
       this.closeMenuAnim.play(0)
       menuStore.closeMenu()

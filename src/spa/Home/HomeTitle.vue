@@ -52,11 +52,21 @@ export default {
 			this.closeMenuAnim.staggerTo(this.$refs.subtitle.children, 2, { y:0, autoAlpha: 1, ease: Expo.easeOut}, .1, .5)
 			this.closeMenuAnim.to(this.$refs.square, 3, {z:-200, ease: Expo.easeOut}, 0)
 
+		this.leaveAnim = new TimelineLite({paused: true})
+			this.leaveAnim.add(TweenMax.staggerTo(this.$refs.subtitle.children, .5, { y:-20, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}, .05))
+			this.leaveAnim.to(this.$refs.square, 1, {y: -window.innerHeight, ease: Expo.easeIn}, 0)
+			this.leaveAnim.to(this.$refs.title, 1, {y: -window.innerHeight, ease: Expo.easeIn}, 0)
+
+		this.leaveDelay = this.leaveAnim.totalDuration()
+
 	},
 	methods: {
 		events(){
 			EventBus.$on('toggle-menu', isClosed=>{
 				this.toggleMenu(isClosed)
+			})
+			EventBus.$on('leave-page', isClosed=>{
+				this.leaveAnim.play(0)
 			})
 		},
 

@@ -95,10 +95,10 @@ export default {
 
 		this.appearSlideAnim = new TimelineLite({paused: true})
 			this.appearSlideAnim.set(this.$el, {autoAlpha: 1})
-			this.appearSlideAnim.set(this.$refs.slideInfo.children, {y:200 , autoAlpha: 0})
-			this.appearSlideAnim.set(this.$refs.slideImg, {z: -800})
-			this.appearSlideAnim.to(this.$refs.slideImg, 3, {z: 0, ease: Expo.easeOut})
-			this.appearSlideAnim.staggerTo(this.$refs.slideInfo.children, 2, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .05, '-=3')
+			this.appearSlideAnim.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
+			this.appearSlideAnim.set(this.$refs.slideImg, {y: window.innerHeight})
+			this.appearSlideAnim.to(this.$refs.slideImg, .9, {y: 0,ease: Expo.easeOut})
+			this.appearSlideAnim.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .08, 0)
 
 		this.appearDownAnim = new TimelineLite({paused: true, delay: 1.4})
 			this.appearDownAnim.set(this.$el, {autoAlpha: 1})
