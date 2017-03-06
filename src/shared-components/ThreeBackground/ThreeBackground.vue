@@ -56,6 +56,10 @@ export default {
 
 	},
 
+	beforeDestroy(){
+		this.unlistenEvents()
+	},
+
 	methods: {
 
 		init(){
@@ -87,25 +91,24 @@ export default {
 
 		events(){
 			window.addEventListener('resize', this.rendererResize.bind(this))
+			EventBus.$on('toggle-menu', this.toggleMenu);
+			EventBus.$on('slide-next',this.nextAnim)
+			EventBus.$on('slide-prev', this.prevAnim)
+			EventBus.$on('leave-page', this.goToPage.bind(event))
+		},
 
-			EventBus.$on('toggle-menu', isClosed => {
-				this.closeMenuAnim.isActive() ? this.closeMenuAnim.kill() : undefined
-				this.openMenuAnim.isActive() ? this.openMenuAnim.kill() : undefined
-				isClosed ? this.closeMenuAnim.play(0) : this.openMenuAnim.play(0)
-			});
+		unlistenEvents(){
+			window.removeEventListener('resize', this.rendererResize.bind(this))
+			EventBus.$off('toggle-menu', this.toggleMenu);
+			EventBus.$off('slide-next',this.nextAnim)
+			EventBus.$off('slide-prev', this.prevAnim)
+			EventBus.$off('leave-page', this.goToPage.bind(event))
+		},
 
-			EventBus.$on('slide-next', ()=>{
-				this.nextAnim()
-			})
-
-			EventBus.$on('slide-prev', ()=>{
-				this.prevAnim()
-			})
-
-			EventBus.$on('leave-page', pageName=>{
-				this.goToPage(pageName)
-			})
-
+		toggleMenu(){
+			this.closeMenuAnim.isActive() ? this.closeMenuAnim.kill() : undefined
+			this.openMenuAnim.isActive() ? this.openMenuAnim.kill() : undefined
+			this.menuIsClosed ? this.closeMenuAnim.play(0) : this.openMenuAnim.play(0)
 		},
 
 		goToPage(pageName){
