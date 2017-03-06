@@ -77,8 +77,12 @@ export default {
     this.$menuLinks = this.$refs.menuLinks.children
 
     this.changeColor()
-    this.iconEnter()
     this.events()
+
+    this.iconEnterAnim = new TimelineLite()
+      this.iconEnterAnim.from(this.$menuLines[0], 0.4, {scaleX:0, ease:Power4.easeInOut}, '0.5')
+      this.iconEnterAnim.from(this.$menuLines[2], 0.4, {scaleX:0, ease:Power4.easeInOut}, '-=0.2')
+      this.iconEnterAnim.from(this.$menuLines[1], 0.4, {scaleX:0, ease:Power4.easeInOut}, '-=0.3')
 
     this.openMenuAnim = new TimelineLite({paused: true})
     this.openMenuAnim
@@ -111,19 +115,22 @@ export default {
       .to(this.$menuLines[1], 0.3, {x: 0 ,ease:Expo.easeIn}, 0)
   },
 
+  beforeDestroy(){
+    this.unlistenEvents()
+  },
+
   methods: {
+
     events(){
-      EventBus.$on('slide-next', ()=>{
-        this.changeColor()
-      })
+      EventBus.$on('slide-next', this.changeColor)
+      EventBus.$on('slide-prev', this.changeColor)
+      EventBus.$on('leave-page', this.leaveAnim)
+    },
 
-      EventBus.$on('slide-prev', ()=>{
-        this.changeColor()
-      })
-
-      EventBus.$on('leave-page', ()=>{
-        !this.isClosed ? this.closeMenu() : undefined
-      })
+    unlistenEvents(){
+      EventBus.$off('slide-next', this.changeColor)
+      EventBus.$off('slide-prev', this.changeColor)
+      EventBus.$off('leave-page', this.leaveAnim)
     },
 
     changeColor(){
@@ -142,11 +149,11 @@ export default {
       }
     },
 
-    iconEnter: function(){
-      let tl = new TimelineLite()
-      tl.from(this.$menuLines[0], 0.4, {scaleX:0, ease:Power4.easeInOut}, '0.5')
-      tl.from(this.$menuLines[2], 0.4, {scaleX:0, ease:Power4.easeInOut}, '-=0.2')
-      tl.from(this.$menuLines[1], 0.4, {scaleX:0, ease:Power4.easeInOut}, '-=0.3')
+    leaveAnim(){
+      this.closeMenuAnim.eventCallback('onComplete', ()=>{
+        this.iconEnterAnim.reverse(0)
+      })
+      !this.isClosed ? this.closeMenu() : this.iconEnterAnim.reverse(0)
     },
 
     iconMouseOver: function(){

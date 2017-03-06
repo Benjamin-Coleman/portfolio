@@ -57,18 +57,20 @@ export default {
 
 	},
 
+	beforeDestroy(){
+		this.unlistenEvents()
+	},
+
 	methods: {
 
 		events(){
+			EventBus.$on('slide-next',this.nextAnim)
+			EventBus.$on('slide-prev', this.prevAnim)
+		},
 
-			EventBus.$on('slide-next', ()=>{
-				this.nextAnim()
-			})
-
-			EventBus.$on('slide-prev', ()=>{
-				this.prevAnim()
-			})
-
+		unlistenEvents(){
+			EventBus.$off('slide-next',this.nextAnim)
+			EventBus.$off('slide-prev', this.prevAnim)
 		},
 
 		prevAnim(){
@@ -80,12 +82,9 @@ export default {
 				tl.to(this.$refs.sliderLength, 2, {color: this.titleColor, ease: Expo.easeOut}, '-=2')
 				tl.to(this.$refs.separator, 2, {backgroundColor: this.titleColor, ease: Expo.easeOut}, '-=2')
 				tl.to(this.$refs.sliderName, 2, {color: this.textColor, ease: Expo.easeOut}, '-=2')
-
-			return tl
 		},
 
 		nextAnim(){
-
 			let tl = new TimelineLite()
 				tl.to(this.$refs.currentSlide, 1, {y: -30, autoAlpha: 0, ease: Expo.easeIn})
 				tl.set(this.$refs.currentSlide, {y: 30})
@@ -94,8 +93,6 @@ export default {
 				tl.to(this.$refs.sliderLength, 2, {color: this.titleColor, ease: Expo.easeOut}, '-=2')
 				tl.to(this.$refs.separator, 2, {backgroundColor: this.titleColor, ease: Expo.easeOut}, '-=2')
 				tl.to(this.$refs.sliderName, 2, {color: this.textColor, ease: Expo.easeOut}, '-=2')
-
-			return tl
 		},
 
 		setNewSlideId(){

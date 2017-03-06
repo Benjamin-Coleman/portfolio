@@ -60,6 +60,7 @@ export default {
 		this.leaveDelay = this.leaveAnim.totalDuration()
 
 	},
+	
 	methods: {
 		events(){
 			EventBus.$on('toggle-menu', isClosed=>{

@@ -43,17 +43,26 @@
 			this.events()
 
 		},
+
+		beforeDestroy(){
+			this.unlistenEvents()
+		},
+
 		methods: {
-			mouseover: function(){
+			mouseover(){
 				this.homeButtonHoverAnim.play()
 			},
-			mouseout: function(){
+			mouseout(){
 				this.homeButtonHoverAnim.reverse()
 			},
+			leavePage(){
+				this.leaveAnim.play(0)
+			},
 			events(){
-				EventBus.$on('leave-page', ()=>{
-					this.leaveAnim.play(0)
-				})
+				EventBus.$on('leave-page', this.leavePage)
+			},
+			unlistenEvents(){
+				EventBus.$off('leave-page', this.leavePage)
 			}
 		}
 	}

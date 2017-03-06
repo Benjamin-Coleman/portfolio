@@ -32,10 +32,7 @@
 		},
 
 		beforeDestroy(){
-			EventBus.$off('slide-prev')
-			EventBus.$off('slide-next')
-			EventBus.$off('slide-appear')
-			document.removeEventListener('keyup', this.keyUp)
+			this.unlistenEvents()
 		},
 
 		data(){
@@ -54,11 +51,13 @@
 		methods: {
 
 			events(){
-				this.keyUpEvent = document.addEventListener('keyup', this.keyUp)
+				document.addEventListener('keyup', this.keyUp)
+				EventBus.$on('page-leave', sliderStore.reset)
+			},
 
-				EventBus.$on('page-leave', ()=>{
-					sliderStore.reset()
-				})
+			unlistenEvents(){
+				EventBus.$off('page-leave', sliderStore.reset)
+				document.removeEventListener('keyup', this.keyUp)
 			},
 
 			keyUp(event){

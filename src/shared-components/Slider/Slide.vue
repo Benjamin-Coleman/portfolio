@@ -62,6 +62,7 @@ import menuStore from '../../stores/MenuStore.js'
 
 export default {
 	props: ['title', 'description', 'context', 'role', 'period', 'slideId', 'titleColor', 'textColor'],
+
 	data(){
 		return {
 			state: sliderStore.state,
@@ -79,6 +80,7 @@ export default {
 			}
 		}
 	},
+
 	computed: {
 		currentSlideId(){
 			return this.state.currentSlideId
@@ -87,6 +89,7 @@ export default {
 			return this.menuState.isClosed
 		}
 	},
+
 	mounted(){
 
 		let splitButtonText = new SplitText(this.$refs.button, {
@@ -148,25 +151,30 @@ export default {
 		this.events()
 
 	},
+
+	beforeDestroy(){
+		this.unlistenEvents()
+	},
+
 	methods: {
 		events(){
-
-			EventBus.$on('slide-prev', ()=>{
-				this.slidePrev()
-			})
-
-			EventBus.$on('slide-next', ()=>{
-				this.slideNext()
-			})
-
-			EventBus.$on('toggle-menu', ()=>{
-				this.currentSlideId === this.slideId && this.menuIsClosed ? this.openMenuAnim.play(0) : undefined
-				this.currentSlideId === this.slideId && !this.menuIsClosed ? this.closeMenuAnim.play(0) : undefined
-			})
-
-			EventBus.$on('slide-appear', ()=>{
-				this.currentSlideId === this.slideId ? this.appearSlideAnim.play(0) : undefined
-			})
+			EventBus.$on('slide-prev', this.slidePrev)
+			EventBus.$on('slide-next', this.slideNext)
+			EventBus.$on('toggle-menu', this.toggleMenu)
+			EventBus.$on('slide-appear', this.slideAppear)
+		},
+		unlistenEvents(){
+			EventBus.$off('slide-prev', this.slidePrev)
+			EventBus.$off('slide-next', this.slideNext)
+			EventBus.$off('toggle-menu', this.toggleMenu)
+			EventBus.$off('slide-appear', this.slideAppear)
+		},
+		toggleMenu(){
+			this.currentSlideId === this.slideId && this.menuIsClosed ? this.openMenuAnim.play(0) : undefined
+			this.currentSlideId === this.slideId && !this.menuIsClosed ? this.closeMenuAnim.play(0) : undefined
+		},
+		slideAppear(){
+			this.currentSlideId === this.slideId ? this.appearSlideAnim.play(0) : undefined
 		},
 		buttonHover(){
 			this.buttonHoverAnim.play()
@@ -182,12 +190,6 @@ export default {
 			this.currentSlideId - 1 === this.slideId ? this.goUpAnim.restart(true) : undefined
 			this.currentSlideId === this.slideId ? this.appearDownAnim.restart(true) : undefined
 		},
-		menuOpen(){
-
-		},
-		menuClose(){
-
-		}
 	}
 }
 </script>
@@ -265,7 +267,7 @@ export default {
 	}
 
 	.slide__button {
-		padding: 15px 36px;
+		padding: 17px 36px 15px 36px;
 		border-style: solid;
 		border-width: 1px;
 		border-radius: 3px;
