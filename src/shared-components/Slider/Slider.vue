@@ -31,6 +31,13 @@
 			this.initSlider()
 		},
 
+		beforeDestroy(){
+			EventBus.$off('slide-prev')
+			EventBus.$off('slide-next')
+			EventBus.$off('slide-appear')
+			document.removeEventListener('keyup', this.keyUp)
+		},
+
 		data(){
 			return {
 				slides: slides,
@@ -47,8 +54,10 @@
 		methods: {
 
 			events(){
-				window.addEventListener('keyup', event=>{
-					this.keyUp(event)
+				this.keyUpEvent = document.addEventListener('keyup', this.keyUp)
+
+				EventBus.$on('page-leave', ()=>{
+					sliderStore.reset()
 				})
 			},
 

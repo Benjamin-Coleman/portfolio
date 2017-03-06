@@ -14,6 +14,10 @@ class SliderStore {
 		this.state.currentSlideId --
 	}
 
+	reset(){
+		this.state.currentSlideId = 0
+	}
+
 }
 
 export default new SliderStore()
