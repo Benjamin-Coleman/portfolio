@@ -106,7 +106,6 @@ export default {
 		},
 
 		toggleMenu(){
-			console.log(this.menuIsClosed)
 			this.closeMenuAnim.isActive() ? this.closeMenuAnim.kill() : undefined
 			this.openMenuAnim.isActive() ? this.openMenuAnim.kill() : undefined
 			this.menuIsClosed ? this.closeMenuAnim.play(0) : this.openMenuAnim.play(0)
