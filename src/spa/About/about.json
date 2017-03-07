@@ -1,0 +1,21 @@
+{
+	"about": {
+		"title": "Hello, I’m <span class='about-content__big-title'>Raoul Gaillard</span>. I’m looking for a <span class='about-content__big-title'>great</span> internship.",
+		"content": "I’m a 21 years old french student at Hetic. I’m based in Paris. I’m looking for a 6 months internship from July to December. I had two internships at <a class='about-content__link' href='http://www.stinkstudios.com/' target='_blank'>Stinkstudios Paris</a> in 2015 and 2016. I love interactive design and development .",
+		"socialTitle": "You can find me here",
+		"socialNetworks": [
+			{
+				"name": "twitter",
+				"link": "https://twitter.com/RaoulGaillard"
+			},
+			{
+				"name": "email",
+				"link": "raoul.gaillard@hetic.net"
+			},
+			{
+				"name": "pinterest",
+				"link": "https://pinterest.com/raoulgaillard/"
+			}
+		]
+	}
+}
