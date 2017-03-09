@@ -91,7 +91,6 @@ export default {
 	},
 
 	mounted(){
-
 		let splitButtonText = new SplitText(this.$refs.button, {
 			classToGive: 'slide__button__splitted-text'
 		})
@@ -99,8 +98,8 @@ export default {
 		this.appearSlideAnim = new TimelineLite({paused: true})
 			this.appearSlideAnim.set(this.$el, {autoAlpha: 1})
 			this.appearSlideAnim.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
-			this.appearSlideAnim.set(this.$refs.slideImg, {y: window.innerHeight})
-			this.appearSlideAnim.to(this.$refs.slideImg, .9, {y: 0,ease: Expo.easeOut})
+			this.appearSlideAnim.set(this.$refs.slideImg, {z: -1000})
+			this.appearSlideAnim.to(this.$refs.slideImg, 3, {z: 0,ease: Expo.easeOut})
 			this.appearSlideAnim.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .08, 0)
 
 		this.appearDownAnim = new TimelineLite({paused: true, delay: 1.4})
