@@ -33,6 +33,7 @@
 
 		beforeDestroy(){
 			this.unlistenEvents()
+			sliderStore.reset()
 		},
 
 		data(){
@@ -52,11 +53,9 @@
 
 			events(){
 				document.addEventListener('keyup', this.keyUp)
-				EventBus.$on('page-leave', sliderStore.reset)
 			},
 
 			unlistenEvents(){
-				EventBus.$off('page-leave', sliderStore.reset)
 				document.removeEventListener('keyup', this.keyUp)
 			},
 

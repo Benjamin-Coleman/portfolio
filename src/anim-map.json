@@ -1,0 +1,44 @@
+{
+	"from": {
+		"home": {
+			"to": {
+				"work": {
+					"appear": "appearDown",
+					"leave": "leaveUp"
+				},
+				"about": {
+					"appear": "appearForward",
+					"leave": "leaveForward"
+				}
+			}
+		},
+		"work": {
+			"to": {
+				"home": {
+					"appear": "appearUp",
+					"leave": "leaveDown"
+				},
+				"about": {
+					"appear": "appearForward",
+					"leave": "leaveForward"
+				}
+			}
+		},
+		"about": {
+			"to": {
+				"home": {
+					"appear": "appearBackward",
+					"leave": "leaveBackward"
+				},
+				"work": {
+					"appear": "appearBackward",
+					"leave": "leaveBackward"
+				}
+			}
+		}
+	},
+	"default": {
+		"appear": "appearAnim",
+		"leave": "leaveAnim"
+	}
+}

@@ -141,6 +141,15 @@ export default {
 				tl.to(this.camera.position, 1,{z: 10, y: 0, ease: Expo.easeOut})
 		},
 
+		goForward(){
+			let tl= new TimelineLite({delay: 3.5})
+				tl.to(this.camera.position, 1, {z: -10, ease: Expo.easeIn})
+				tl.set(this.camera.position,{z: 20})
+				tl.set(this.$refs.bgRenderer.children,{opacity: 0})
+				tl.to(this.$refs.bgRenderer.children, 2, {opacity: 1, ease: Expo.easeOut})
+				tl.to(this.camera.position, 2, {z: 10, ease: Expo.easeOut}, '-=2')
+		},
+
 		moveCamera(){
 			let targetedCameraPosY = this.camera.position.y - 0.005 * event.deltaY
 			this.scrollTween !== undefined ? this.scrollTween.kill(): undefined

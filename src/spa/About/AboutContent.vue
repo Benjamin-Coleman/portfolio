@@ -51,20 +51,20 @@ export default {
 
 	methods: {
 		events(){
-			EventBus.$on('leave-page', this.leave.bind(this))
-			EventBus.$on('toggle-menu', this.toggleMenu.bind(this))
+			EventBus.$on('leave-page', this.leave)
+			EventBus.$on('toggle-menu', this.toggleMenu)
 		},
 		unlistenEvents(){
-			EventBus.$off('leave-page', this.leave.bind(this))
-			EventBus.$off('toggle-menu', this.toggleMenu.bind(this))
+			EventBus.$off('leave-page', this.leave)
+			EventBus.$off('toggle-menu', this.toggleMenu)
 		},
 		appear(){
-			let tl = new TimelineLite({delay: .5})
-				tl.staggerFromTo(this.$refs.aboutContent.children, 2.5, {y: 50, autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .08)
+			let tl = new TimelineLite()
+				tl.staggerFromTo(this.$refs.aboutContent.children, 2.3, {y: 55, autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .08)
 		},
 		leave(){
 			let tl = new TimelineLite()
-				tl.staggerFromTo(this.$refs.aboutContent.children, .5, {y: 0, autoAlpha: 1}, {y: 50, autoAlpha: 0, ease: Expo.easeIn}, -.08)
+				tl.staggerFromTo(this.$refs.aboutContent.children, .3, {y: 0, autoAlpha: 1}, {y: 55, autoAlpha: 0, ease: Expo.easeIn}, -.08)
 		},
 		toggleMenu(){
 			this.menuIsClosed ? this.appear() : this.leave()
@@ -111,10 +111,14 @@ export default {
 		-webkit-text-fill-color: transparent;
 	}
 
+	.about-content__big-title {
+		display: inline-block;
+	}
+
 	.about-content__content {
 		font-size: 14px;
 		line-height: 1.8em;
-		margin: 3em 0px;
+		margin: 3.5em 0px;
 	}
 
 	.about-content__link {

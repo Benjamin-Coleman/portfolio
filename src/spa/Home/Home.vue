@@ -13,6 +13,7 @@ import HomeButton from './HomeButton.vue'
 import HomeTitle from './HomeTitle.vue'
 
 import {EventBus} from '../../event-bus.js'
+const animMap = require('../../anim-map.json')
 
 import _ from 'lodash'
 

@@ -134,7 +134,13 @@ export default {
     },
 
     changeColor(){
-      let gradient = slides[this.$route.name][this.currentSlideId].navigationGradient
+      let gradient
+      if (slides[this.$route.name][this.currentSlideId] === undefined) {
+        gradient = slides['default'][0].navigationGradient
+      }
+      else {
+        gradient = slides[this.$route.name][this.currentSlideId].navigationGradient
+      }
       let backgroundImage = "linear-gradient(to right ,"+gradient[0]+","+gradient[1]+")"
       let tl = new TimelineLite()
         tl.to(this.$menuLines, 3,{backgroundImage: backgroundImage, ease: Power0.easeInOut})
