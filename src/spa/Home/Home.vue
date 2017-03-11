@@ -12,6 +12,7 @@ import Navigation from '../../shared-components/Navigation/Navigation.vue'
 import HomeButton from './HomeButton.vue'
 import HomeTitle from './HomeTitle.vue'
 
+import AnimationStore from '../../stores/AnimationStore.js'
 import {EventBus} from '../../event-bus.js'
 const animMap = require('../../anim-map.json')
 
@@ -26,7 +27,9 @@ export default {
 
 	beforeRouteLeave (to, from, next) {
 		let delay = 1500
-		EventBus.$emit('leave-page', to.name)
+		let targetedPage = to.name
+		AnimationStore.setRouterInfo(from.name, targetedPage)
+		EventBus.$emit('leave-page', targetedPage)
 		_.delay(next, delay)
   },
 

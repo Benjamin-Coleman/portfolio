@@ -16,6 +16,7 @@ const slides = require('./slides.json')
 
 import sliderStore from '../../stores/SliderStore.js'
 import menuStore from '../../stores/MenuStore.js'
+import animationStore from '../../stores/AnimationStore.js'
 
 export default {
 
@@ -23,7 +24,8 @@ export default {
 		return {
 			cameraY: 0,
 			state: sliderStore.state,
-			menuState: menuStore.state
+			menuState: menuStore.state,
+			animationState: animationStore.state
 		}
 	},
 
@@ -33,6 +35,12 @@ export default {
 		},
 		menuIsClosed(){
 			return this.menuState.isClosed
+		},
+		getCurrentAnimAppear(){
+			return this.animationState.appear
+		},
+		getCurrentAnimLeave(){
+			return this.animationState.leave
 		}
 	},
 
@@ -94,7 +102,7 @@ export default {
 			EventBus.$on('toggle-menu', this.toggleMenu);
 			EventBus.$on('slide-next',this.nextAnim)
 			EventBus.$on('slide-prev', this.prevAnim)
-			EventBus.$on('leave-page', this.goToPage.bind(event))
+			EventBus.$on('leave-page', this.goToPage)
 		},
 
 		unlistenEvents(){
@@ -102,7 +110,7 @@ export default {
 			EventBus.$off('toggle-menu', this.toggleMenu);
 			EventBus.$off('slide-next',this.nextAnim)
 			EventBus.$off('slide-prev', this.prevAnim)
-			EventBus.$off('leave-page', this.goToPage.bind(event))
+			EventBus.$off('leave-page', this.goToPage)
 		},
 
 		toggleMenu(){
@@ -111,14 +119,9 @@ export default {
 			this.menuIsClosed ? this.closeMenuAnim.play(0) : this.openMenuAnim.play(0)
 		},
 
-		goToPage(pageName){
-			let targetedBg = slides[pageName][0].backgroundColor
-			let tl = new TimelineLite()
-				tl.to(this.camera.position, 1,{y: -25, ease: Expo.easeIn})
-				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
-				tl.call(this.generateShapesForSlide, [pageName, 0])
-				tl.set(this.camera.position, {y: 20})
-				tl.to(this.camera.position, 1,{z: 10, y: 0, ease: Expo.easeOut})
+		goToPage(targetedPage){
+			let leaveAnim = this.getCurrentAnimLeave
+			this[leaveAnim](targetedPage)
 		},
 
 		nextAnim(){
@@ -129,6 +132,50 @@ export default {
 				tl.call(this.generateShapesForSlide, [this.$route.name, this.currentSlideId])
 				tl.set(this.camera.position, {y: 20})
 				tl.to(this.camera.position, 1,{z: 10, y: 0, ease: Expo.easeOut})
+		},
+
+		leaveUp(to){
+			let targetedBg = slides[to][0].backgroundColor
+			let tl = new TimelineLite()
+				tl.to(this.camera.position, 1,{y: -25, ease: Expo.easeIn})
+				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
+				tl.call(this.generateShapesForSlide, [to, 0])
+				tl.set(this.camera.position, {y: 20})
+				tl.to(this.camera.position, 1,{z: 10, y: 0, ease: Expo.easeOut})
+		},
+
+		leaveDown(to){
+			let targetedBg = slides[to][0].backgroundColor
+			let tl = new TimelineLite()
+				tl.to(this.camera.position, 1,{y: 25, ease: Expo.easeIn})
+				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
+				tl.call(this.generateShapesForSlide, [to, 0])
+				tl.set(this.camera.position, {y: -20})
+				tl.to(this.camera.position, 1,{z: 10, y: 0, ease: Expo.easeOut})
+		},
+
+		leaveForward(to){
+			let targetedBg = slides[to][0].backgroundColor
+			let tl = new TimelineLite()
+				tl.to(this.camera.position, 1,{z: -10, ease: Expo.easeIn})
+				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
+				tl.call(this.generateShapesForSlide, [to, 0])
+				tl.set(this.$refs.bgRenderer.children,{opacity: 0})
+				tl.set(this.camera.position, {z: 20})
+				tl.to(this.$refs.bgRenderer.children, 2, {opacity: 1, ease: Expo.easeOut})
+				tl.to(this.camera.position, 1,{z: 10, ease: Expo.easeOut}, '-=2')
+		},
+
+		leaveBackward(to){
+			let targetedBg = slides[to][0].backgroundColor
+			let tl = new TimelineLite()
+				tl.to(this.camera.position, .5,{z: 100, ease: Expo.easeIn})
+				tl.to(this.$refs.bgRenderer.children, .5, {opacity: 0, ease: Expo.easeIn}, '-=.5')
+				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
+				tl.call(this.generateShapesForSlide, [to, 0])
+				tl.set(this.camera.position, {z: 0})
+				tl.to(this.$refs.bgRenderer.children, 2, {opacity: 1, ease: Expo.easeOut})
+				tl.to(this.camera.position, 1,{z: 10, ease: Expo.easeOut}, '-=2')
 		},
 
 		prevAnim(){

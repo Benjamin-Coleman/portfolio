@@ -10,6 +10,7 @@
 import Navigation from '../../shared-components/Navigation/Navigation.vue'
 import AboutContent from './AboutContent.vue'
 
+import AnimationStore from '../../stores/AnimationStore.js'
 import {EventBus} from '../../event-bus.js'
 import _ from 'lodash'
 
@@ -17,8 +18,10 @@ export default {
 
 	beforeRouteLeave (to, from, next) {
 		let delay = 1500
-		EventBus.$emit('leave-page', to.name)
-		_.delay(next, delay)
+    let targetedPage = to.name
+    AnimationStore.setRouterInfo(from.name, targetedPage)
+    EventBus.$emit('leave-page', targetedPage)
+    _.delay(next, delay)
   },
 
 	components: {
