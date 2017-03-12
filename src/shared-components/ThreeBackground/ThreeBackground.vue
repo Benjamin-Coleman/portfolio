@@ -169,7 +169,7 @@ export default {
 		leaveBackward(to){
 			let targetedBg = slides[to][0].backgroundColor
 			let tl = new TimelineLite()
-				tl.to(this.camera.position, 1,{z: 100, ease: Expo.easeIn})
+				tl.to(this.camera.position, 1,{z: 40, ease: Expo.easeIn})
 				tl.to(this.$refs.bgRenderer.children, .5, {opacity: 0, ease: Expo.easeIn}, '-=.5')
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
 				tl.call(this.generateShapesForSlide, [to, 0])

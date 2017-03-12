@@ -41,6 +41,7 @@ export default {
 	},
 
 	mounted(){
+		this.$bigTitle = this.$el.querySelectorAll('.about-content__big-title')
 		this.appear()
 		this.events()
 	},
@@ -60,11 +61,11 @@ export default {
 		},
 		appear(){
 			let tl = new TimelineLite()
-				tl.staggerFromTo(this.$refs.aboutContent.children, 2.3, {y: 55, autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .08)
+				tl.staggerFromTo(this.$refs.aboutContent.children, 1.5, {y: 55, autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .1)
 		},
 		leave(){
 			let tl = new TimelineLite()
-				tl.staggerFromTo(this.$refs.aboutContent.children, .3, {y: 0, autoAlpha: 1}, {y: 55, autoAlpha: 0, ease: Expo.easeIn}, -.08)
+				tl.add(TweenMax.staggerTo(this.$refs.aboutContent.children, .3, {y: 55, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'all'}, -.08))
 		},
 		toggleMenu(){
 			this.menuIsClosed ? this.appear() : this.leave()
@@ -109,10 +110,6 @@ export default {
 		background-image: linear-gradient($about-title-gradient-1, $about-title-gradient-2);
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
-	}
-
-	.about-content__big-title {
-		display: inline-block;
 	}
 
 	.about-content__content {
