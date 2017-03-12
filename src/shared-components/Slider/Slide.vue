@@ -59,6 +59,7 @@ import {TimelineLite, Expo} from 'gsap'
 import {EventBus} from '../../event-bus.js'
 import sliderStore from '../../stores/SliderStore.js'
 import menuStore from '../../stores/MenuStore.js'
+import animationStore from '../../stores/AnimationStore.js'
 
 export default {
 	props: ['title', 'description', 'context', 'role', 'period', 'slideId', 'titleColor', 'textColor'],
@@ -67,6 +68,7 @@ export default {
 		return {
 			state: sliderStore.state,
 			menuState: menuStore.state,
+			animationState: animationStore.state,
 			imgName: this.title,
 			textColorStyle: {
 				color: this.textColor
@@ -87,6 +89,12 @@ export default {
 		},
 		menuIsClosed(){
 			return this.menuState.isClosed
+		},
+		getCurrentAnimAppear(){
+			return this.animationState.appear
+		},
+		getCurrentAnimLeave(){
+			return this.animationState.leave
 		}
 	},
 
@@ -94,27 +102,6 @@ export default {
 		let splitButtonText = new SplitText(this.$refs.button, {
 			classToGive: 'slide__button__splitted-text'
 		})
-
-		this.appearSlideAnim = new TimelineLite({paused: true})
-			this.appearSlideAnim.set(this.$el, {autoAlpha: 1})
-			this.appearSlideAnim.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
-			this.appearSlideAnim.set(this.$refs.slideImg, {z: -1000})
-			this.appearSlideAnim.to(this.$refs.slideImg, 3, {z: 0,ease: Expo.easeOut})
-			this.appearSlideAnim.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .08, 0)
-
-		this.appearDownAnim = new TimelineLite({paused: true, delay: 1.4})
-			this.appearDownAnim.set(this.$el, {autoAlpha: 1})
-			this.appearDownAnim.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
-			this.appearDownAnim.set(this.$refs.slideImg, {y: window.innerHeight})
-			this.appearDownAnim.to(this.$refs.slideImg, .9, {y: 0,ease: Expo.easeOut})
-			this.appearDownAnim.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .08, 0)
-
-		this.appearUpAnim = new TimelineLite({paused: true, delay: 1.4})
-			this.appearUpAnim.set(this.$el, {autoAlpha: 1})
-			this.appearUpAnim.set(this.$refs.slideInfo.children, {y: -100, autoAlpha:0})
-			this.appearUpAnim.set(this.$refs.slideImg, {y: -window.innerHeight})
-			this.appearUpAnim.to(this.$refs.slideImg, .9, {y: 0, ease: Expo.easeOut})
-			this.appearUpAnim.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, -.05, 0)
 
 		this.goUpAnim = new TimelineLite({paused: true})
 			this.goUpAnim.staggerTo(this.$refs.slideInfo.children, .5, {y: -100, autoAlpha: 0,ease: Expo.easeIn}, .05)
@@ -148,6 +135,7 @@ export default {
 
 
 		this.events()
+		this.appearPage()
 
 	},
 
@@ -160,20 +148,75 @@ export default {
 			EventBus.$on('slide-prev', this.slidePrev)
 			EventBus.$on('slide-next', this.slideNext)
 			EventBus.$on('toggle-menu', this.toggleMenu)
-			EventBus.$on('slide-appear', this.slideAppear)
+			EventBus.$on('leave-page', this.leavePage)
 		},
 		unlistenEvents(){
 			EventBus.$off('slide-prev', this.slidePrev)
 			EventBus.$off('slide-next', this.slideNext)
 			EventBus.$off('toggle-menu', this.toggleMenu)
-			EventBus.$off('slide-appear', this.slideAppear)
+			EventBus.$off('leave-page', this.leavePage)
 		},
+		leavePage(){
+			let leaveAnim = this.getCurrentAnimLeave
+			this.currentSlideId === this.slideId ? this[leaveAnim]() : undefined
+		},
+		appearPage(){
+			let appearAnim = this.getCurrentAnimAppear
+			this.currentSlideId === this.slideId ? this[appearAnim]() : undefined
+		},
+		appearAnim(){
+			let tl = new TimelineLite()
+				tl.set(this.$el, {autoAlpha: 1})
+				tl.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
+				tl.set(this.$refs.slideImg, {z: -1000})
+				tl.to(this.$refs.slideImg, 3, {z: 0,ease: Expo.easeOut})
+				tl.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .08, 0)
+		},
+		appearDown(delay){
+			let tl = new TimelineLite({delay: delay})
+				tl.set(this.$el, {autoAlpha: 1})
+				tl.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
+				tl.set(this.$refs.slideImg, {y: window.innerHeight})
+				tl.to(this.$refs.slideImg, .9, {y: 0,ease: Expo.easeOut})
+				tl.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .08, 0)
+		},
+		appearUp(delay){
+			let tl = new TimelineLite({delay: delay})
+				tl.set(this.$el, {autoAlpha: 1})
+				tl.set(this.$refs.slideInfo.children, {y: -100, autoAlpha:0})
+				tl.set(this.$refs.slideImg, {y: -window.innerHeight})
+				tl.to(this.$refs.slideImg, .9, {y: 0, ease: Expo.easeOut})
+				tl.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, -.05, 0)
+		},
+		leaveDown(){
+			let tl = new TimelineLite()
+				tl.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0,ease: Expo.easeIn}, -.05)
+				tl.to(this.$refs.slideImg, .8, {y: window.innerHeight,ease: Expo.easeIn}, 0)
+				tl.set(this.$el, {autoAlpha: 0})
+		},
+		leaveUp(){
+			let tl = new TimelineLite()
+				tl.staggerTo(this.$refs.slideInfo.children, .5, {y: -100, autoAlpha: 0,ease: Expo.easeIn}, .05)
+				tl.to(this.$refs.slideImg, .8, {y: -window.innerHeight, ease: Expo.easeIn}, 0)
+				tl.set(this.$el, {autoAlpha: 0})
+		},
+		leaveForward(){
+			let tl = new TimelineLite()
+				tl.to(this.$refs.slideImg, 1, {z: 1000, opacity: 0, ease: Expo.easeIn})
+				tl.add(TweenMax.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'all'}, -.05, 0))
+		},
+		appearBackward(){
+			let tl = new TimelineLite()
+				tl.set(this.$el, {autoAlpha: 1})
+				tl.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
+				tl.set(this.$refs.slideImg, {z: 1000, opacity: 0})
+				tl.to(this.$refs.slideImg, 1.5, {z: 0, opacity: 1, ease: Expo.easeOut})
+				tl.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .08, 0)
+		},
+
 		toggleMenu(){
 			this.currentSlideId === this.slideId && this.menuIsClosed ? this.openMenuAnim.play(0) : undefined
 			this.currentSlideId === this.slideId && !this.menuIsClosed ? this.closeMenuAnim.play(0) : undefined
-		},
-		slideAppear(){
-			this.currentSlideId === this.slideId ? this.appearSlideAnim.play(0) : undefined
 		},
 		buttonHover(){
 			this.buttonHoverAnim.play()
@@ -182,12 +225,12 @@ export default {
 			this.buttonHoverAnim.reverse()
 		},
 		slidePrev(){
-			this.currentSlideId + 1 === this.slideId ? this.goDownAnim.restart(true) : undefined
-			this.currentSlideId === this.slideId ? this.appearUpAnim.restart(true) : undefined
+			this.currentSlideId + 1 === this.slideId ? this.leaveDown() : undefined
+			this.currentSlideId === this.slideId ? this.appearUp(1.4) : undefined
 		},
 		slideNext(){
-			this.currentSlideId - 1 === this.slideId ? this.goUpAnim.restart(true) : undefined
-			this.currentSlideId === this.slideId ? this.appearDownAnim.restart(true) : undefined
+			this.currentSlideId - 1 === this.slideId ? this.leaveUp() : undefined
+			this.currentSlideId === this.slideId ? this.appearDown(1.4) : undefined
 		},
 	}
 }

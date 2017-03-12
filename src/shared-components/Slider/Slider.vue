@@ -28,7 +28,6 @@
 
 		mounted(){
 			this.events()
-			this.initSlider()
 		},
 
 		beforeDestroy(){
@@ -66,10 +65,6 @@
 				else if (event.keyCode === 40) {
 					this.goToSlide(this.currentSlideId + 1)
 				}
-			},
-
-			initSlider(){
-				EventBus.$emit('slide-appear', this.currentSlideId)
 			},
 
 			containSlide(slideId){
