@@ -21,26 +21,36 @@ import {TimelineLite, TweenLite,Expo} from 'gsap'
 import SplitText from '../../commons/script/SplitText.js'
 import {EventBus} from '../../event-bus.js'
 
+import animationStore from '../../stores/AnimationStore.js'
+
 export default {
+
 	data() {
 		return {
 			name: 'Raoul Gaillard',
 			subtitle: "I’m a Dev & Ui student at Hetic.<br> Looking  for a 6 months internship.",
+			animationState: animationStore.state
 		}
 	},
-	mounted() {
 
-		this.events()
+	computed: {
+		getCurrentAnimAppear(){
+			return this.animationState.appear
+		},
+		getCurrentAnimLeave(){
+			return this.animationState.leave
+		}
+	},
+
+	mounted() {
 
 		let splittedSubtitle = new SplitText(this.$refs.subtitle, {
 			classToGive: 'subtitle-lines',
 			whatToSplit: 'lines'
 		})
 
-		this.appearAnim = new TimelineLite()
-		this.appearAnim.fromTo(this.$refs.title, 3,{z: -500, autoAlpha:0}, {z:0, autoAlpha: 1, ease: Expo.easeOut})
-		this.appearAnim.staggerFromTo(this.$refs.subtitle.children, 2, {y:20, autoAlpha: 0}, { y:0, autoAlpha: 1, ease: Expo.easeOut}, .1, .5)
-		this.appearAnim.fromTo(this.$refs.square, 3, {z:-1000, autoAlpha: 0}, {z: -200, autoAlpha: 1, ease: Expo.easeOut}, 0)
+		this.appearPage()
+		this.events()
 
 		this.openMenuAnim = new TimelineLite({paused: true})
 			this.openMenuAnim.to(this.$refs.title, 3, {z:-500, ease: Expo.easeOut})
@@ -52,23 +62,72 @@ export default {
 			this.closeMenuAnim.staggerTo(this.$refs.subtitle.children, 2, { y:0, autoAlpha: 1, ease: Expo.easeOut}, .1, .5)
 			this.closeMenuAnim.to(this.$refs.square, 3, {z:-200, ease: Expo.easeOut}, 0)
 
-		this.leaveAnim = new TimelineLite({paused: true})
-			this.leaveAnim.add(TweenMax.staggerTo(this.$refs.subtitle.children, .5, { y:-20, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}, .05))
-			this.leaveAnim.to(this.$refs.square, 1, {y: -window.innerHeight, ease: Expo.easeIn}, 0)
-			this.leaveAnim.to(this.$refs.title, 1, {y: -window.innerHeight, ease: Expo.easeIn}, 0)
-
-		this.leaveDelay = this.leaveAnim.totalDuration()
-
 	},
-	
+
+	beforeDestroy(){
+		this.unlistenEvents()
+	},
+
 	methods: {
 		events(){
-			EventBus.$on('toggle-menu', isClosed=>{
-				this.toggleMenu(isClosed)
-			})
-			EventBus.$on('leave-page', isClosed=>{
-				this.leaveAnim.play(0)
-			})
+			EventBus.$on('toggle-menu', this.toggleMenu)
+			EventBus.$on('leave-page', this.leavePage)
+		},
+
+		unlistenEvents(){
+			EventBus.$off('toggle-menu', this.toggleMenu)
+			EventBus.$off('leave-page', this.leavePage)
+		},
+
+		leavePage(){
+			let leaveAnim = this.getCurrentAnimLeave
+			this[leaveAnim]()
+		},
+
+		appearPage(){
+			let appearAnim = this.getCurrentAnimAppear
+			this[appearAnim]()
+		},
+
+		appearUp(){
+			let tl = new TimelineLite()
+				tl.add(TweenMax.staggerTo(this.$refs.subtitle.children, .5, { y:-20, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}, .05))
+				tl.from(this.$refs.square, 1.5, {y: -window.innerHeight, ease: Expo.easeOut}, 0)
+				tl.from(this.$refs.title, 1.5, {y: -window.innerHeight, ease: Expo.easeOut}, 0)
+		},
+
+		leaveUp(){
+			let tl = new TimelineLite()
+				tl.add(TweenMax.staggerTo(this.$refs.subtitle.children, .5, { y:-20, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}, .05))
+				tl.to(this.$refs.square, 1, {y: -window.innerHeight, ease: Expo.easeIn}, 0)
+				tl.to(this.$refs.title, 1, {y: -window.innerHeight, ease: Expo.easeIn}, 0)
+		},
+
+		appearBackward(){
+			let tl = new TimelineLite()
+				tl.set(this.$refs.square, {z: 500, opacity: 0})
+				tl.set(this.$refs.title, {z: 500, opacity: 0})
+				tl.to(this.$refs.square, 1.5, {z: -200, opacity: 1 ,ease: Expo.easeOut}, 0)
+				tl.to(this.$refs.title, 1.5, {z: 0, opacity: 1 ,ease: Expo.easeOut}, 0)
+				tl.staggerFromTo(this.$refs.subtitle.children, 2, {y:20, autoAlpha: 0}, { y:0, autoAlpha: 1, ease: Expo.easeOut}, .1, .5)
+		},
+
+		leaveForward(){
+			let tl = new TimelineLite()
+				tl.add(TweenMax.staggerTo(this.$refs.subtitle.children, .5, { y:-20, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}, .05))
+				tl.to(this.$refs.square, 1, {z: 1100, opacity: 0, ease: Expo.easeIn}, 0)
+				tl.to(this.$refs.title, 1, {z: 1100, opacity: 0, ease: Expo.easeIn}, 0)
+		},
+
+		appearAnim(){
+			let appearAnim = new TimelineLite()
+				appearAnim.fromTo(this.$refs.title, 3,{z: -500, autoAlpha:0}, {z:0, autoAlpha: 1, ease: Expo.easeOut})
+				appearAnim.staggerFromTo(this.$refs.subtitle.children, 2, {y:20, autoAlpha: 0}, { y:0, autoAlpha: 1, ease: Expo.easeOut}, .1, .5)
+				appearAnim.fromTo(this.$refs.square, 3, {z:-1000, autoAlpha: 0}, {z: -200, autoAlpha: 1, ease: Expo.easeOut}, 0)
+		},
+
+		leaveAnim(){
+			this.leaveUp()
 		},
 
 		toggleMenu(isClosed){
