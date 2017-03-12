@@ -48,9 +48,9 @@ export default {
 			this.appearAnim.set(this.$refs.sliderLength, {color: this.titleColor})
 			this.appearAnim.set(this.$refs.separator, {backgroundColor: this.titleColor})
 			this.appearAnim.set(this.$refs.sliderName, {color: this.textColor})
-			this.appearAnim.from(this.$refs.currentSlide, 2, {y: -30,autoAlpha: 0, ease: Expo.easeOut})
-			this.appearAnim.from(this.$refs.sliderLength, 2, {y: 30,autoAlpha: 0, ease: Expo.easeOut}, 0)
-			this.appearAnim.from(this.$refs.separator, 2, {scaleY: 0,autoAlpha: 0, ease: Expo.easeOut}, '-=1.5')
+			this.appearAnim.from(this.$refs.currentSlide, 1.5, {y: -30,autoAlpha: 0, ease: Expo.easeOut})
+			this.appearAnim.from(this.$refs.sliderLength, 1.5, {y: 30,autoAlpha: 0, ease: Expo.easeOut}, 0)
+			this.appearAnim.from(this.$refs.separator, 1.5, {scaleY: 0,autoAlpha: 0, ease: Expo.easeOut}, '-=1.5')
 			this.appearAnim.staggerFrom(this.$refs.sliderName.children, 2, {y: 10, autoAlpha: 0, ease: Expo.easeOut}, .06, 0)
 
 		this.events()
@@ -66,11 +66,21 @@ export default {
 		events(){
 			EventBus.$on('slide-next',this.nextAnim)
 			EventBus.$on('slide-prev', this.prevAnim)
+			EventBus.$on('leave-page', this.leaveAnim)
 		},
 
 		unlistenEvents(){
 			EventBus.$off('slide-next',this.nextAnim)
 			EventBus.$off('slide-prev', this.prevAnim)
+			EventBus.$off('leave-page', this.leaveAnim)
+		},
+
+		leaveAnim(){
+			let tl = new TimelineLite()
+				tl.to(this.$refs.currentSlide, 1.5, {y: -30,autoAlpha: 0, ease: Expo.easeOut})
+				tl.to(this.$refs.sliderLength, 1.5, {y: 30,autoAlpha: 0, ease: Expo.easeOut}, 0)
+				tl.to(this.$refs.separator, 1.5, {scaleY: 0,autoAlpha: 0, ease: Expo.easeOut}, '-=1.5')
+				tl.staggerTo(this.$refs.sliderName.children, 2, {y: 10, autoAlpha: 0, ease: Expo.easeOut}, .06, 0)
 		},
 
 		prevAnim(){
