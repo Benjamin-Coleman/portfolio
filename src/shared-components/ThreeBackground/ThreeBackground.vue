@@ -57,10 +57,10 @@ export default {
 			this.appearAnim.fromTo(this.camera.position, 3, {z: 17},{z: 10, ease: Expo.easeOut})
 
 		this.openMenuAnim = new TimelineLite({paused: true})
-			this.openMenuAnim.to(this.camera.position, 2,{z: 15, ease: Expo.easeOut})
+			this.openMenuAnim.to(this.camera.position, 1.5,{z: 15, ease: Expo.easeOut})
 
 		this.closeMenuAnim = new TimelineLite({paused: true})
-			this.closeMenuAnim.to(this.camera.position, 2,{z: 10, ease: Expo.easeOut})
+			this.closeMenuAnim.to(this.camera.position, 1.5,{z: 10, ease: Expo.easeOut})
 
 	},
 
