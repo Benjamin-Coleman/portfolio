@@ -1,17 +1,19 @@
 <template lang="html">
 	<div class="slider">
 		<slide-indicator></slide-indicator>
-		<slide
-			v-for="(slide, index) in slides"
-			:title="slide.title"
-			:titleColor="slide.titleColor"
-			:textColor="slide.textColor"
-			:description="slide.description"
-			:context="slide.context"
-			:role="slide.role"
-			:period="slide.period"
-			:slideId="index">
-		</slide>
+		<div class="slide-container" ref="slideContainer">
+			<slide
+				v-for="(slide, index) in slides"
+				:title="slide.title"
+				:titleColor="slide.titleColor"
+				:textColor="slide.textColor"
+				:description="slide.description"
+				:context="slide.context"
+				:role="slide.role"
+				:period="slide.period"
+				:slideId="index">
+			</slide>
+		</div>
 	</div>
 </template>
 
@@ -38,7 +40,8 @@
 		data(){
 			return {
 				slides: slides,
-				state: sliderStore.state
+				state: sliderStore.state,
+				posY: 0
 			}
 		},
 
@@ -56,6 +59,16 @@
 
 			unlistenEvents(){
 				document.removeEventListener('keyup', this.keyUp)
+			},
+
+			wheel(){
+				event.preventDefault()
+				this.posY = this.posY - 0.05 * event.deltaY
+				TweenLite.to(this.$refs.slideContainer, 0.4, {
+					ease: Expo.easeOut,
+					y: this.posY,
+					overwrite: 'all'
+				})
 			},
 
 			keyUp(event){
@@ -102,4 +115,10 @@
 		top: 0;
 		left: 0;
 	}
+
+	.slide-container {
+		width: 100%;
+		height: 100%;
+	}
+
 </style>

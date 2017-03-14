@@ -113,6 +113,16 @@ export default {
 			EventBus.$off('leave-page', this.goToPage)
 		},
 
+		wheel(){
+			event.preventDefault()
+			let targetedCameraPosY = this.camera.position.y - 0.0011 * event.deltaY
+			TweenLite.to(this.camera.position, 0.4, {
+				ease: Expo.easeOut,
+				y: targetedCameraPosY,
+				overwrite: 'all'
+			})
+		},
+
 		toggleMenu(){
 			this.closeMenuAnim.isActive() ? this.closeMenuAnim.kill() : undefined
 			this.openMenuAnim.isActive() ? this.openMenuAnim.kill() : undefined
@@ -169,9 +179,9 @@ export default {
 		leaveBackward(to){
 			let targetedBg = slides[to][0].backgroundColor
 			let tl = new TimelineLite()
-				tl.to(this.camera.position, 1,{z: 40, ease: Expo.easeIn})
-				tl.to(this.$refs.bgRenderer.children, .5, {opacity: 0, ease: Expo.easeIn}, '-=.5')
-				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
+				tl.to(this.camera.position, 1.5,{z: 40, ease: Expo.easeIn})
+				tl.to(this.$refs.bgRenderer.children, 1, {opacity: 0, ease: Expo.easeIn}, '-=1')
+				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut}, '-=.5')
 				tl.call(this.generateShapesForSlide, [to, 0])
 				tl.set(this.camera.position, {z: 0})
 				tl.to(this.$refs.bgRenderer.children, 2, {opacity: 1, ease: Expo.easeOut})
@@ -238,6 +248,7 @@ export default {
 				let mesh = new THREE.Mesh(geometry, material)
 
 				mesh.position.set(shape.x, shape.y, shape.z)
+				shape.rotateZ !== undefined ? mesh.rotateZ(shape.rotateZ) :  mesh.rotateZ(-.53)
 				this.scene.add(mesh)
 			}
 

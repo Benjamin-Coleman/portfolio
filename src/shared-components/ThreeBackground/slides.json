@@ -139,29 +139,29 @@
 			"shapes": [
 				{
 					"x": 11,
-					"y": -1,
-					"z": -1.5,
+					"y": -5,
+					"z": -0.5,
 					"size": 0.8,
 					"edges": 8,
 					"materialId": 1
 				},{
-					"x": -5,
-					"y": -3,
+					"x": -7,
+					"y": -4.5,
 					"z": 2,
 					"size": 0.8,
 					"edges": 8,
 					"materialId": 1
 				},{
-					"x": -15,
-					"y": -0.5,
-					"z": -7,
+					"x": -6,
+					"y": 3,
+					"z": 4,
 					"size": 0.8,
 					"edges": 8,
 					"materialId": 1
 				},
 				{
-					"x": 11,
-					"y": 4,
+					"x": 5,
+					"y": 8,
 					"z": -6,
 					"size": 1,
 					"edges": 8,
@@ -169,7 +169,7 @@
 				},
 				{
 					"x": 7.5,
-					"y": 4,
+					"y": 3,
 					"z": 3,
 					"size": 0.8,
 					"edges": 8,
@@ -177,7 +177,7 @@
 				},
 				{
 					"x": 8,
-					"y": -8,
+					"y": -8.5,
 					"z": -6,
 					"size": 1,
 					"edges": 8,
@@ -192,49 +192,62 @@
 			"shapes": [
 				{
 					"x": 11,
-					"y": -1,
-					"z": -1.5,
+					"y": -5,
+					"z": -0.5,
 					"size": 0.8,
 					"edges": 3,
-					"materialId": 2
+					"materialId": 2,
+					"rotateZ": 1
 				},{
-					"x": -5,
-					"y": -3,
+					"x": -7,
+					"y": -4.5,
 					"z": 2,
 					"size": 0.8,
 					"edges": 3,
-					"materialId": 2
+					"materialId": 2,
+					"rotateZ": 0.3
 				},{
-					"x": -15,
-					"y": -0.5,
-					"z": -7,
+					"x": -6,
+					"y": 3,
+					"z": 4,
+					"size": 1.1,
+					"edges": 3,
+					"materialId": 2,
+					"rotateZ": 2
+				},{
+					"x": -11.5,
+					"y": 0,
+					"z": -1,
 					"size": 0.8,
 					"edges": 3,
-					"materialId": 2
-				},
-				{
-					"x": -7,
-					"y": 3.5,
-					"z": 3,
-					"size": 1,
-					"edges": 3,
-					"materialId": 2
-				},
-				{
-					"x": -2,
-					"y": 5,
-					"z": -3,
-					"size": 0.6,
-					"edges": 3,
-					"materialId": 2
-				},
-				{
-					"x": 8,
-					"y": -8,
+					"materialId": 2,
+					"rotateZ": 2
+				},{
+					"x": 5,
+					"y": 8,
 					"z": -6,
 					"size": 1,
 					"edges": 3,
-					"materialId": 2
+					"materialId": 2,
+					"rotateZ": 0.8
+				},
+				{
+					"x": 7.5,
+					"y": 3,
+					"z": 3,
+					"size": 1.2,
+					"edges": 3,
+					"materialId": 2,
+					"rotateZ": 0.2
+				},
+				{
+					"x": 8,
+					"y": -8.5,
+					"z": -6,
+					"size": 1,
+					"edges": 3,
+					"materialId": 2,
+					"rotateZ": 3
 				}
 			]
 		}
