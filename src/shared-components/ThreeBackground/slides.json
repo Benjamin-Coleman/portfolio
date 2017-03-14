@@ -65,7 +65,8 @@
 					"z": 3,
 					"size": 0.8,
 					"edges": 3,
-					"materialId": 10
+					"materialId": 10,
+					"rotateZ": 0.53
 				},
 				{
 					"x": 8,
@@ -73,7 +74,8 @@
 					"z": -6,
 					"size": 1,
 					"edges": 3,
-					"materialId": 11
+					"materialId": 11,
+					"rotateZ": 1.3
 				}
 			]
 		}

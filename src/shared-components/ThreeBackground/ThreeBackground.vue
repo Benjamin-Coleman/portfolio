@@ -248,7 +248,7 @@ export default {
 				let mesh = new THREE.Mesh(geometry, material)
 
 				mesh.position.set(shape.x, shape.y, shape.z)
-				shape.rotateZ !== undefined ? mesh.rotateZ(shape.rotateZ) :  mesh.rotateZ(-.53)
+				shape.rotateZ !== undefined ? mesh.rotateZ(shape.rotateZ) : undefined
 				this.scene.add(mesh)
 			}
 
