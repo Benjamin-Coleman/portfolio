@@ -103,13 +103,22 @@
 			},
 
 			goToSlide(slideId){
-				if ( !this.containSlide(slideId) ) {
-					return
-				}
+				let lastSlideId = this.currentSlideId
 				let direction
-				this.currentSlideId < slideId ? direction = 'next' : direction= 'prev'
-				direction === 'next' ? sliderStore.increment() : sliderStore.decrement()
-				EventBus.$emit('slide-'+direction, this.currentSlideId)
+
+				if (slideId >= slides.length) {
+					direction = 'next'
+					sliderStore.reset()
+				}
+				else if (slideId < 0) {
+					direction = 'prev'
+					sliderStore.setSlideId(slides.length-1)
+				}
+				else {
+					this.currentSlideId < slideId ? direction = 'next' : direction= 'prev'
+					direction === 'next' ? sliderStore.increment() : sliderStore.decrement()
+				}
+				EventBus.$emit('slide-'+direction, lastSlideId)
 				sliderStore.sliderIsAnimated()
 			}
 		},

@@ -15,6 +15,10 @@ class SliderStore {
 		this.state.currentSlideId --
 	}
 
+	setSlideId(slideIdToSet){
+		this.state.currentSlideId = slideIdToSet
+	}
+
 	sliderIsAnimated(){
 		this.state.isAnimated = true
 	}

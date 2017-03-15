@@ -229,14 +229,14 @@ export default {
 		buttonOut(){
 			this.buttonHoverAnim.reverse()
 		},
-		slidePrev(){
-			this.currentSlideId + 1 === this.slideId ? this.leaveDown() : undefined
+		slidePrev(lastSlideId){
+			lastSlideId === this.slideId ? this.leaveDown() : undefined
 			this.currentSlideId === this.slideId ? this.appearUp(1.5) : undefined
 		},
-		slideNext(){
-			this.currentSlideId - 1 === this.slideId ? this.leaveUp() : undefined
+		slideNext(lastSlideId){
+			lastSlideId === this.slideId ? this.leaveUp() : undefined
 			this.currentSlideId === this.slideId ? this.appearDown(1.5) : undefined
-		},
+		}
 	}
 }
 </script>
