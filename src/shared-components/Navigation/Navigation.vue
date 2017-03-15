@@ -66,6 +66,9 @@ export default {
     },
     currentSlideId(){
       return this.sliderState.currentSlideId
+    },
+    sliderIsAnimated(){
+      return this.sliderState.isAnimated
     }
   },
 
@@ -159,11 +162,13 @@ export default {
     },
 
     toggleClose: function(){
-      if (this.isClosed && this.menuIsNotAnimated()){
-        this.openMenu()
-      }
-      else if(!this.isClosed && this.menuIsNotAnimated()){
-        this.closeMenu()
+      if (this.menuIsNotAnimated() && !this.sliderIsAnimated) {
+        if (this.isClosed){
+          this.openMenu()
+        }
+        else if(!this.isClosed){
+          this.closeMenu()
+        }
       }
     },
 
