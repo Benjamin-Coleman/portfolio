@@ -84,7 +84,13 @@ export default {
       this.iconEnterAnim.from(this.$menuLines[2], 0.4, {scaleX:0, ease:Power4.easeInOut}, '-=0.2')
       this.iconEnterAnim.from(this.$menuLines[1], 0.4, {scaleX:0, ease:Power4.easeInOut}, '-=0.3')
 
-    this.openMenuAnim = new TimelineLite({paused: true})
+    this.openMenuAnim = new TimelineLite({paused: true,
+    onStart: ()=>{
+      menuStore.menuIsAnimated()
+    },
+    onComplete: ()=>{
+      menuStore.menuIsNotAnimated()
+    }})
     this.openMenuAnim
       .to(this.$menuLines[1], 0.5, {x:-10, autoAlpha: 0, ease: Expo.easeInOut})
       .to(this.$menuLines[0], 0.5, {rotation: 45, scaleX:0.7 , ease: Expo.easeInOut}, 0)
@@ -93,7 +99,13 @@ export default {
       .to(this.$refs.menuBackground, 1, {autoAlpha: 1, ease: Expo.easeOut}, 0)
       .staggerTo(this.$menuLinks, 1.5, {y:0 , autoAlpha:1,  ease: Expo.easeOut}, 0.08, 0)
 
-    this.closeMenuAnim = new TimelineLite({paused: true})
+    this.closeMenuAnim = new TimelineLite({paused: true,
+    onStart: ()=>{
+      menuStore.menuIsAnimated()
+    },
+    onComplete: ()=>{
+      menuStore.menuIsNotAnimated()
+    }})
     this.closeMenuAnim
       .to(this.$menuLines[1], 0.5, {x:0, autoAlpha: 1, ease: Expo.easeInOut})
       .to(this.$menuLines[0], 0.5, {rotation: 0, scaleX:1 , ease: Expo.easeInOut}, 0)
@@ -124,13 +136,13 @@ export default {
     events(){
       EventBus.$on('slide-next', this.changeColor)
       EventBus.$on('slide-prev', this.changeColor)
-      EventBus.$on('leave-page', this.leaveAnim)
+      EventBus.$on('leave-page', this.leavePage)
     },
 
     unlistenEvents(){
       EventBus.$off('slide-next', this.changeColor)
       EventBus.$off('slide-prev', this.changeColor)
-      EventBus.$off('leave-page', this.leaveAnim)
+      EventBus.$off('leave-page', this.leavePage)
     },
 
     changeColor(){
@@ -155,11 +167,15 @@ export default {
       }
     },
 
-    leaveAnim(){
+    leavePage(){
       this.closeMenuAnim.eventCallback('onComplete', ()=>{
         this.iconEnterAnim.reverse(0)
       })
-      !this.isClosed ? this.closeMenu() : this.iconEnterAnim.reverse(0)
+
+      if(!this.isClosed){
+        menuStore.closeMenu()
+        this.closeMenuAnim.play(0)
+      }
     },
 
     iconMouseOver: function(){
@@ -176,7 +192,7 @@ export default {
     },
 
     menuIsNotAnimated: function(){
-      if (this.openMenuAnim.isActive() || this.closeMenuAnim.isActive()) {
+      if (this.openMenuAnim.isActive() || this.closeMenuAnim.isActive() || this.iconEnterAnim.isActive()) {
         return false
       }
       else {

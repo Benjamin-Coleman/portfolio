@@ -2,7 +2,8 @@ class SliderStore {
 
 	constructor() {
 		this.state = {
-			currentSlideId: 0
+			currentSlideId: 0,
+			isAnimated: false
 		}
 	}
 
@@ -12,6 +13,14 @@ class SliderStore {
 
 	decrement(){
 		this.state.currentSlideId --
+	}
+
+	sliderIsAnimated(){
+		this.state.isAnimated = true
+	}
+
+	sliderIsNotAnimated(){
+		this.state.isAnimated = false
 	}
 
 	reset(){

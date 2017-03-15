@@ -173,7 +173,9 @@ export default {
 				tl.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .08, 0)
 		},
 		appearDown(delay){
-			let tl = new TimelineLite({delay: delay})
+			let tl = new TimelineLite({delay: delay, onComplete: ()=>{
+				sliderStore.sliderIsNotAnimated()
+			}})
 				tl.set(this.$el, {autoAlpha: 1})
 				tl.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
 				tl.set(this.$refs.slideImg, {y: window.innerHeight})
@@ -181,7 +183,9 @@ export default {
 				tl.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .08, 0)
 		},
 		appearUp(delay){
-			let tl = new TimelineLite({delay: delay})
+			let tl = new TimelineLite({delay: delay, onComplete: ()=>{
+				sliderStore.sliderIsNotAnimated()
+			}})
 				tl.set(this.$el, {autoAlpha: 1})
 				tl.set(this.$refs.slideInfo.children, {y: -100, autoAlpha:0})
 				tl.set(this.$refs.slideImg, {y: -window.innerHeight})
@@ -226,11 +230,11 @@ export default {
 		},
 		slidePrev(){
 			this.currentSlideId + 1 === this.slideId ? this.leaveDown() : undefined
-			this.currentSlideId === this.slideId ? this.appearUp(1.4) : undefined
+			this.currentSlideId === this.slideId ? this.appearUp(1.5) : undefined
 		},
 		slideNext(){
 			this.currentSlideId - 1 === this.slideId ? this.leaveUp() : undefined
-			this.currentSlideId === this.slideId ? this.appearDown(1.4) : undefined
+			this.currentSlideId === this.slideId ? this.appearDown(1.5) : undefined
 		},
 	}
 }

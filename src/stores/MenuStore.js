@@ -2,7 +2,8 @@ class MenuStore {
 
 	constructor() {
 		this.state = {
-			isClosed: true
+			isClosed: true,
+			isAnimated: false
 		}
 	}
 
@@ -16,6 +17,14 @@ class MenuStore {
 
 	toggleMenu(){
 		this.state.isClosed === true ? this.state.isClosed = false : this.state.isClosed = true
+	}
+
+	menuIsAnimated(){
+		this.state.isAnimated = true
+	}
+
+	menuIsNotAnimated(){
+		this.state.isAnimated = false
 	}
 
 }

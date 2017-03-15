@@ -52,15 +52,7 @@ export default {
 		this.materials = []
 		this.generateMaterials()
 		this.initBg(this.$route.name)
-
-		this.appearAnim = new TimelineLite()
-			this.appearAnim.fromTo(this.camera.position, 3, {z: 17},{z: 10, ease: Expo.easeOut})
-
-		this.openMenuAnim = new TimelineLite({paused: true})
-			this.openMenuAnim.to(this.camera.position, 1.5,{z: 15, ease: Expo.easeOut})
-
-		this.closeMenuAnim = new TimelineLite({paused: true})
-			this.closeMenuAnim.to(this.camera.position, 1.5,{z: 10, ease: Expo.easeOut})
+		this.appearAnim()
 
 	},
 
@@ -80,6 +72,21 @@ export default {
 			this.renderer.setSize(window.innerWidth, window.innerHeight)
 			this.$refs.bgRenderer.appendChild(this.renderer.domElement)
 			this.render()
+		},
+
+		appearAnim(){
+			let tl = new TimelineLite()
+				tl.fromTo(this.camera.position, 3, {z: 17},{z: 10, ease: Expo.easeOut})
+		},
+
+		openMenuAnim(){
+			let tl= new TimelineLite()
+				tl.add(TweenLite.to(this.camera.position, 1.5,{z: 15, ease: Expo.easeOut, overwrite: 'all'}))
+		},
+
+		closeMenuAnim(){
+			let tl = new TimelineLite()
+				tl.add(TweenLite.to(this.camera.position, 1.5,{z: 10, ease: Expo.easeOut, overwrite: 'all'}))
 		},
 
 		render() {
@@ -124,9 +131,7 @@ export default {
 		},
 
 		toggleMenu(){
-			this.closeMenuAnim.isActive() ? this.closeMenuAnim.kill() : undefined
-			this.openMenuAnim.isActive() ? this.openMenuAnim.kill() : undefined
-			this.menuIsClosed ? this.closeMenuAnim.play(0) : this.openMenuAnim.play(0)
+			this.menuIsClosed ? this.closeMenuAnim() : this.openMenuAnim()
 		},
 
 		goToPage(targetedPage){
@@ -179,8 +184,8 @@ export default {
 		leaveBackward(to){
 			let targetedBg = slides[to][0].backgroundColor
 			let tl = new TimelineLite()
-				tl.to(this.camera.position, 1.5,{z: 40, ease: Expo.easeIn})
-				tl.to(this.$refs.bgRenderer.children, 1, {opacity: 0, ease: Expo.easeIn}, '-=1')
+				tl.to(this.camera.position, 1.5,{z: 50, ease: Expo.easeIn})
+				tl.to(this.$refs.bgRenderer.children, .5, {opacity: 0, ease: Power1.easeInOut}, '-=.5')
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut}, '-=.5')
 				tl.call(this.generateShapesForSlide, [to, 0])
 				tl.set(this.camera.position, {z: 0})
@@ -205,15 +210,6 @@ export default {
 				tl.set(this.$refs.bgRenderer.children,{opacity: 0})
 				tl.to(this.$refs.bgRenderer.children, 2, {opacity: 1, ease: Expo.easeOut})
 				tl.to(this.camera.position, 2, {z: 10, ease: Expo.easeOut}, '-=2')
-		},
-
-		moveCamera(){
-			let targetedCameraPosY = this.camera.position.y - 0.005 * event.deltaY
-			this.scrollTween !== undefined ? this.scrollTween.kill(): undefined
-			this.scrollTween = TweenLite.to(this.camera.position, 1, {
-				ease: Expo.easeOut,
-				y: targetedCameraPosY
-			})
 		},
 
 		createGradientTexture(firstColor, secondColor){

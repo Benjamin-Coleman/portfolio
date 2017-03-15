@@ -23,6 +23,7 @@
 	import Slide from './Slide.vue'
 	import SlideIndicator from './SlideIndicator.vue'
 	import sliderStore from '../../stores/SliderStore.js'
+	import menuStore from '../../stores/MenuStore.js'
 
 	const slides = require('./slides.json').slides
 
@@ -41,6 +42,7 @@
 			return {
 				slides: slides,
 				state: sliderStore.state,
+				menuState: menuStore.state,
 				posY: 0
 			}
 		},
@@ -48,6 +50,15 @@
 		computed: {
 			currentSlideId(){
 				return this.state.currentSlideId
+			},
+			sliderIsAnimated(){
+				return this.state.isAnimated
+			},
+			menuIsClosed(){
+				return this.menuState.isClosed
+			},
+			menuIsAnimated(){
+				return this.menuState.isAnimated
 			}
 		},
 
@@ -72,11 +83,13 @@
 			},
 
 			keyUp(event){
-				if (event.keyCode === 38) {
-					this.goToSlide(this.currentSlideId - 1)
-				}
-				else if (event.keyCode === 40) {
-					this.goToSlide(this.currentSlideId + 1)
+				if (!this.sliderIsAnimated && this.menuIsClosed && !this.menuIsAnimated) {
+					if (event.keyCode === 38) {
+						this.goToSlide(this.currentSlideId - 1)
+					}
+					else if (event.keyCode === 40) {
+						this.goToSlide(this.currentSlideId + 1)
+					}
 				}
 			},
 
@@ -97,8 +110,8 @@
 				this.currentSlideId < slideId ? direction = 'next' : direction= 'prev'
 				direction === 'next' ? sliderStore.increment() : sliderStore.decrement()
 				EventBus.$emit('slide-'+direction, this.currentSlideId)
+				sliderStore.sliderIsAnimated()
 			}
-
 		},
 		components: {
 			Slide,

@@ -53,14 +53,14 @@ export default {
 		this.events()
 
 		this.openMenuAnim = new TimelineLite({paused: true})
-			this.openMenuAnim.to(this.$refs.title, 3, {z:-500, ease: Expo.easeOut})
+			this.openMenuAnim.to(this.$refs.title, 1.5, {z:-500, ease: Expo.easeOut})
 			this.openMenuAnim.staggerTo(this.$refs.subtitle.children, 2, { y:20, autoAlpha: 0, ease: Expo.easeOut}, .1, 0)
-			this.openMenuAnim.to(this.$refs.square, 3, {z:-1000, ease: Expo.easeOut}, 0)
+			this.openMenuAnim.to(this.$refs.square, 1.5, {z:-1000, ease: Expo.easeOut}, 0)
 
 		this.closeMenuAnim = new TimelineLite({paused: true})
-			this.closeMenuAnim.to(this.$refs.title, 3, {z:0, ease: Expo.easeOut})
+			this.closeMenuAnim.to(this.$refs.title, 1.5, {z:0, ease: Expo.easeOut})
 			this.closeMenuAnim.staggerTo(this.$refs.subtitle.children, 2, { y:0, autoAlpha: 1, ease: Expo.easeOut}, .1, .5)
-			this.closeMenuAnim.to(this.$refs.square, 3, {z:-200, ease: Expo.easeOut}, 0)
+			this.closeMenuAnim.to(this.$refs.square, 1.5, {z:-200, ease: Expo.easeOut}, 0)
 
 	},
 
