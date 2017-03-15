@@ -174,6 +174,7 @@ export default {
 
     leavePage(){
       this.closeMenuAnim.eventCallback('onComplete', ()=>{
+        menuStore.menuIsNotAnimated()
         this.iconEnterAnim.reverse(0)
       })
 
