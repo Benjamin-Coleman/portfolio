@@ -1,7 +1,7 @@
 <template lang="html">
 
 	<div class="menu-link" @mouseover="mouseover" @mouseout="mouseout">
-		<router-link class="menu-link__link" :to="to">
+		<router-link class="menu-link__link" :to="to" ref="link" exact>
 			<div class="menu-link__title" ref="title">{{ title }}</div>
 			<div class="menu-link__hover" ref="hoverLine"></div>
 			<div class="menu-link__subtitle">{{ subtitle }}</div>
@@ -11,24 +11,69 @@
 </template>
 
 <script>
+
 import {TimelineLite, Expo} from 'gsap'
+import {EventBus} from '../../event-bus.js'
+
+import menuStore from '../../stores/MenuStore.js'
 
 export default {
 
 	props: ['to', 'title', 'subtitle'],
 
+	data(){
+		return {
+			state: menuStore.state
+		}
+	},
+
+	computed: {
+		menuIsClosed(){
+			return this.state.isClosed
+		}
+	},
+
 	mounted: function(){
+
+		this.currentRoute = this.isCurrentRoute()
+
 		this.hoverAnim = new TimelineLite({paused: true})
 			this.hoverAnim.to(this.$refs.hoverLine, .6, {x: '-50%', scaleX: 1, autoAlpha: 1, ease: Expo.easeOut})
+
+		this.appearAnim = new TimelineLite({paused: true, delay: .2})
+			this.appearAnim.to(this.$refs.hoverLine, 1, {x: '-50%', scaleX: 1, autoAlpha: 1, ease: Expo.easeOut})
+
+		this.event()
+	},
+
+	beforeDestroy(){
+		this.unlistenEvents()
 	},
 
 	methods: {
+		isCurrentRoute(){
+			return this.$refs.link.$el.classList.contains('router-link-active')
+		},
+		event(){
+			EventBus.$on('toggle-menu', this.toggleMenu)
+		},
+		unlistenEvents(){
+			EventBus.$off('toggle-menu', this.toggleMenu)
+		},
 		mouseover: function(){
-			this.hoverAnim.play()
+			!this.currentRoute ? this.hoverAnim.delay(0).play() : undefined
 		},
 		mouseout: function(){
-			this.hoverAnim.reverse()
+			!this.currentRoute ? this.hoverAnim.delay(0).reverse() : undefined
 		},
+		toggleMenu(){
+			if(!this.menuIsClosed && this.currentRoute){
+				this.appearAnim.timeScale(1).restart(true)
+			}
+			else if (this.menuIsClosed && this.currentRoute) {
+				this.appearAnim.timeScale(2).reverse(0)
+			}
+		}
 	},
 
 }
@@ -38,6 +83,10 @@ export default {
 
 	.menu-link__link {
 		text-decoration: none;
+	}
+
+	.router-link-active {
+		cursor: default;
 	}
 
 	.menu-link {

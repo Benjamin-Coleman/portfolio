@@ -11,17 +11,20 @@ import Navigation from '../../shared-components/Navigation/Navigation.vue'
 import AboutContent from './AboutContent.vue'
 
 import AnimationStore from '../../stores/AnimationStore.js'
+import MenuStore from '../../stores/MenuStore.js'
 import {EventBus} from '../../event-bus.js'
 import _ from 'lodash'
 
 export default {
 
 	beforeRouteLeave (to, from, next) {
-		let delay = 1500
-    let targetedPage = to.name
-    AnimationStore.setRouterInfo(from.name, targetedPage)
-    EventBus.$emit('leave-page', targetedPage)
-    _.delay(next, delay)
+		if (!MenuStore.state.isAnimated) {
+			let delay = 1500
+    	let targetedPage = to.name
+    	AnimationStore.setRouterInfo(from.name, targetedPage)
+    	EventBus.$emit('leave-page', targetedPage)
+    	_.delay(next, delay)
+		}
   },
 
 	components: {
