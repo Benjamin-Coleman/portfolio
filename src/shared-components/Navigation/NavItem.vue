@@ -34,45 +34,36 @@ export default {
 	},
 
 	mounted: function(){
-
 		this.currentRoute = this.isCurrentRoute()
 
 		this.hoverAnim = new TimelineLite({paused: true})
 			this.hoverAnim.to(this.$refs.hoverLine, .6, {x: '-50%', scaleX: 1, autoAlpha: 1, ease: Expo.easeOut})
 
-		this.appearAnim = new TimelineLite({paused: true, delay: .2})
-			this.appearAnim.to(this.$refs.hoverLine, 1, {x: '-50%', scaleX: 1, autoAlpha: 1, ease: Expo.easeOut})
-
 		this.event()
 	},
 
 	beforeDestroy(){
-		this.unlistenEvents()
+		this.unlistenEvent()
 	},
 
 	methods: {
+		event(){
+			this.currentRoute ? this.$el.addEventListener('click', this.clickCurrentLink) : undefined
+		},
+		unlistenEvent(){
+			this.currentRoute ? this.$el.removeEventListener('click', this.clickCurrentLink) : undefined
+		},
 		isCurrentRoute(){
 			return this.$refs.link.$el.classList.contains('router-link-active')
 		},
-		event(){
-			EventBus.$on('toggle-menu', this.toggleMenu)
-		},
-		unlistenEvents(){
-			EventBus.$off('toggle-menu', this.toggleMenu)
-		},
 		mouseover: function(){
-			!this.currentRoute ? this.hoverAnim.delay(0).play() : undefined
+			this.hoverAnim.play()
 		},
 		mouseout: function(){
-			!this.currentRoute ? this.hoverAnim.delay(0).reverse() : undefined
+			this.hoverAnim.reverse()
 		},
-		toggleMenu(){
-			if(!this.menuIsClosed && this.currentRoute){
-				this.appearAnim.timeScale(1).restart(true)
-			}
-			else if (this.menuIsClosed && this.currentRoute) {
-				this.appearAnim.timeScale(2).reverse(0)
-			}
+		clickCurrentLink(){
+			this.currentRoute ? EventBus.$emit('click-current-link') : undefined
 		}
 	},
 
@@ -83,10 +74,6 @@ export default {
 
 	.menu-link__link {
 		text-decoration: none;
-	}
-
-	.router-link-active {
-		cursor: default;
 	}
 
 	.menu-link {
