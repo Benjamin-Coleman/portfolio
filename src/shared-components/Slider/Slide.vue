@@ -158,6 +158,7 @@ export default {
 		},
 		leavePage(){
 			let leaveAnim = this.getCurrentAnimLeave
+			TweenLite.to(this.$refs.slideImg, 1, {z: 0,ease: Expo.easeOut})
 			this.currentSlideId === this.slideId ? this[leaveAnim]() : undefined
 		},
 		appearPage(){

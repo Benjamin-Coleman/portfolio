@@ -81,6 +81,8 @@ export default {
 
 		leavePage(){
 			let leaveAnim = this.getCurrentAnimLeave
+			TweenLite.to(this.$refs.square, .8, {z: -200, ease: Expo.easeOut})
+			TweenLite.to(this.$refs.title, .8, {z: 0, ease: Expo.easeOut})
 			this[leaveAnim]()
 		},
 
@@ -91,7 +93,7 @@ export default {
 
 		appearUp(){
 			let tl = new TimelineLite()
-				tl.add(TweenMax.staggerTo(this.$refs.subtitle.children, .5, { y:-20, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}, .05))
+				tl.staggerFromTo(this.$refs.subtitle.children, 2, {y:20, autoAlpha: 0}, { y:0, autoAlpha: 1, ease: Expo.easeOut}, .1, .5)
 				tl.from(this.$refs.square, 1.5, {y: -window.innerHeight, ease: Expo.easeOut}, 0)
 				tl.from(this.$refs.title, 1.5, {y: -window.innerHeight, ease: Expo.easeOut}, 0)
 		},

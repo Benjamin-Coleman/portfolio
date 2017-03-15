@@ -151,22 +151,24 @@ export default {
 
 		leaveUp(to){
 			let targetedBg = slides[to][0].backgroundColor
+			TweenLite.to(this.camera.position, .8, {z: 10, ease: Expo.easeOut})
 			let tl = new TimelineLite()
 				tl.to(this.camera.position, 1,{y: -25, ease: Expo.easeIn})
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
 				tl.call(this.generateShapesForSlide, [to, 0])
 				tl.set(this.camera.position, {y: 20})
-				tl.to(this.camera.position, 1,{z: 10, y: 0, ease: Expo.easeOut})
+				tl.to(this.camera.position, 1,{y: 0, ease: Expo.easeOut})
 		},
 
 		leaveDown(to){
 			let targetedBg = slides[to][0].backgroundColor
+			TweenLite.to(this.camera.position, .8, {z: 10, ease: Expo.easeOut})
 			let tl = new TimelineLite()
 				tl.to(this.camera.position, 1,{y: 25, ease: Expo.easeIn})
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
 				tl.call(this.generateShapesForSlide, [to, 0])
 				tl.set(this.camera.position, {y: -20})
-				tl.to(this.camera.position, 1,{z: 10, y: 0, ease: Expo.easeOut})
+				tl.to(this.camera.position, 1,{y: 0, ease: Expo.easeOut})
 		},
 
 		leaveForward(to){
