@@ -2,11 +2,14 @@ var path = require('path')
 var webpack = require('webpack')
 
 module.exports = {
-  entry: './src/main.js',
+  entry: {
+    app: './src/main.js',
+    loader: './src/loader.js'
+  },
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
-    filename: 'build.js'
+    filename: '[name].build.js'
   },
   module: {
     rules: [
@@ -25,11 +28,14 @@ module.exports = {
         }
       },
       {
+        test: /\.scss$/,
+        loader: 'style-loader!css-loader!sass-loader',
+        exclude: /node_modules/
+      },{
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/
-      },
-      {
+      },{
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
