@@ -43,7 +43,7 @@ class Loader {
 	}
 
 	pageReady(){
-		document.removeEventListener('readystatechange', this.pageReady.bind(this))
+		document.removeEventListener('readystatechange', this.readyStateChange.bind(this, event))
 		this.linesScale = 1
 		this.$loaderThinLine.classList.add('loader__line--active')
 		this.$loaderBigLine.classList.add('loader__line--active')
