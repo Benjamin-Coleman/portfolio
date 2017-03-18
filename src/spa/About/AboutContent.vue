@@ -83,7 +83,6 @@ export default {
 
 	.about-content {
 		max-width: 27em;
-		min-width: 27em;
 		margin: auto;
 
 		font-size: 20px;
@@ -169,6 +168,11 @@ export default {
 			color: lighten($about-blue, 12);
 		}
 
+	}
+
+	@media screen and (max-width: 760px) {
+		.about-content { font-size: 15px; margin: 0 .8em;}
+		.about-content__big-title { font-size: 30px;}
 	}
 
 </style>
