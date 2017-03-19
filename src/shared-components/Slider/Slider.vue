@@ -20,10 +20,12 @@
 <script>
 
 	import {EventBus} from '../../event-bus.js'
+	import {TweenLite, Expo} from 'gsap'
 	import Slide from './Slide.vue'
 	import SlideIndicator from './SlideIndicator.vue'
 	import sliderStore from '../../stores/SliderStore.js'
 	import menuStore from '../../stores/MenuStore.js'
+	import _ from 'lodash'
 
 	const slides = require('./slides.json').slides
 
@@ -31,6 +33,7 @@
 
 		mounted(){
 			this.events()
+			this.debouncedBackToSlide = _.debounce(this.backToSlide, 300)
 		},
 
 		beforeDestroy(){
@@ -43,7 +46,9 @@
 				slides: slides,
 				state: sliderStore.state,
 				menuState: menuStore.state,
-				posY: 0
+				targetPosY: 0,
+				slideTransform: 0,
+				oldDeltaY: 0
 			}
 		},
 
@@ -66,20 +71,57 @@
 
 			events(){
 				document.addEventListener('keyup', this.keyUp)
+				document.addEventListener('wheel', this.wheel)
+				EventBus.$on('appear-slide', this.wheelLoop)
 			},
 
 			unlistenEvents(){
 				document.removeEventListener('keyup', this.keyUp)
+				document.removeEventListener('wheel', this.wheel)
+				EventBus.$off('appear-slide', this.wheelLoop)
 			},
 
 			wheel(){
 				event.preventDefault()
-				this.posY = this.posY - 0.05 * event.deltaY
-				TweenLite.to(this.$refs.slideContainer, 0.4, {
-					ease: Expo.easeOut,
-					y: this.posY,
-					overwrite: 'all'
-				})
+				let targetModifier = 3
+
+				if (event.deltaY !== this.oldDeltaY && !this.sliderIsAnimated) {
+					event.deltaY > 0 ? this.targetPosY -= targetModifier : this.targetPosY += targetModifier
+					this.oldDeltaY = event.deltaY
+				}
+
+				this.debouncedBackToSlide()
+
+			},
+
+			backToSlide(){
+				this.targetPosY = 0
+			},
+
+			wheelLoop(){
+				let slideLimit = 100
+
+				this.slideTransform += (this.targetPosY - this.slideTransform) * .08
+				TweenLite.set(this.$refs.slideContainer, {y: this.slideTransform})
+
+				if (this.slideTransform <= -slideLimit) {
+					this.nextSlide()
+					_.delay(this.resetWheel.bind(this), 1500)
+				}
+				else if (this.slideTransform >= slideLimit){
+					this.prevSlide()
+					_.delay(this.resetWheel.bind(this), 1500)
+				}
+				else {
+					requestAnimationFrame(this.wheelLoop)
+				}
+			},
+
+			resetWheel(){
+				this.targetPosY = 0
+				this.slideTransform = 0
+				this.oldDeltaY = 0
+				TweenLite.set(this.$refs.slideContainer, {y: this.slideTransform})
 			},
 
 			keyUp(event){
@@ -100,6 +142,14 @@
 				else {
 					return false
 				}
+			},
+
+			nextSlide(){
+				this.goToSlide(this.currentSlideId + 1)
+			},
+
+			prevSlide(){
+				this.goToSlide(this.currentSlideId - 1)
 			},
 
 			goToSlide(slideId){

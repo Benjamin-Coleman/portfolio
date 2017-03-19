@@ -166,7 +166,9 @@ export default {
 			this.currentSlideId === this.slideId ? this[appearAnim]() : undefined
 		},
 		appearAnim(){
-			let tl = new TimelineLite()
+			let tl = new TimelineLite({onComplete: ()=>{
+				EventBus.$emit('appear-slide')
+			}})
 				tl.set(this.$el, {autoAlpha: 1})
 				tl.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
 				tl.set(this.$refs.slideImg, {z: -1000})
@@ -176,6 +178,7 @@ export default {
 		appearDown(delay){
 			let tl = new TimelineLite({delay: delay, onComplete: ()=>{
 				sliderStore.sliderIsNotAnimated()
+				EventBus.$emit('appear-slide')
 			}})
 				tl.set(this.$el, {autoAlpha: 1})
 				tl.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
@@ -186,6 +189,7 @@ export default {
 		appearUp(delay){
 			let tl = new TimelineLite({delay: delay, onComplete: ()=>{
 				sliderStore.sliderIsNotAnimated()
+				EventBus.$emit('appear-slide')
 			}})
 				tl.set(this.$el, {autoAlpha: 1})
 				tl.set(this.$refs.slideInfo.children, {y: -100, autoAlpha:0})
@@ -211,7 +215,9 @@ export default {
 				tl.add(TweenMax.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'all'}, -.05, 0))
 		},
 		appearBackward(){
-			let tl = new TimelineLite()
+			let tl = new TimelineLite({onComplete: ()=>{
+				EventBus.$emit('appear-slide')
+			}})
 				tl.set(this.$el, {autoAlpha: 1})
 				tl.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
 				tl.set(this.$refs.slideImg, {z: 1000, opacity: 0})
