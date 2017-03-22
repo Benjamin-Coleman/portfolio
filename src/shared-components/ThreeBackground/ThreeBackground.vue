@@ -36,11 +36,20 @@ export default {
 		menuIsClosed(){
 			return this.menuState.isClosed
 		},
+		sliderIsAnimated(){
+			return this.state.isAnimated
+		},
 		getCurrentAnimAppear(){
 			return this.animationState.appear
 		},
 		getCurrentAnimLeave(){
 			return this.animationState.leave
+		},
+		getCurrentSlidePosY(){
+			return this.state.posY
+		},
+		sliderIsActive(){
+			return this.state.isActive
 		}
 	},
 
@@ -101,7 +110,14 @@ export default {
 
 		animate() {
 			requestAnimationFrame(this.animate.bind(this))
+			this.wheel()
 			this.render()
+		},
+
+		wheel(){
+			if (!this.sliderIsAnimated && this.sliderIsActive) {
+				this.camera.position.y = this.getCurrentSlidePosY / 100
+			}
 		},
 
 		events(){
@@ -120,16 +136,6 @@ export default {
 			EventBus.$off('leave-page', this.goToPage)
 		},
 
-		wheel(){
-			event.preventDefault()
-			let targetedCameraPosY = this.camera.position.y - 0.0011 * event.deltaY
-			TweenLite.to(this.camera.position, 0.4, {
-				ease: Expo.easeOut,
-				y: targetedCameraPosY,
-				overwrite: 'all'
-			})
-		},
-
 		toggleMenu(){
 			this.menuIsClosed ? this.closeMenuAnim() : this.openMenuAnim()
 		},
@@ -142,11 +148,21 @@ export default {
 		nextAnim(){
 			let targetedBg = slides[this.$route.name][this.currentSlideId].backgroundColor
 			let tl = new TimelineLite()
-				tl.to(this.camera.position, 1,{y: -25, ease: Expo.easeIn})
+				tl.to(this.camera.position, .5,{y: -25, ease: Power1.easeIn})
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
 				tl.call(this.generateShapesForSlide, [this.$route.name, this.currentSlideId])
 				tl.set(this.camera.position, {y: 20})
-				tl.to(this.camera.position, 1,{z: 10, y: 0, ease: Expo.easeOut})
+				tl.to(this.camera.position, .5,{z: 10, y: 0, ease: Expo.easeOut})
+		},
+
+		prevAnim(){
+			let targetedBg = slides[this.$route.name][this.currentSlideId].backgroundColor
+			let tl = new TimelineLite()
+				tl.to(this.camera.position, .5,{y: 25, ease: Power1.easeIn})
+				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
+				tl.call(this.generateShapesForSlide, [this.$route.name, this.currentSlideId])
+				tl.set(this.camera.position, {y: -20})
+				tl.to(this.camera.position, .5,{z: 10, y: 0, ease: Expo.easeOut})
 		},
 
 		leaveUp(to){
@@ -193,16 +209,6 @@ export default {
 				tl.set(this.camera.position, {z: 0})
 				tl.to(this.$refs.bgRenderer.children, 2, {opacity: 1, ease: Expo.easeOut})
 				tl.to(this.camera.position, 1,{z: 10, ease: Expo.easeOut}, '-=2')
-		},
-
-		prevAnim(){
-			let targetedBg = slides[this.$route.name][this.currentSlideId].backgroundColor
-			let tl = new TimelineLite()
-				tl.to(this.camera.position, 1,{y: 25, ease: Expo.easeIn})
-				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
-				tl.call(this.generateShapesForSlide, [this.$route.name, this.currentSlideId])
-				tl.set(this.camera.position, {y: -20})
-				tl.to(this.camera.position, 1,{z: 10, y: 0, ease: Expo.easeOut})
 		},
 
 		goForward(){

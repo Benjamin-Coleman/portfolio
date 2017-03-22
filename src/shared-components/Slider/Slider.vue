@@ -32,6 +32,7 @@
 	export default {
 
 		mounted(){
+			sliderStore.setActive()
 			this.events()
 			this.debouncedBackToSlide = _.debounce(this.backToSlide, 300)
 		},
@@ -39,6 +40,7 @@
 		beforeDestroy(){
 			this.unlistenEvents()
 			sliderStore.reset()
+			sliderStore.setInactive()
 		},
 
 		data(){
@@ -83,7 +85,7 @@
 
 			wheel(){
 				event.preventDefault()
-				let targetModifier = 3
+				let targetModifier = 4
 
 				if (event.deltaY !== this.oldDeltaY && !this.sliderIsAnimated) {
 					event.deltaY > 0 ? this.targetPosY -= targetModifier : this.targetPosY += targetModifier
@@ -99,18 +101,19 @@
 			},
 
 			wheelLoop(){
-				let slideLimit = 100
+				let slideLimit = 45
 
 				this.slideTransform += (this.targetPosY - this.slideTransform) * .08
 				TweenLite.set(this.$refs.slideContainer, {y: this.slideTransform})
+				sliderStore.setPosY(this.slideTransform)
 
 				if (this.slideTransform <= -slideLimit) {
 					this.nextSlide()
-					_.delay(this.resetWheel.bind(this), 1500)
+					_.delay(this.resetWheel.bind(this), 1000)
 				}
 				else if (this.slideTransform >= slideLimit){
 					this.prevSlide()
-					_.delay(this.resetWheel.bind(this), 1500)
+					_.delay(this.resetWheel.bind(this), 1000)
 				}
 				else {
 					requestAnimationFrame(this.wheelLoop)
