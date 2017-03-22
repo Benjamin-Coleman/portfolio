@@ -158,6 +158,7 @@ export default {
 		},
 		leavePage(){
 			let leaveAnim = this.getCurrentAnimLeave
+			sliderStore.setInactive()
 			TweenLite.to(this.$refs.slideImg, 1, {z: 0,ease: Expo.easeOut})
 			this.currentSlideId === this.slideId ? this[leaveAnim]() : undefined
 		},
@@ -168,6 +169,7 @@ export default {
 		appearAnim(){
 			let tl = new TimelineLite({onComplete: ()=>{
 				EventBus.$emit('appear-slide')
+				sliderStore.setActive()
 			}})
 				tl.set(this.$el, {autoAlpha: 1})
 				tl.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
@@ -179,37 +181,39 @@ export default {
 			let tl = new TimelineLite({delay: delay, onComplete: ()=>{
 				sliderStore.sliderIsNotAnimated()
 				EventBus.$emit('appear-slide')
+				sliderStore.setActive()
 			}})
 				tl.set(this.$el, {autoAlpha: 1})
 				tl.set(this.$refs.slideInfo, {y:0})
 				tl.set(this.$refs.slideInfo.children, {y:100, autoAlpha: 0})
 				tl.set(this.$refs.slideImg, {y: window.innerHeight})
-				tl.to(this.$refs.slideImg, .55, {y: 0,ease: Expo.easeOut})
+				tl.to(this.$refs.slideImg, .65, {y: 0,ease: Expo.easeOut})
 				tl.staggerTo(this.$refs.slideInfo.children, .7, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .05, 0)
 		},
 		appearUp(delay){
 			let tl = new TimelineLite({delay: delay, onComplete: ()=>{
 				sliderStore.sliderIsNotAnimated()
 				EventBus.$emit('appear-slide')
+				sliderStore.setActive()
 			}})
 				tl.set(this.$el, {autoAlpha: 1})
 				tl.set(this.$refs.slideInfo, {y:0})
 				tl.set(this.$refs.slideInfo.children, {y: -100, autoAlpha:0})
 				tl.set(this.$refs.slideImg, {y: -window.innerHeight})
-				tl.to(this.$refs.slideImg, .55, {y: 0, ease: Expo.easeOut})
+				tl.to(this.$refs.slideImg, .65, {y: 0, ease: Expo.easeOut})
 				tl.staggerTo(this.$refs.slideInfo.children, .7, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, -.05, 0)
 		},
 		leaveDown(){
 			let tl = new TimelineLite()
 				tl.staggerTo(this.$refs.slideInfo.children, .4, {y: 100, autoAlpha: 0,ease: Power1.easeIn}, -.04)
-				tl.to(this.$refs.slideImg, .4, {y: window.innerHeight,ease: Power1.easeIn}, 0)
+				tl.to(this.$refs.slideImg, .35, {y: window.innerHeight,ease: Power1.easeIn}, 0)
 				tl.to(this.$refs.slideInfo, .4, {y: window.innerHeight,ease: Power1.easeIn}, 0)
 				tl.set(this.$el, {autoAlpha: 0})
 		},
 		leaveUp(){
 			let tl = new TimelineLite()
 				tl.staggerTo(this.$refs.slideInfo.children, .4, {y: -100, autoAlpha: 0,ease: Power1.easeIn}, .04)
-				tl.to(this.$refs.slideImg, .4, {y: -window.innerHeight, ease: Power1.easeIn}, 0)
+				tl.to(this.$refs.slideImg, .35, {y: -window.innerHeight, ease: Power1.easeIn}, 0)
 				tl.to(this.$refs.slideInfo, .4, {y: -window.innerHeight, ease: Power1.easeIn}, 0)
 				tl.set(this.$el, {autoAlpha: 0})
 		},
@@ -221,6 +225,7 @@ export default {
 		appearBackward(){
 			let tl = new TimelineLite({onComplete: ()=>{
 				EventBus.$emit('appear-slide')
+				sliderStore.setActive()
 			}})
 				tl.set(this.$el, {autoAlpha: 1})
 				tl.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})

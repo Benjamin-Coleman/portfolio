@@ -115,7 +115,7 @@ export default {
 		},
 
 		wheel(){
-			if (!this.sliderIsAnimated && this.sliderIsActive) {
+			if (!this.sliderIsAnimated && this.sliderIsActive && this.menuIsClosed) {
 				this.camera.position.y = this.getCurrentSlidePosY / 100
 			}
 		},
@@ -152,7 +152,7 @@ export default {
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
 				tl.call(this.generateShapesForSlide, [this.$route.name, this.currentSlideId])
 				tl.set(this.camera.position, {y: 20})
-				tl.to(this.camera.position, .5,{z: 10, y: 0, ease: Expo.easeOut})
+				tl.to(this.camera.position, .7,{z: 10, y: 0, ease: Expo.easeOut})
 		},
 
 		prevAnim(){
@@ -162,7 +162,7 @@ export default {
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
 				tl.call(this.generateShapesForSlide, [this.$route.name, this.currentSlideId])
 				tl.set(this.camera.position, {y: -20})
-				tl.to(this.camera.position, .5,{z: 10, y: 0, ease: Expo.easeOut})
+				tl.to(this.camera.position, .7,{z: 10, y: 0, ease: Expo.easeOut})
 		},
 
 		leaveUp(to){

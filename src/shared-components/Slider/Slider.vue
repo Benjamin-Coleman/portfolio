@@ -32,7 +32,6 @@
 	export default {
 
 		mounted(){
-			sliderStore.setActive()
 			this.events()
 			this.debouncedBackToSlide = _.debounce(this.backToSlide, 300)
 		},
