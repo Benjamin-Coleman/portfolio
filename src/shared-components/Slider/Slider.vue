@@ -102,7 +102,7 @@
 			wheelLoop(){
 				let slideLimit = 45
 
-				this.slideTransform += (this.targetPosY - this.slideTransform) * .08
+				this.slideTransform += (this.targetPosY - this.slideTransform) * .09
 				TweenLite.set(this.$refs.slideContainer, {y: this.slideTransform})
 				sliderStore.setPosY(this.slideTransform)
 

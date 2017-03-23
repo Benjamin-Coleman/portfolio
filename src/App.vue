@@ -1,5 +1,6 @@
 <template>
   <div class="app">
+    <loader></loader>
     <router-view></router-view>
     <three-background></three-background>
   </div>
@@ -8,11 +9,13 @@
 <script>
 
 import ThreeBackground from './shared-components/ThreeBackground/ThreeBackground.vue'
+import Loader from './shared-components/Loader/Loader.vue'
 
 export default {
   name: 'app',
   components: {
-    ThreeBackground
+    ThreeBackground,
+    Loader
   }
 }
 </script>

@@ -1,0 +1,20 @@
+{
+	"assets": [
+		{
+			"id": "sliderImgs",
+			"paths": [
+				"../../src/assets/imgs/slider/lightswan.png",
+				"../../src/assets/imgs/slider/maje.png",
+				"../../src/assets/imgs/slider/shopsquare.png"
+			]
+		},
+		{
+			"id": "sliderImgs2x",
+			"paths": [
+				"../../src/assets/imgs/slider/lightswan@2x.png",
+				"../../src/assets/imgs/slider/maje@2x.png",
+				"../../src/assets/imgs/slider/shopsquare@2x.png"
+			]
+		}
+	]
+}
