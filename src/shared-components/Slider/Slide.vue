@@ -203,11 +203,17 @@ export default {
 				tl.to(this.$refs.slideImg, .65, {y: 0, ease: Expo.easeOut})
 				tl.staggerTo(this.$refs.slideInfo.children, .7, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, -.05, 0)
 		},
-		leaveDown(){
+		prevDown(){
 			let tl = new TimelineLite()
 				tl.staggerTo(this.$refs.slideInfo.children, .4, {y: 100, autoAlpha: 0,ease: Power1.easeIn}, -.04)
 				tl.to(this.$refs.slideImg, .35, {y: window.innerHeight,ease: Power1.easeIn}, 0)
 				tl.to(this.$refs.slideInfo, .4, {y: window.innerHeight,ease: Power1.easeIn}, 0)
+				tl.set(this.$el, {autoAlpha: 0})
+		},
+		leaveDown(){
+			let tl = new TimelineLite()
+				tl.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0,ease: Expo.easeIn}, -.05)
+				tl.to(this.$refs.slideImg, .8, {y: window.innerHeight,ease: Expo.easeIn}, 0)
 				tl.set(this.$el, {autoAlpha: 0})
 		},
 		leaveUp(){
@@ -245,7 +251,7 @@ export default {
 			this.buttonHoverAnim.reverse()
 		},
 		slidePrev(lastSlideId){
-			lastSlideId === this.slideId ? this.leaveDown() : undefined
+			lastSlideId === this.slideId ? this.prevDown() : undefined
 			this.currentSlideId === this.slideId ? this.appearUp(1) : undefined
 		},
 		slideNext(lastSlideId){

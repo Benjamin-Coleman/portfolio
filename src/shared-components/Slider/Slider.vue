@@ -60,6 +60,9 @@
 			sliderIsAnimated(){
 				return this.state.isAnimated
 			},
+			sliderIsActive(){
+				return this.state.isActive
+			},
 			menuIsClosed(){
 				return this.menuState.isClosed
 			},
@@ -114,7 +117,7 @@
 					this.prevSlide()
 					_.delay(this.resetWheel.bind(this), 1000)
 				}
-				else {
+				else if (this.sliderIsActive) {
 					requestAnimationFrame(this.wheelLoop)
 				}
 			},
