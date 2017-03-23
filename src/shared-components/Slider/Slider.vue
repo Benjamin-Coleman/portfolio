@@ -49,7 +49,8 @@
 				menuState: menuStore.state,
 				targetPosY: 0,
 				slideTransform: 0,
-				oldDeltaY: 0
+				oldDeltaY: 0,
+				leave: false
 			}
 		},
 
@@ -77,12 +78,18 @@
 				document.addEventListener('keyup', this.keyUp)
 				document.addEventListener('wheel', this.wheel)
 				EventBus.$on('appear-slide', this.wheelLoop)
+				EventBus.$on('leave-page', this.leavePage)
 			},
 
 			unlistenEvents(){
 				document.removeEventListener('keyup', this.keyUp)
 				document.removeEventListener('wheel', this.wheel)
 				EventBus.$off('appear-slide', this.wheelLoop)
+				EventBus.$off('leave-page', this.leavePage)
+			},
+
+			leavePage(){
+				this.leave = true
 			},
 
 			wheel(){
@@ -117,7 +124,7 @@
 					this.prevSlide()
 					_.delay(this.resetWheel.bind(this), 1000)
 				}
-				else if (this.sliderIsActive) {
+				else if (!this.leave) {
 					requestAnimationFrame(this.wheelLoop)
 				}
 			},
