@@ -1,6 +1,7 @@
 import Home from './spa/Home/Home.vue'
 import Work from './spa/Work/Work.vue'
 import About from './spa/About/About.vue'
+import CaseStudy from './spa/CaseStudy/CaseStudy.vue'
 
 export const routes = [
 	{
@@ -9,9 +10,13 @@ export const routes = [
 		name: 'home'
 	},
 	{
+		path: '/work/:id',
+		component: CaseStudy
+	},
+	{
 		path: '/work',
 		name: 'work',
-		component: Work
+		component: Work,
 	},
 	{
 		path: '/about',

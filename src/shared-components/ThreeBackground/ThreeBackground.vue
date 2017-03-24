@@ -263,6 +263,9 @@ export default {
 		},
 
 		initBg(page){
+			if (slides[page] === undefined) {
+				return;
+			}
 			let targetedBg = slides[page][0].backgroundColor
 			TweenLite.set(this.$el, {backgroundColor: targetedBg})
 			this.generateShapesForSlide(page, 0)
