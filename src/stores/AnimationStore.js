@@ -12,7 +12,7 @@ class AnimationStore {
 	}
 
 	setAnimInfo(from, to){
-		if ( from === null || to === null ) {
+		if ( animMap.from[from] === undefined || animMap.from[from].to[to] === undefined ) {
 			this.state.appear = animMap.default.appear
 			this.state.leave = animMap.default.leave
 		}

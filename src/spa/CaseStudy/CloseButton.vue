@@ -1,17 +1,59 @@
 <template lang="html">
-	<div class="close-button close-button__center-content ">
+	<div class="close-button close-button__center-content" @click="click">
 		<div class="close-button__mini-button-container close-button__center-content ">
-			<div class="close-button__mini-button close-button__center-content ">
-				<div class="close-button__line close-button__first-line"></div>
-				<div class="close-button__line close-button__second-line"></div>
+			<div class="close-button__mini-button close-button__center-content">
+				<div class="close-button__line close-button__first-line">
+					<div class="close-button__line-fill"></div>
+				</div>
+				<div class="close-button__line close-button__second-line">
+					<div class="close-button__line-fill"></div>
+				</div>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import {EventBus} from '../../event-bus.js'
+import {TimelineLite, Expo} from 'gsap'
+
 export default {
-	name: 'close-button'
+	name: 'close-button',
+
+	mounted(){
+		this.events()
+		this.$lineFill = this.$el.querySelectorAll('.close-button__line-fill')
+	},
+
+	beforeDestroy(){
+		this.unlistenEvents()
+	},
+
+	methods: {
+		events(){
+			EventBus.$on('page-ready', this.pageReady)
+			EventBus.$on('toggle-header', this.toggleHeader)
+		},
+		unlistenEvents(){
+			EventBus.$off('page-ready', this.pageReady)
+			EventBus.$off('toggle-header', this.toggleHeader)
+		},
+		toggleHeader(isOpen){
+			isOpen ? this.appear() : undefined
+		},
+		pageReady(){
+			this.appear()
+		},
+		appear(){
+			TweenMax.staggerFromTo(this.$lineFill, .7, {scaleY: 0}, {scaleY: 1, ease: Expo.easeOut, overwrite: 'all', delay: .3}, .15)
+		},
+		leave(){
+			TweenMax.staggerFromTo(this.$lineFill, .7, {scaleY: 0}, {scaleY: 1, ease: Expo.easeIn, overwrite: 'all', delay: .3}, .15)
+		},
+		click(){
+			this.$router.push({name: 'work'})
+		}
+	}
 }
 </script>
 
@@ -47,8 +89,13 @@ export default {
 	.close-button__line {
 		width: 1px;
 		height: 15px;
-		background-color: #ffffff;
 		position: absolute;
+	}
+
+	.close-button__line-fill {
+		height: 100%;
+		width: 100%;
+		background-color: #ffffff;
 	}
 
 	.close-button__center-content {
@@ -59,10 +106,18 @@ export default {
 
 	.close-button__first-line {
 		transform: rotate(45deg);
+
+		.close-button__line-fill {
+			transform-origin: top;
+		}
 	}
 
 	.close-button__second-line {
-		transform: rotate(-45deg);
+		transform: rotate(135deg);
+
+		.close-button__line-fill {
+			transform-origin: bottom;
+		}
 	}
 
 </style>

@@ -11,9 +11,12 @@
 				:context="slide.context"
 				:role="slide.role"
 				:period="slide.period"
+				:imgPath="slide.imgPath"
+				:imgPath2x="slide.imgPath2x"
 				:slideId="index">
 			</slide>
 		</div>
+		<router-view></router-view>
 	</div>
 </template>
 

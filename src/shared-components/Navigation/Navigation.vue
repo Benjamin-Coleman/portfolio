@@ -36,6 +36,8 @@ const slides = require('../ThreeBackground/slides.json')
 
 export default {
 
+  name: 'navigation',
+
   data: function(){
     return {
       state: menuStore.state,
@@ -152,7 +154,10 @@ export default {
 
     changeColor(){
       let gradient
-      if (slides[this.$route.name][this.currentSlideId] === undefined) {
+      if (slides[this.$route.name] === undefined) {
+        gradient = slides['default'][0].navigationGradient
+      }
+      else if ( slides[slides[this.$route.name]] ) {
         gradient = slides['default'][0].navigationGradient
       }
       else {

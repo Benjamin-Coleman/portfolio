@@ -1,8 +1,8 @@
 <template lang="html">
 	<div class="slide">
 		<div class="slide-img">
-			<img :src="'src/assets/imgs/slider/'+imgName+'.png'" alt=""
-					 :srcset="'src/assets/imgs/slider/'+imgName+'@2x.png 2x'"
+			<img :src="imgPath" alt=""
+					 :srcset="imgPath2x + ' 2x'"
 					 class="slide-img__img" ref="slideImg"
 			>
 		</div>
@@ -62,7 +62,7 @@ import menuStore from '../../stores/MenuStore.js'
 import animationStore from '../../stores/AnimationStore.js'
 
 export default {
-	props: ['title', 'description', 'context', 'role', 'period', 'slideId', 'titleColor', 'textColor'],
+	props: ['title', 'description', 'context', 'role', 'period', 'slideId', 'titleColor', 'textColor', 'imgPath', 'imgPath2x'],
 
 	data(){
 		return {
@@ -226,7 +226,7 @@ export default {
 		leaveForward(){
 			let tl = new TimelineLite()
 				tl.to(this.$refs.slideImg, 1, {z: 1000, opacity: 0, ease: Expo.easeIn})
-				tl.add(TweenMax.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'all'}, -.05, 0))
+				tl.add(TweenMax.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'all'}, -.05))
 		},
 		appearBackward(){
 			let tl = new TimelineLite({onComplete: ()=>{

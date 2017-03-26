@@ -203,7 +203,7 @@ export default {
 			let targetedBg = slides[to][0].backgroundColor
 			let tl = new TimelineLite()
 				tl.to(this.camera.position, 1.5,{z: 50, ease: Expo.easeIn})
-				tl.to(this.$refs.bgRenderer.children, .5, {opacity: 0, ease: Power1.easeInOut}, '-=.5')
+				tl.to(this.$refs.bgRenderer.children, .5, {opacity: 0, ease: Power1.easeInOut}, '-=1')
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut}, '-=.5')
 				tl.call(this.generateShapesForSlide, [to, 0])
 				tl.set(this.camera.position, {z: 0})
@@ -266,6 +266,10 @@ export default {
 			if (slides[page] === undefined) {
 				return;
 			}
+			if( slides[slides[page]] !== undefined ){
+				return this.initBg(slides[slides[page]])
+			}
+
 			let targetedBg = slides[page][0].backgroundColor
 			TweenLite.set(this.$el, {backgroundColor: targetedBg})
 			this.generateShapesForSlide(page, 0)

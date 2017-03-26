@@ -18,6 +18,7 @@
 <script>
 
 import AssetsLoader from 'assets-loader'
+import {EventBus} from '../../event-bus.js'
 const assets = require('./assets.json').assets
 
 export default {
@@ -55,6 +56,7 @@ export default {
 		setPageReady(){
 			this.linesScale = 1
 			this.pageReady = true
+			EventBus.$emit('page-ready')
 		},
 		setProgression(progress){
 			this.targetState = progress

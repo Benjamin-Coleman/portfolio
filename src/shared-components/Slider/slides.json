@@ -4,19 +4,27 @@
 			"title": "lightswan",
 			"titleColor": "#62615D",
 			"textColor": "#A4A09B",
+			"backgroundColor": "#F7F3EA",
 			"description": "Lightswan is  a digital transition company. She works with big firms such as banks to change their process. I had the opportunity to create their brand universe and their graphical identity.",
 			"context": "freelance",
 			"role": "UI&UX",
-			"period": "2016"
+			"period": "2016",
+			"case-study": true,
+			"imgPath": "../../src/assets/imgs/slider/lightswan.png",
+			"imgPath2x": "../../src/assets/imgs/slider/lightswan@2x.png"
 		},
 		{
 			"title": "shopsquare",
 			"titleColor": "#434690",
 			"textColor": "#8F99C5",
+			"backgroundColor": "#E3F0FF",
 			"description": "Shopsquare is a french startup which brings all the fashion items of the internet on one single site.",
 			"context": "work",
 			"role": "Front end",
-			"period": "2016"
+			"period": "2016",
+			"case-study": false,
+			"imgPath": "../../src/assets/imgs/slider/shopsquare.png",
+			"imgPath2x": "../../src/assets/imgs/slider/shopsquare@2x.png"
 		},
 		{
 			"title": "maje",
@@ -25,7 +33,10 @@
 			"description": "I worked for Maje France as a freelance during 1 year in 2016. I had the opportunity to develop some pages for new collections or special events.",
 			"context": "freelance",
 			"role": "Front end",
-			"period": "2016"
+			"period": "2016",
+			"case-study": true,
+			"imgPath": "../../src/assets/imgs/slider/maje.png",
+			"imgPath2x": "../../src/assets/imgs/slider/maje@2x.png"
 		}
 	]
 }
