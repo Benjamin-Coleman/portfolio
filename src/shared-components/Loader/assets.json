@@ -1,20 +1,24 @@
 {
-	"assets": [
-		{
-			"id": "sliderImgs",
-			"paths": [
-				"../../src/assets/imgs/slider/lightswan.png",
-				"../../src/assets/imgs/slider/maje.png",
-				"../../src/assets/imgs/slider/shopsquare.png"
-			]
-		},
-		{
-			"id": "sliderImgs2x",
-			"paths": [
-				"../../src/assets/imgs/slider/lightswan@2x.png",
-				"../../src/assets/imgs/slider/maje@2x.png",
-				"../../src/assets/imgs/slider/shopsquare@2x.png"
+	"default": {
+		"1x": [
+			"../../src/assets/imgs/slider/lightswan.png",
+			"../../src/assets/imgs/slider/maje.png",
+			"../../src/assets/imgs/slider/shopsquare.png"
+		],
+		"2x": [
+			"../../src/assets/imgs/slider/lightswan@2x.png",
+			"../../src/assets/imgs/slider/maje@2x.png",
+			"../../src/assets/imgs/slider/shopsquare@2x.png"
+		]
+	},
+	"case-study": {
+		"lightswan": {
+			"1x": [
+				"../../src/assets/imgs/case-study/lightswan/card.png"
+			],
+			"2x": [
+				"../../src/assets/imgs/case-study/lightswan/card@2x.png"
 			]
 		}
-	]
+	}
 }

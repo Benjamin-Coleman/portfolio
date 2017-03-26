@@ -1,7 +1,7 @@
 import Home from './spa/Home/Home.vue'
 import Work from './spa/Work/Work.vue'
 import About from './spa/About/About.vue'
-import CaseStudy from './spa/CaseStudy/CaseStudyHome.vue'
+import CaseStudy from './spa/CaseStudy/CaseStudy.vue'
 
 export const routes = [
 	{

@@ -126,6 +126,7 @@ export default {
 			EventBus.$on('slide-next',this.nextAnim)
 			EventBus.$on('slide-prev', this.prevAnim)
 			EventBus.$on('leave-page', this.goToPage)
+			EventBus.$on('go-to-case-study', this.goToCaseStudy)
 		},
 
 		unlistenEvents(){
@@ -143,6 +144,14 @@ export default {
 		goToPage(targetedPage){
 			let leaveAnim = this.getCurrentAnimLeave
 			this[leaveAnim](targetedPage)
+		},
+
+		goToCaseStudy(){
+			TweenLite.to(this.camera.position, 2,{z: 10.5, ease: Expo.easeOut})
+		},
+
+		leaveFromCaseStudy(){
+			TweenLite.to(this.camera.position, 2,{z: 10, ease: Expo.easeOut})
 		},
 
 		nextAnim(){

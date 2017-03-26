@@ -46,7 +46,7 @@
 				</div>
 
 			</div>
-			<a class="slide__button" @mouseover="buttonHover" @mouseout="buttonOut" href="#" ref="button" :style="buttonStyle">view more</a>
+			<a class="slide__button" @click="goToCaseStudy" @mouseover="buttonHover" @mouseout="buttonOut" href="#" ref="button" :style="buttonStyle">view more</a>
 		</div>
 	</div>
 </template>
@@ -133,7 +133,6 @@ export default {
 			this.buttonHoverAnim.to(this.$refs.button.children, .2,{y: 0, rotationX: 0,autoAlpha: 1, ease: Expo.easeOut})
 			this.buttonHoverAnim.to(this.$refs.button, .5, {borderColor: new HexToRgba().convert(this.textColor, 1), ease: Expo.easeInOut}, 0)
 
-
 		this.events()
 		this.appearPage()
 
@@ -165,6 +164,18 @@ export default {
 		appearPage(){
 			let appearAnim = this.getCurrentAnimAppear
 			this.currentSlideId === this.slideId ? this[appearAnim]() : undefined
+		},
+		goToCaseStudy(){
+			event.preventDefault()
+			if (this.slideId === this.currentSlideId) {
+				EventBus.$emit('go-to-case-study')
+				let tl = new TimelineLite()
+					tl.staggerTo(this.$refs.slideInfo.children, 2, {y: 100,ease: Expo.easeOut}, -.05)
+					tl.to(this.$refs.slideInfo.children[2], 1, {autoAlpha: 0,ease: Expo.easeOut}, 0)
+					tl.to(this.$refs.slideInfo.children[3], 1, {autoAlpha: 0,ease: Expo.easeOut}, 0)
+					tl.to(this.$refs.slideInfo.children[4], 1, {autoAlpha: 0,ease: Expo.easeOut}, 0)
+					tl.to(this.$refs.slideImg, 2, {z: -100, ease: Expo.easeOut}, 0)
+			}
 		},
 		appearAnim(){
 			let tl = new TimelineLite({onComplete: ()=>{

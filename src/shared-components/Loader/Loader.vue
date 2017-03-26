@@ -19,9 +19,11 @@
 
 import AssetsLoader from 'assets-loader'
 import {EventBus} from '../../event-bus.js'
-const assets = require('./assets.json').assets
+import LoaderMixin from './LoaderMixin.js'
 
 export default {
+
+	mixins: [LoaderMixin],
 
 	data(){
 		return {
@@ -33,13 +35,15 @@ export default {
 
 	mounted(){
 		let loader = AssetsLoader()
+		let assetsToLoad
 
-		if (window.devicePixelRatio >= 2) {
-			loader.add(assets[1]['paths'])
+		if (window.devicePixelRatio <= 1 ) {
+			assetsToLoad = this.findAssets('1x')
 		}
 		else {
-			loader.add(assets[0]['paths'])
+			assetsToLoad = this.findAssets('2x')
 		}
+		loader.add(assetsToLoad)
 
 		loader.on('progress', progress=>{
 			this.setProgression(progress)
