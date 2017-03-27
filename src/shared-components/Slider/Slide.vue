@@ -46,7 +46,10 @@
 				</div>
 
 			</div>
-			<a class="slide__button" @click="goToCaseStudy" @mouseover="buttonHover" @mouseout="buttonOut" href="#" ref="button" :style="buttonStyle">view more</a>
+			<a class="slide__button" @click="loadCaseStudy" @mouseover="buttonHover" @mouseout="buttonOut" href="#" ref="button" :style="buttonStyle">
+				<div class="slide__button-text" ref="buttonText">view more</div>
+				<div class="slide__button__loader" ref="loadingBar" :style="loadingButtonStyle"></div>
+			</a>
 		</div>
 	</div>
 </template>
@@ -57,12 +60,18 @@ import HexToRgba from '../../commons/script/HexToRgba.js'
 import SplitText from '../../commons/script/SplitText.js'
 import {TimelineLite, Expo} from 'gsap'
 import {EventBus} from '../../event-bus.js'
+import AssetsLoader from 'assets-loader'
+
 import sliderStore from '../../stores/SliderStore.js'
 import menuStore from '../../stores/MenuStore.js'
 import animationStore from '../../stores/AnimationStore.js'
 
+import LoaderMixin from '../Loader/LoaderMixin.js'
+
 export default {
 	props: ['title', 'description', 'context', 'role', 'period', 'slideId', 'titleColor', 'textColor', 'imgPath', 'imgPath2x'],
+
+	mixins: [LoaderMixin],
 
 	data(){
 		return {
@@ -75,6 +84,9 @@ export default {
 			},
 			titleColorStyle: {
 				color: this.titleColor
+			},
+			loadingButtonStyle: {
+				backgroundColor: new HexToRgba().convert(this.textColor, 0.3)
 			},
 			buttonStyle: {
 				color: this.titleColor,
@@ -99,9 +111,6 @@ export default {
 	},
 
 	mounted(){
-		let splitButtonText = new SplitText(this.$refs.button, {
-			classToGive: 'slide__button__splitted-text'
-		})
 
 		this.goUpAnim = new TimelineLite({paused: true})
 			this.goUpAnim.staggerTo(this.$refs.slideInfo.children, .5, {y: -100, autoAlpha: 0,ease: Expo.easeIn}, .05)
@@ -128,9 +137,9 @@ export default {
 			this.closeMenuAnim.to(this.$refs.slideImg, 2, {z: -800, ease: Expo.easeOut}, 0)
 
 		this.buttonHoverAnim = new TimelineLite({paused: true})
-			this.buttonHoverAnim.to(this.$refs.button.children, .2,{y: -20, rotationX: 45,autoAlpha: 0, ease: Expo.easeIn})
-			this.buttonHoverAnim.set(this.$refs.button.children,{y: 20, rotationX: -45})
-			this.buttonHoverAnim.to(this.$refs.button.children, .2,{y: 0, rotationX: 0,autoAlpha: 1, ease: Expo.easeOut})
+			this.buttonHoverAnim.to(this.$refs.buttonText, .2,{y: -20, rotationX: 45,autoAlpha: 0, ease: Expo.easeIn})
+			this.buttonHoverAnim.set(this.$refs.buttonText,{y: 20, rotationX: -45})
+			this.buttonHoverAnim.to(this.$refs.buttonText, .2,{y: 0, rotationX: 0,autoAlpha: 1, ease: Expo.easeOut})
 			this.buttonHoverAnim.to(this.$refs.button, .5, {borderColor: new HexToRgba().convert(this.textColor, 1), ease: Expo.easeInOut}, 0)
 
 		this.events()
@@ -169,13 +178,31 @@ export default {
 			event.preventDefault()
 			if (this.slideId === this.currentSlideId) {
 				EventBus.$emit('go-to-case-study')
-				let tl = new TimelineLite()
+				this.$router.push({name: 'case-study', params: {id: this.title}})
+				let tl = new TimelineLite({onComplete: ()=>{
+					// EventBus.$emit('case-study-ready')
+				}})
 					tl.staggerTo(this.$refs.slideInfo.children, 2, {y: 100,ease: Expo.easeOut}, -.05)
 					tl.to(this.$refs.slideInfo.children[2], 1, {autoAlpha: 0,ease: Expo.easeOut}, 0)
 					tl.to(this.$refs.slideInfo.children[3], 1, {autoAlpha: 0,ease: Expo.easeOut}, 0)
 					tl.to(this.$refs.slideInfo.children[4], 1, {autoAlpha: 0,ease: Expo.easeOut}, 0)
 					tl.to(this.$refs.slideImg, 2, {z: -100, ease: Expo.easeOut}, 0)
+					tl.to(this.$refs.slideImg, 2, {z: -100, ease: Expo.easeOut}, 0)
 			}
+		},
+		loadCaseStudy(){
+			let assetsToLoad
+			let caseStudyName = this.title.toLowerCase()
+			window.devicePixelRatio <= 1 ? assetsToLoad = this.findAssets('1x', caseStudyName) : assetsToLoad = this.findAssets('2x', caseStudyName)
+
+			let loader = AssetsLoader().add(assetsToLoad)
+			loader.on('progress', progress=>{
+				TweenLite.to(this.$refs.loadingBar, .6, {scaleX: progress, ease: Expo.easeOut})
+			})
+			loader.on('complete', ()=>{
+				this.goToCaseStudy()
+			})
+			loader.start()
 		},
 		appearAnim(){
 			let tl = new TimelineLite({onComplete: ()=>{
@@ -361,11 +388,24 @@ export default {
 		text-transform: uppercase;
 		color: white;
 		perspective: 1000px;
+		overflow: hidden;
 	}
 
 	.slide__button__splitted-text {
 		display: inline-block;
 		white-space: pre;
+	}
+
+	.slide__button__loader {
+		width: 100%;
+		height: 100%;
+		left: 0px;
+		top: 0px;
+		position: absolute;
+		z-index: -1;
+
+		transform: scaleX(0);
+		transform-origin: left;
 	}
 
 </style>

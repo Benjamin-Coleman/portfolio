@@ -16,7 +16,6 @@
 				:slideId="index">
 			</slide>
 		</div>
-		<router-view></router-view>
 	</div>
 </template>
 
@@ -82,6 +81,7 @@
 				document.addEventListener('wheel', this.wheel)
 				EventBus.$on('appear-slide', this.wheelLoop)
 				EventBus.$on('leave-page', this.leavePage)
+				EventBus.$on('go-to-case-study', this.goToCaseStudy)
 			},
 
 			unlistenEvents(){
@@ -89,10 +89,16 @@
 				document.removeEventListener('wheel', this.wheel)
 				EventBus.$off('appear-slide', this.wheelLoop)
 				EventBus.$off('leave-page', this.leavePage)
+				EventBus.$off('go-to-case-study', this.goToCaseStudy)
 			},
 
 			leavePage(){
 				this.leave = true
+			},
+
+			goToCaseStudy(){
+				document.removeEventListener('wheel', this.wheel)
+				TweenLite.set(this.$el, {zIndex: -1})
 			},
 
 			wheel(){
@@ -105,7 +111,6 @@
 				}
 
 				this.debouncedBackToSlide()
-
 			},
 
 			backToSlide(){

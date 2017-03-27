@@ -2,7 +2,7 @@ const assets = require('./assets.json')
 
 let LoaderMixin = {
 	methods: {
-		findAssets(size){
+		findAssets(size, caseStudyName){
 			let assetsToLoad = []
 			assetsToLoad = assetsToLoad.concat(assets['default'][size])
 
@@ -12,6 +12,10 @@ let LoaderMixin = {
 					let assetsPath = assets['case-study'][caseStudyName]
 					assetsToLoad = assetsToLoad.concat(assetsPath[size])
 				}
+			}
+			else if (caseStudyName !== undefined && assets['case-study'][caseStudyName] !== undefined) {
+				let assetsPath = assets['case-study'][caseStudyName]
+				assetsToLoad = assetsToLoad.concat(assetsPath[size])
 			}
 
 			return assetsToLoad

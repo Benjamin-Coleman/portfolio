@@ -1,6 +1,7 @@
 <template lang="html">
   <div class="work">
 		<navigation></navigation>
+    <router-view></router-view>
 		<slider></slider>
   </div>
 </template>
@@ -26,7 +27,7 @@ export default {
       let targetedPage = to.name
       AnimationStore.setRouterInfo(from.name, targetedPage)
       EventBus.$emit('leave-page', targetedPage)
-      _.delay(next, delay)  
+      _.delay(next, delay)
     }
   },
 

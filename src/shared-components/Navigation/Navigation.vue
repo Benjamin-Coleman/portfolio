@@ -216,13 +216,13 @@ export default {
     openMenu: function(){
       this.openMenuAnim.play(0)
       menuStore.openMenu()
-      EventBus.$emit('toggle-menu', this.isClosed)
+      this.$route.name !== 'case-study' ? EventBus.$emit('toggle-menu', this.isClosed) : undefined
     },
 
     closeMenu: function(){
       this.closeMenuAnim.play(0)
       menuStore.closeMenu()
-      EventBus.$emit('toggle-menu', this.isClosed)
+      this.$route.name !== 'case-study' ? EventBus.$emit('toggle-menu', this.isClosed) : undefined
     }
   },
 

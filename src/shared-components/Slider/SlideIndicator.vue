@@ -67,20 +67,22 @@ export default {
 			EventBus.$on('slide-next',this.nextAnim)
 			EventBus.$on('slide-prev', this.prevAnim)
 			EventBus.$on('leave-page', this.leaveAnim)
+			EventBus.$on('go-to-case-study', this.leaveAnim)
 		},
 
 		unlistenEvents(){
 			EventBus.$off('slide-next',this.nextAnim)
 			EventBus.$off('slide-prev', this.prevAnim)
 			EventBus.$off('leave-page', this.leaveAnim)
+			EventBus.$off('go-to-case-study', this.leaveAnim)
 		},
 
 		leaveAnim(){
 			let tl = new TimelineLite()
-				tl.to(this.$refs.currentSlide, 1.5, {y: -30,autoAlpha: 0, ease: Expo.easeOut})
-				tl.to(this.$refs.sliderLength, 1.5, {y: 30,autoAlpha: 0, ease: Expo.easeOut}, 0)
-				tl.to(this.$refs.separator, 1.5, {scaleY: 0,autoAlpha: 0, ease: Expo.easeOut}, '-=1.5')
-				tl.staggerTo(this.$refs.sliderName.children, 2, {y: 10, autoAlpha: 0, ease: Expo.easeOut}, .06, 0)
+				tl.to(this.$refs.currentSlide, .6, {y: -30,autoAlpha: 0, ease: Expo.easeIn})
+				tl.to(this.$refs.sliderLength, .6, {y: 30,autoAlpha: 0, ease: Expo.easeIn}, 0)
+				tl.to(this.$refs.separator, .6, {scaleY: 0,autoAlpha: 0, ease: Expo.easeIn}, '-=1')
+				tl.staggerTo(this.$refs.sliderName.children, .6, {y: 10, autoAlpha: 0, ease: Expo.easeIn}, .04, 0)
 		},
 
 		prevAnim(){
