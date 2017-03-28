@@ -61,8 +61,7 @@ export default {
 		this.materials = []
 		this.generateMaterials()
 		this.initBg(this.$route.name)
-		this.appearAnim()
-
+		this.$route.name === 'case-study' ? this.appearCaseStudy() : this.appearAnim()
 	},
 
 	beforeDestroy(){
@@ -86,6 +85,11 @@ export default {
 		appearAnim(){
 			let tl = new TimelineLite()
 				tl.fromTo(this.camera.position, 3, {z: 17},{z: 10, ease: Expo.easeOut})
+		},
+
+		appearCaseStudy(){
+			let tl = new TimelineLite()
+				tl.fromTo(this.camera.position, 3, {z: 17},{z: 10.5, ease: Expo.easeOut})
 		},
 
 		openMenuAnim(){
@@ -127,6 +131,7 @@ export default {
 			EventBus.$on('slide-prev', this.prevAnim)
 			EventBus.$on('leave-page', this.goToPage)
 			EventBus.$on('go-to-case-study', this.goToCaseStudy)
+			EventBus.$on('close-case-study', this.leaveCaseStudy)
 		},
 
 		unlistenEvents(){
@@ -135,6 +140,7 @@ export default {
 			EventBus.$off('slide-next',this.nextAnim)
 			EventBus.$off('slide-prev', this.prevAnim)
 			EventBus.$off('leave-page', this.goToPage)
+			EventBus.$on('close-case-study', this.leaveCaseStudy)
 		},
 
 		toggleMenu(){
@@ -150,7 +156,7 @@ export default {
 			TweenLite.to(this.camera.position, 2,{z: 10.5, ease: Expo.easeOut})
 		},
 
-		leaveFromCaseStudy(){
+		leaveCaseStudy(){
 			TweenLite.to(this.camera.position, 2,{z: 10, ease: Expo.easeOut})
 		},
 
@@ -275,13 +281,16 @@ export default {
 			if (slides[page] === undefined) {
 				return;
 			}
-			if( slides[slides[page]] !== undefined ){
-				return this.initBg(slides[slides[page]])
+			if( this.$route.name === 'case-study' ){
+				let targetedBg = slides['work'][this.currentSlideId].backgroundColor
+				TweenLite.set(this.$el, {backgroundColor: targetedBg})
+				this.generateShapesForSlide('work', this.currentSlideId)
 			}
-
-			let targetedBg = slides[page][0].backgroundColor
-			TweenLite.set(this.$el, {backgroundColor: targetedBg})
-			this.generateShapesForSlide(page, 0)
+			else{
+				let targetedBg = slides[page][0].backgroundColor
+				TweenLite.set(this.$el, {backgroundColor: targetedBg})
+				this.generateShapesForSlide(page, 0)
+			}
 		},
 
 		generateMaterials(){

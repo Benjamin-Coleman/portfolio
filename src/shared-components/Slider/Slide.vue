@@ -144,7 +144,6 @@ export default {
 
 		this.events()
 		this.appearPage()
-
 	},
 
 	beforeDestroy(){
@@ -157,12 +156,14 @@ export default {
 			EventBus.$on('slide-next', this.slideNext)
 			EventBus.$on('toggle-menu', this.toggleMenu)
 			EventBus.$on('leave-page', this.leavePage)
+			EventBus.$on('close-case-study', this.closeCaseStudy)
 		},
 		unlistenEvents(){
 			EventBus.$off('slide-prev', this.slidePrev)
 			EventBus.$off('slide-next', this.slideNext)
 			EventBus.$off('toggle-menu', this.toggleMenu)
 			EventBus.$off('leave-page', this.leavePage)
+			EventBus.$off('close-case-study', this.closeCaseStudy)
 		},
 		leavePage(){
 			let leaveAnim = this.getCurrentAnimLeave
@@ -174,20 +175,26 @@ export default {
 			let appearAnim = this.getCurrentAnimAppear
 			this.currentSlideId === this.slideId ? this[appearAnim]() : undefined
 		},
+		closeCaseStudy(){
+			let tl = new TimelineLite({paused: true})
+				tl.staggerTo(this.$refs.slideInfo.children, 1, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .05)
+				tl.to(this.$refs.slideImg, 1.5, {z: 0, ease: Expo.easeOut}, 0)
+
+			this.slideId === this.currentSlideId ? tl.play(0) : undefined
+		},
 		goToCaseStudy(){
 			event.preventDefault()
 			if (this.slideId === this.currentSlideId) {
 				EventBus.$emit('go-to-case-study')
 				this.$router.push({name: 'case-study', params: {id: this.title}})
-				let tl = new TimelineLite({onComplete: ()=>{
-					// EventBus.$emit('case-study-ready')
-				}})
+				let tl = new TimelineLite()
 					tl.staggerTo(this.$refs.slideInfo.children, 2, {y: 100,ease: Expo.easeOut}, -.05)
 					tl.to(this.$refs.slideInfo.children[2], 1, {autoAlpha: 0,ease: Expo.easeOut}, 0)
 					tl.to(this.$refs.slideInfo.children[3], 1, {autoAlpha: 0,ease: Expo.easeOut}, 0)
 					tl.to(this.$refs.slideInfo.children[4], 1, {autoAlpha: 0,ease: Expo.easeOut}, 0)
 					tl.to(this.$refs.slideImg, 2, {z: -100, ease: Expo.easeOut}, 0)
 					tl.to(this.$refs.slideImg, 2, {z: -100, ease: Expo.easeOut}, 0)
+					tl.set(this.$refs.loadingBar, {scaleX: 0})
 			}
 		},
 		loadCaseStudy(){
@@ -205,7 +212,7 @@ export default {
 			loader.start()
 		},
 		appearAnim(){
-			let tl = new TimelineLite({onComplete: ()=>{
+			let tl = new TimelineLite({paused: true, onComplete: ()=>{
 				EventBus.$emit('appear-slide')
 				sliderStore.setActive()
 			}})
@@ -214,6 +221,16 @@ export default {
 				tl.set(this.$refs.slideImg, {z: -1000})
 				tl.to(this.$refs.slideImg, 3, {z: 0,ease: Expo.easeOut})
 				tl.staggerTo(this.$refs.slideInfo.children, 2, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .05, '-=2.5')
+
+			let tlCaseStudy = new TimelineLite({paused: true})
+				tlCaseStudy.set(this.$el, {autoAlpha: 1})
+				tlCaseStudy.set(this.$refs.slideInfo.children, {y: 200, autoAlpha: 0})
+				tlCaseStudy.set(this.$refs.slideImg, {z: -1000})
+				tlCaseStudy.to(this.$refs.slideImg, 3, {z: -100, ease: Expo.easeOut})
+				tlCaseStudy.to(this.$refs.slideInfo.children[0], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, '-=3')
+				tlCaseStudy.to(this.$refs.slideInfo.children[1], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, '-=2.8')
+
+			this.$route.name === 'case-study' ? tlCaseStudy.play(0) : tl.play(0)
 		},
 		appearDown(delay){
 			let tl = new TimelineLite({delay: delay, onComplete: ()=>{

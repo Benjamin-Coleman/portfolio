@@ -73,6 +73,10 @@ import Smooth from '../../commons/script/SmoothScrolling.js'
 import {EventBus} from  '../../event-bus.js'
 import _ from 'lodash'
 
+import SliderStore from '../../stores/SliderStore.js'
+import MenuStore from '../../stores/MenuStore.js'
+import AnimationStore from '../../stores/AnimationStore.js'
+
 const slides = require('../../shared-components/Slider/slides.json').slides
 
 export default {
@@ -106,6 +110,20 @@ export default {
 		this.events()
 	},
 
+	beforeDestroy(){
+		this.unlistenEvents()
+	},
+
+	beforeRouteLeave (to, from, next) {
+		if (!MenuStore.state.isAnimated) {
+			let delay = 1000
+
+			AnimationStore.setRouterInfo(from.name, to.name)
+			EventBus.$emit('close-case-study')
+			_.delay(next, delay)
+		}
+	},
+
 	methods: {
 		events(){
 			window.addEventListener('wheel', this.wheel)
@@ -131,8 +149,15 @@ export default {
 			}
 		},
 		searchProject(projectToSearch){
-			let project = _.find(slides, {'title': projectToSearch, 'case-study': true})
-			project === undefined ? this.$router.replace({name: 'work'}) : this.slide = project
+			let projectId = _.findIndex(slides, {'title': projectToSearch, 'case-study': true})
+
+			if (projectId === undefined) {
+				this.$router.replace({name: 'work'})
+			}
+			else {
+				this.slide = slides[projectId]
+				SliderStore.setSlideId(projectId)
+			}
 		}
 	},
 

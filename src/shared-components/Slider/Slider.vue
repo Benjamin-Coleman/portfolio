@@ -82,6 +82,7 @@
 				EventBus.$on('appear-slide', this.wheelLoop)
 				EventBus.$on('leave-page', this.leavePage)
 				EventBus.$on('go-to-case-study', this.goToCaseStudy)
+				EventBus.$on('close-case-study', this.closeCaseStudy)
 			},
 
 			unlistenEvents(){
@@ -90,6 +91,7 @@
 				EventBus.$off('appear-slide', this.wheelLoop)
 				EventBus.$off('leave-page', this.leavePage)
 				EventBus.$off('go-to-case-study', this.goToCaseStudy)
+				EventBus.$off('close-case-study', this.closeCaseStudy)
 			},
 
 			leavePage(){
@@ -98,7 +100,15 @@
 
 			goToCaseStudy(){
 				document.removeEventListener('wheel', this.wheel)
+				this.leave = true
 				TweenLite.set(this.$el, {zIndex: -1})
+			},
+
+			closeCaseStudy(){
+				document.addEventListener('wheel', this.wheel)
+				this.leave = false
+				this.wheelLoop()
+				TweenLite.set(this.$el, {zIndex: 0})
 			},
 
 			wheel(){

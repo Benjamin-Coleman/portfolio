@@ -34,6 +34,12 @@ export default {
 		},
 		textColor(){
 			return slides[this.state.currentSlideId].textColor
+		},
+		currentTitleColor(){
+			return slides[sliderStore.state.currentSlideId].titleColor
+		},
+		currentTextColor(){
+			return slides[sliderStore.state.currentSlideId].textColor
 		}
 	},
 
@@ -43,18 +49,9 @@ export default {
 			classToGive: 'slide-indicator__slider-name__splitted'
 		})
 
-		this.appearAnim = new TimelineLite({delay: .3})
-			this.appearAnim.set(this.$refs.currentSlide, {color: this.titleColor})
-			this.appearAnim.set(this.$refs.sliderLength, {color: this.titleColor})
-			this.appearAnim.set(this.$refs.separator, {backgroundColor: this.titleColor})
-			this.appearAnim.set(this.$refs.sliderName, {color: this.textColor})
-			this.appearAnim.from(this.$refs.currentSlide, 1.5, {y: -30,autoAlpha: 0, ease: Expo.easeOut})
-			this.appearAnim.from(this.$refs.sliderLength, 1.5, {y: 30,autoAlpha: 0, ease: Expo.easeOut}, 0)
-			this.appearAnim.from(this.$refs.separator, 1.5, {scaleY: 0,autoAlpha: 0, ease: Expo.easeOut}, '-=1.5')
-			this.appearAnim.staggerFrom(this.$refs.sliderName.children, 2, {y: 10, autoAlpha: 0, ease: Expo.easeOut}, .06, 0)
+		this.$route.name !== 'case-study' ? this.appearAnim() : undefined
 
 		this.events()
-
 	},
 
 	beforeDestroy(){
@@ -68,6 +65,7 @@ export default {
 			EventBus.$on('slide-prev', this.prevAnim)
 			EventBus.$on('leave-page', this.leaveAnim)
 			EventBus.$on('go-to-case-study', this.leaveAnim)
+			EventBus.$on('close-case-study', this.appearAnim)
 		},
 
 		unlistenEvents(){
@@ -75,6 +73,20 @@ export default {
 			EventBus.$off('slide-prev', this.prevAnim)
 			EventBus.$off('leave-page', this.leaveAnim)
 			EventBus.$off('go-to-case-study', this.leaveAnim)
+			EventBus.$off('close-case-study', this.appearAnim)
+		},
+
+		appearAnim(){
+			let tl = new TimelineLite({delay: .3})
+				tl.set(this.$el, {autoAlpha: 1})
+				tl.set(this.$refs.currentSlide, {color: this.currentTitleColor})
+				tl.set(this.$refs.sliderLength, {color: this.currentTitleColor})
+				tl.set(this.$refs.separator, {backgroundColor: this.currentTitleColor})
+				tl.set(this.$refs.sliderName, {color: this.currentTextColor})
+				tl.fromTo(this.$refs.currentSlide, 1.5, {y: -30,autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut})
+				tl.fromTo(this.$refs.sliderLength, 1.5, {y: 30,autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, 0)
+				tl.fromTo(this.$refs.separator, 1.5, {scaleY: 0,autoAlpha: 0}, {scaleY: 1, autoAlpha: 1, ease: Expo.easeOut}, '-=1.5')
+				tl.staggerFromTo(this.$refs.sliderName.children, 2, {y: 10, autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .06, 0)
 		},
 
 		leaveAnim(){
@@ -126,6 +138,7 @@ export default {
 		text-transform: uppercase;
 		font-size: 22px;
 		text-align: center;
+		visibility: hidden;
 	}
 
 	.slide-indicator__separator {
