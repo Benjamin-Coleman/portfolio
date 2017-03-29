@@ -94,7 +94,7 @@ export default {
 				tl.to(this.$refs.currentSlide, .6, {y: -30,autoAlpha: 0, ease: Expo.easeIn})
 				tl.to(this.$refs.sliderLength, .6, {y: 30,autoAlpha: 0, ease: Expo.easeIn}, 0)
 				tl.to(this.$refs.separator, .6, {scaleY: 0,autoAlpha: 0, ease: Expo.easeIn}, '-=1')
-				tl.staggerTo(this.$refs.sliderName.children, .6, {y: 10, autoAlpha: 0, ease: Expo.easeIn}, .04, 0)
+				tl.staggerTo(this.$refs.sliderName.children, .2, {y: 3, autoAlpha: 0, ease: Expo.easeIn}, .04, 0)
 		},
 
 		prevAnim(){

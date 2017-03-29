@@ -3,7 +3,7 @@
 	<div class="home-button">
 		<div class="home-button__wrapper">
 			<div class="home-button__text" ref="buttonText">See my work</div>
-			<router-link class="home-button__square" to="/work" ref="square" @mouseover.native="mouseover" @mouseout.native="mouseout"></router-link>
+			<router-link class="home-button__square" to="/work" ref="square" replace @mouseover.native="mouseover" @mouseout.native="mouseout"></router-link>
 			<div class="home-button__arrow" ref="arrow">
 				<div class="home-button__arrow__line" ref="line"></div>
 				<img class="home-button__arrow__img" ref="arrowImg" src="src/assets/imgs/arrow.svg" alt="">

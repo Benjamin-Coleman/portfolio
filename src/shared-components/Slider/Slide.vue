@@ -186,9 +186,9 @@ export default {
 			event.preventDefault()
 			if (this.slideId === this.currentSlideId) {
 				EventBus.$emit('go-to-case-study')
-				this.$router.push({name: 'case-study', params: {id: this.title}})
+				this.$router.replace({name: 'case-study', params: {id: this.title}})
 				let tl = new TimelineLite()
-					tl.staggerTo(this.$refs.slideInfo.children, 2, {y: 100,ease: Expo.easeOut}, -.05)
+					tl.to(this.$refs.slideInfo.children, 2, {y: 100,ease: Expo.easeOut})
 					tl.to(this.$refs.slideInfo.children[2], 1, {autoAlpha: 0,ease: Expo.easeOut}, 0)
 					tl.to(this.$refs.slideInfo.children[3], 1, {autoAlpha: 0,ease: Expo.easeOut}, 0)
 					tl.to(this.$refs.slideInfo.children[4], 1, {autoAlpha: 0,ease: Expo.easeOut}, 0)

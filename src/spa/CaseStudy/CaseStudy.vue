@@ -1,13 +1,13 @@
 <template lang="html">
 	<div class="case-study">
-		<div class="case-study__header" :class="{'case-study__header--open': isOpen}" ref="header">
+		<div class="case-study__header" ref="header">
 			<close-button></close-button>
 		</div>
 		<div class="case-study__scroll-zone" ref="scrollZone">
 			<div class="case-study__pane"></div>
 			<div class="case-study-content-background">
-				<div class="case-study__content">
-					<div class="case-study__infos">
+				<div class="case-study__content" ref="content">
+					<div class="case-study__infos" ref="infos">
 						<div class="case-study__info">
 							<div class="case-study__info__title">Context</div>
 							<div class="case-study__info__text">{{ slide.context }}</div>
@@ -97,7 +97,7 @@ export default {
 	},
 
 	mounted(){
-		const smooth = new Smooth({
+		this.smooth = new Smooth({
 			native: false,
 			section: this.$refs.scrollZone,
 			ease: 0.15,
@@ -106,48 +106,81 @@ export default {
 			},
 			noscrollbar: true
 		})
-		smooth.init()
-		this.events()
+
+		this.closeHeaderAnim = new TimelineLite({paused: true})
+			this.closeHeaderAnim.to(this.$refs.header, .6, {y: -100, ease: Expo.easeInOut})
+
+		this.appearAnim()
 	},
 
 	beforeDestroy(){
 		this.unlistenEvents()
+		this.smooth.destroy()
 	},
 
 	beforeRouteLeave (to, from, next) {
 		if (!MenuStore.state.isAnimated) {
 			let delay = 1000
-
-			AnimationStore.setRouterInfo(from.name, to.name)
 			EventBus.$emit('close-case-study')
 			_.delay(next, delay)
 		}
 	},
 
 	methods: {
+
 		events(){
 			window.addEventListener('wheel', this.wheel)
 			EventBus.$on('page-ready', this.pageReady)
-			EventBus.$on('case-study-ready', this.pageReady)
+			EventBus.$on('close-case-study', this.leave)
 		},
+
 		unlistenEvents(){
 			window.removeEventListener('wheel', this.wheel)
 			EventBus.$off('page-ready', this.pageReady)
 			EventBus.$off('case-study-ready', this.pageReady)
+			EventBus.$off('close-case-study', this.leave)
 		},
+
 		pageReady(){
+			this.isOpen = false
+		},
+
+		appearAnim(){
+			let tl = new TimelineLite({onComplete: this.appear})
+				tl.fromTo(this.$refs.scrollZone, .8, {y: window.innerHeight}, {y: 0, ease: Expo.easeOut})
+				tl.staggerFromTo(this.$refs.infos.children, 1, {y: 20, autoAlpha: 0}, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .05, "-=.3")
+				tl.fromTo(this.$refs.header, 1, {y:-100}, {y: 0, ease: Expo.easeOut}, '-=1.5')
+		},
+
+		appear(){
+			this.smooth.init()
+			this.events()
 			this.isOpen = true
 		},
+
+		leaveAnim(){
+			let tl = new TimelineLite()
+				tl.staggerTo(this.$refs.infos.children, .5, {y: 20, autoAlpha: 0, ease: Expo.easeIn}, .05)
+				tl.to(this.$refs.scrollZone, .5, {y: window.innerHeight, ease: Expo.easeIn}, 0)
+				tl.to(this.$refs.header, .4, {y: -100, ease: Expo.easeIn}, 0)
+		},
+
+		leave(){
+			this.smooth.destroy()
+			this.leaveAnim()
+		},
+
 		wheel(){
 			if (event.deltaY > 0 && this.isOpen) {
 				this.isOpen = false
-				EventBus.$emit('toggle-header', this.isOpen)
+				this.closeHeaderAnim.play()
 			}
 			else if (event.deltaY < 0 && !this.isOpen) {
 				this.isOpen = true
-				EventBus.$emit('toggle-header', this.isOpen)
+				this.closeHeaderAnim.reverse()
 			}
 		},
+
 		searchProject(projectToSearch){
 			let projectId = _.findIndex(slides, {'title': projectToSearch, 'case-study': true})
 
@@ -170,11 +203,10 @@ export default {
 
 <style lang="scss">
 
-	$ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
-
 	.case-study {
 		height: 100%;
 		position: relative;
+		z-index: 1;
 	}
 
 	.case-study__header {
@@ -184,16 +216,10 @@ export default {
 		top: 0px;
 		left: 0px;
 		z-index: 1;
-		position: fixed;
+		position: absolute;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		transform: translateY(-100px);
-		transition: transform 1.6s $ease-out-expo;
-	}
-
-	.case-study__header--open {
-		transform: translateY(0px);
 	}
 
 	.case-study__pane {
@@ -227,8 +253,9 @@ export default {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background-color: darken(#011933, 4);
+		background-color: darken(#011933, 2);
 		transform: translateY(-50%);
+		transform-origin: bottom;
 	}
 
 	.case-study__info {

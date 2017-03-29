@@ -23,6 +23,7 @@ export default {
 	mounted(){
 		this.events()
 		this.$lineFill = this.$el.querySelectorAll('.close-button__line-fill')
+		this.appear()
 	},
 
 	beforeDestroy(){
@@ -45,13 +46,13 @@ export default {
 			this.appear()
 		},
 		appear(){
-			TweenMax.staggerFromTo(this.$lineFill, .7, {scaleY: 0}, {scaleY: 1, ease: Expo.easeOut, overwrite: 'all', delay: .3}, .15)
+			TweenMax.staggerFromTo(this.$lineFill, .7, {scaleY: 0}, {scaleY: 1, ease: Expo.easeOut, overwrite: 'all', delay: .5}, .15)
 		},
 		leave(){
-			TweenMax.staggerFromTo(this.$lineFill, .7, {scaleY: 0}, {scaleY: 1, ease: Expo.easeIn, overwrite: 'all', delay: .3}, .15)
+			TweenMax.staggerFromTo(this.$lineFill, .7, {scaleY: 0}, {scaleY: 1, ease: Expo.easeIn, overwrite: 'all'}, .15)
 		},
 		click(){
-			this.$router.push({name: 'work'})
+			this.$router.replace({name: 'work'})
 		}
 	}
 }
@@ -89,7 +90,7 @@ export default {
 	.close-button__line {
 		width: 1px;
 		height: 15px;
-		position: absolute;
+		transform-origin: left;
 	}
 
 	.close-button__line-fill {

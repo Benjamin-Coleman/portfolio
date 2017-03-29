@@ -35,6 +35,18 @@
 					"leave": "leaveBackward"
 				}
 			}
+		},
+		"case-study": {
+			"to": {
+				"home": {
+					"appear": "appearUp",
+					"leave": "leaveDown"
+				},
+				"about": {
+					"appear": "appearForward",
+					"leave": "leaveForward"
+				}
+			}
 		}
 	},
 	"default": {

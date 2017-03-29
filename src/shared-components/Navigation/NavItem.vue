@@ -1,7 +1,7 @@
 <template lang="html">
 
 	<div class="menu-link" @mouseover="mouseover" @mouseout="mouseout">
-		<router-link class="menu-link__link" :to="to" ref="link" exact>
+		<router-link class="menu-link__link" :to="to" ref="link" exact replace>
 			<div class="menu-link__title" ref="title">{{ title }}</div>
 			<div class="menu-link__hover" ref="hoverLine"></div>
 			<div class="menu-link__subtitle">{{ subtitle }}</div>

@@ -113,9 +113,9 @@ export default {
 		},
 
 		animate() {
-			requestAnimationFrame(this.animate.bind(this))
 			this.wheel()
 			this.render()
+			requestAnimationFrame(this.animate.bind(this))
 		},
 
 		wheel(){

@@ -1,7 +1,7 @@
 <template lang="html">
 	<div class="slider">
 		<slide-indicator></slide-indicator>
-		<div class="slide-container" ref="slideContainer">
+		<div class="slide-container" ref="slideContainer" :style="transformStyle">
 			<slide
 				v-for="(slide, index) in slides"
 				:title="slide.title"
@@ -35,7 +35,7 @@
 
 		mounted(){
 			this.events()
-			this.debouncedBackToSlide = _.debounce(this.backToSlide, 300)
+			this.debouncedBackToSlide = _.debounce(this.backToSlide, 500)
 		},
 
 		beforeDestroy(){
@@ -51,8 +51,12 @@
 				menuState: menuStore.state,
 				targetPosY: 0,
 				slideTransform: 0,
+				oldSlideTransform: 0,
 				oldDeltaY: 0,
-				leave: false
+				leave: false,
+				transformStyle: {
+					transform: 'translate3d(0, '+this.slideTransform+'px, 0)'
+				}
 			}
 		},
 
@@ -100,20 +104,20 @@
 
 			goToCaseStudy(){
 				document.removeEventListener('wheel', this.wheel)
+				document.removeEventListener('keyup', this.keyUp)
 				this.leave = true
-				TweenLite.set(this.$el, {zIndex: -1})
 			},
 
 			closeCaseStudy(){
 				document.addEventListener('wheel', this.wheel)
+				document.addEventListener('keyup', this.keyUp)
 				this.leave = false
 				this.wheelLoop()
-				TweenLite.set(this.$el, {zIndex: 0})
 			},
 
 			wheel(){
 				event.preventDefault()
-				let targetModifier = 4
+				let targetModifier = 9
 
 				if (event.deltaY !== this.oldDeltaY && !this.sliderIsAnimated) {
 					event.deltaY > 0 ? this.targetPosY -= targetModifier : this.targetPosY += targetModifier
@@ -128,11 +132,16 @@
 			},
 
 			wheelLoop(){
-				let slideLimit = 45
+				let slideLimit = 130
+				let newSlideTransform = this.slideTransform + (this.targetPosY - this.slideTransform) * .09
+				let roundedValue = this.getRoundedValue(newSlideTransform)
 
-				this.slideTransform += (this.targetPosY - this.slideTransform) * .09
-				TweenLite.set(this.$refs.slideContainer, {y: this.slideTransform})
-				sliderStore.setPosY(this.slideTransform)
+				if (newSlideTransform !== this.oldSlideTransform) {
+					this.oldSlideTransform = this.slideTransform
+					this.slideTransform = newSlideTransform
+					this.transformStyle.transform = 'translate3d(0, '+this.slideTransform+'px, 0)'
+					sliderStore.setPosY(this.slideTransform)
+				}
 
 				if (this.slideTransform <= -slideLimit) {
 					this.nextSlide()
@@ -145,6 +154,14 @@
 				else if (!this.leave) {
 					requestAnimationFrame(this.wheelLoop)
 				}
+			},
+
+			getRoundedValue(){
+				let roundedValue = this.slideTransform * 100
+					roundedValue = Math.round(roundedValue)
+					roundedValue = roundedValue / 100
+
+					return roundedValue
 			},
 
 			resetWheel(){
@@ -216,6 +233,7 @@
 		width: 100%;
 		top: 0;
 		left: 0;
+		z-index: 0;
 	}
 
 	.slide-container {
