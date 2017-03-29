@@ -48,7 +48,8 @@
 			</div>
 
 			<a class="slide__button" v-if="caseStudy" @click.prevent="loadCaseStudy" @mouseover="buttonHover" @mouseout="buttonOut" ref="button" :style="buttonStyle">
-				<div class="slide__button-text" ref="buttonText">view more</div>
+				<div v-if="isLoading" class="slide__button-text" ref="buttonText">{{ loadingState }}</div>
+				<div v-else="isLoading" class="slide__button-text" ref="buttonText">view more</div>
 				<div class="slide__button__loader" ref="loadingBar" :style="loadingButtonStyle"></div>
 			</a>
 			<a class="slide__button" v-else="caseStudy" :href="url" target="_blank" @mouseover="buttonHover" @mouseout="buttonOut" ref="button" :style="buttonStyle">
@@ -85,6 +86,8 @@ export default {
 			menuState: menuStore.state,
 			animationState: animationStore.state,
 			imgName: this.title,
+			isLoading: false,
+			progress: 0,
 			textColorStyle: {
 				color: this.textColor
 			},
@@ -113,6 +116,9 @@ export default {
 		},
 		getCurrentAnimLeave(){
 			return this.animationState.leave
+		},
+		loadingState(){
+			return 'Loading ' + this.progress * 100 + '%'
 		}
 	},
 
@@ -204,18 +210,27 @@ export default {
 					tl.to(this.$refs.slideImg, 2, {z: -100, ease: Expo.easeOut}, 0)
 					tl.set(this.$refs.loadingBar, {scaleX: 0})
 			}
+			else {
+				TweenLite.to(this.$refs.loadingBar, 1, {scaleX: 0, ease: Expo.easeOut})
+			}
 		},
 		loadCaseStudy(){
 			let assetsToLoad
 			let caseStudyName = this.title.toLowerCase()
 			window.devicePixelRatio <= 1 ? assetsToLoad = this.findAssets('1x', caseStudyName) : assetsToLoad = this.findAssets('2x', caseStudyName)
 
+			this.isLoading = true
+			this.buttonOut()
+
 			let loader = AssetsLoader().add(assetsToLoad)
 			loader.on('progress', progress=>{
+				this.progress = progress
 				TweenLite.to(this.$refs.loadingBar, .6, {scaleX: progress, ease: Expo.easeOut})
 			})
 			loader.on('complete', ()=>{
 				this.goToCaseStudy()
+				this.isLoading = false
+				this.progress = 0
 			})
 			loader.start()
 		},
@@ -308,7 +323,7 @@ export default {
 			this.currentSlideId === this.slideId && !this.menuIsClosed ? this.closeMenuAnim.play(0) : undefined
 		},
 		buttonHover(){
-			this.buttonHoverAnim.play()
+			!this.isLoading ? this.buttonHoverAnim.play() : undefined
 		},
 		buttonOut(){
 			this.buttonHoverAnim.reverse()
