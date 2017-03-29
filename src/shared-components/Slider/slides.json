@@ -10,6 +10,7 @@
 			"role": "UI&UX",
 			"period": "2016",
 			"case-study": true,
+			"url": "",
 			"imgPath": "../../src/assets/imgs/slider/lightswan.png",
 			"imgPath2x": "../../src/assets/imgs/slider/lightswan@2x.png"
 		},
@@ -23,6 +24,7 @@
 			"role": "Front end",
 			"period": "2016",
 			"case-study": false,
+			"url": "https://www.shopsquare.fr/",
 			"imgPath": "../../src/assets/imgs/slider/shopsquare.png",
 			"imgPath2x": "../../src/assets/imgs/slider/shopsquare@2x.png"
 		},
@@ -35,6 +37,7 @@
 			"role": "Front end",
 			"period": "2016",
 			"case-study": true,
+			"url": "",
 			"imgPath": "../../src/assets/imgs/slider/maje.png",
 			"imgPath2x": "../../src/assets/imgs/slider/maje@2x.png"
 		}

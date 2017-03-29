@@ -13,6 +13,8 @@
 				:period="slide.period"
 				:imgPath="slide.imgPath"
 				:imgPath2x="slide.imgPath2x"
+				:caseStudy="slide['case-study']"
+				:url="slide.url"
 				:slideId="index">
 			</slide>
 		</div>
@@ -35,7 +37,7 @@
 
 		mounted(){
 			this.events()
-			this.debouncedBackToSlide = _.debounce(this.backToSlide, 500)
+			this.debouncedBackToSlide = _.debounce(this.backToSlide, 400)
 		},
 
 		beforeDestroy(){
@@ -86,7 +88,7 @@
 				EventBus.$on('appear-slide', this.wheelLoop)
 				EventBus.$on('leave-page', this.leavePage)
 				EventBus.$on('go-to-case-study', this.goToCaseStudy)
-				EventBus.$on('close-case-study', this.closeCaseStudy)
+				EventBus.$on('case-study-closed', this.closeCaseStudy)
 			},
 
 			unlistenEvents(){
@@ -95,7 +97,7 @@
 				EventBus.$off('appear-slide', this.wheelLoop)
 				EventBus.$off('leave-page', this.leavePage)
 				EventBus.$off('go-to-case-study', this.goToCaseStudy)
-				EventBus.$off('close-case-study', this.closeCaseStudy)
+				EventBus.$off('case-study-closed', this.closeCaseStudy)
 			},
 
 			leavePage(){

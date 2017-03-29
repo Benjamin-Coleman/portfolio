@@ -46,10 +46,16 @@
 				</div>
 
 			</div>
-			<a class="slide__button" @click="loadCaseStudy" @mouseover="buttonHover" @mouseout="buttonOut" href="#" ref="button" :style="buttonStyle">
+
+			<a class="slide__button" v-if="caseStudy" @click.prevent="loadCaseStudy" @mouseover="buttonHover" @mouseout="buttonOut" ref="button" :style="buttonStyle">
 				<div class="slide__button-text" ref="buttonText">view more</div>
 				<div class="slide__button__loader" ref="loadingBar" :style="loadingButtonStyle"></div>
 			</a>
+			<a class="slide__button" v-else="caseStudy" :href="url" target="_blank" @mouseover="buttonHover" @mouseout="buttonOut" ref="button" :style="buttonStyle">
+				<div class="slide__button-text" ref="buttonText">Go to website</div>
+				<div class="slide__button__loader" ref="loadingBar" :style="loadingButtonStyle"></div>
+			</a>
+
 		</div>
 	</div>
 </template>
@@ -69,7 +75,7 @@ import animationStore from '../../stores/AnimationStore.js'
 import LoaderMixin from '../Loader/LoaderMixin.js'
 
 export default {
-	props: ['title', 'description', 'context', 'role', 'period', 'slideId', 'titleColor', 'textColor', 'imgPath', 'imgPath2x'],
+	props: ['title', 'description', 'context', 'role', 'period', 'slideId', 'titleColor', 'textColor', 'imgPath', 'imgPath2x', 'caseStudy', 'url'],
 
 	mixins: [LoaderMixin],
 
@@ -176,7 +182,9 @@ export default {
 			this.currentSlideId === this.slideId ? this[appearAnim]() : undefined
 		},
 		closeCaseStudy(){
-			let tl = new TimelineLite({paused: true})
+			let tl = new TimelineLite({paused: true, onComplete: ()=>{
+				EventBus.$emit('case-study-closed')
+			}})
 				tl.staggerTo(this.$refs.slideInfo.children, 1, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .05)
 				tl.to(this.$refs.slideImg, 1.5, {z: 0, ease: Expo.easeOut}, 0)
 
@@ -406,6 +414,7 @@ export default {
 		color: white;
 		perspective: 1000px;
 		overflow: hidden;
+		cursor: pointer;
 	}
 
 	.slide__button__splitted-text {

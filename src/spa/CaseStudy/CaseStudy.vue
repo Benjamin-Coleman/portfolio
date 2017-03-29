@@ -90,7 +90,8 @@ export default {
 	},
 
 	beforeMount(){
-		this.searchProject(this.$route.params.id)
+		let projectId = SliderStore.state.currentSlideId
+		this.slide = slides[projectId]
 		this.blockColorStyle = {
 			backgroundColor: this.slide.backgroundColor
 		}
@@ -123,6 +124,19 @@ export default {
 			let delay = 1000
 			EventBus.$emit('close-case-study')
 			_.delay(next, delay)
+		}
+	},
+
+	beforeRouteEnter(to, from, next){
+		let projectToSearch = to.params.id
+		let projectId = _.findIndex(slides, {'title': projectToSearch, 'case-study': true})
+		if (projectId < 0) {
+			return window.location = '/work'
+		}
+		else {
+			next(vm=>{
+				SliderStore.setSlideId(projectId)
+			})
 		}
 	},
 
@@ -178,18 +192,6 @@ export default {
 			else if (event.deltaY < 0 && !this.isOpen) {
 				this.isOpen = true
 				this.closeHeaderAnim.reverse()
-			}
-		},
-
-		searchProject(projectToSearch){
-			let projectId = _.findIndex(slides, {'title': projectToSearch, 'case-study': true})
-
-			if (projectId === undefined) {
-				this.$router.replace({name: 'work'})
-			}
-			else {
-				this.slide = slides[projectId]
-				SliderStore.setSlideId(projectId)
 			}
 		}
 	},
