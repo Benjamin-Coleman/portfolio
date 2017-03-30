@@ -152,7 +152,7 @@
 			wheelLoop(){
 				let slideLimit = 130
 				let newSlideTransform = this.slideTransform + (this.targetPosY - this.slideTransform) * .09
-				let roundedValue = this.getRoundedValue(newSlideTransform)
+						newSlideTransform = this.getRoundedValue(newSlideTransform)
 
 				if (newSlideTransform !== this.oldSlideTransform) {
 					this.oldSlideTransform = this.slideTransform
@@ -174,10 +174,10 @@
 				}
 			},
 
-			getRoundedValue(){
-				let roundedValue = this.slideTransform * 100
+			getRoundedValue(valueToRound){
+				let roundedValue = valueToRound * 1000
 					roundedValue = Math.round(roundedValue)
-					roundedValue = roundedValue / 100
+					roundedValue = roundedValue / 1000
 
 					return roundedValue
 			},
