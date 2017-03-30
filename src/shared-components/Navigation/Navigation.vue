@@ -139,17 +139,21 @@ export default {
   methods: {
 
     events(){
-      EventBus.$on('slide-next', this.changeColor)
-      EventBus.$on('slide-prev', this.changeColor)
+      EventBus.$on('slide-next', this.changeSlide)
+      EventBus.$on('slide-prev', this.changeSlide)
       EventBus.$on('leave-page', this.leavePage)
       EventBus.$on('click-current-link', this.closeMenu)
     },
 
     unlistenEvents(){
       EventBus.$off('click-current-link', this.toggleClose)
-      EventBus.$off('slide-next', this.changeColor)
-      EventBus.$off('slide-prev', this.changeColor)
+      EventBus.$off('slide-next', this.changeSlide)
+      EventBus.$off('slide-prev', this.changeSlide)
       EventBus.$off('leave-page', this.leavePage)
+    },
+
+    changeSlide(){
+      return this.changeColor(this.$route.name)
     },
 
     changeColor(routeName){

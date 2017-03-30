@@ -100,6 +100,9 @@ export default {
 		menuIsClosed(){
 			return this.menuState.isClosed
 		},
+		sliderIsAnimated(){
+			return this.state.isAnimated
+		},
 		getCurrentAnimAppear(){
 			return this.animationState.appear
 		},
@@ -206,7 +209,8 @@ export default {
 			}
 		},
 		loadCaseStudy(){
-			if (!this.buttonIsClickable || ( this.getSliderPosY < 1 && this.getSliderPosY > 1 ) ) {
+			console.log(this.sliderIsAnimated)
+			if (!this.buttonIsClickable || ( this.getSliderPosY < 1 && this.getSliderPosY > 1 ) || this.sliderIsAnimated) {
 				return undefined
 			}
 			let assetsToLoad
