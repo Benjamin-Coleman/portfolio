@@ -20,7 +20,6 @@ export default {
 	},
 
 	beforeRouteLeave (to, from, next) {
-		console.log(from)
 		if (!MenuStore.state.isAnimated) {
 			let delay = 1500
 			let targetedPage = to.name

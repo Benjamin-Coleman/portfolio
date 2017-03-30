@@ -122,9 +122,7 @@ export default {
 
 	beforeRouteLeave (to, from, next) {
 		if (!MenuStore.state.isAnimated) {
-			let delay = 1000
-			EventBus.$emit('close-case-study')
-			_.delay(next, delay)
+			this.leave(next)
 		}
 	},
 
@@ -145,14 +143,12 @@ export default {
 		events(){
 			window.addEventListener('wheel', this.wheel)
 			EventBus.$on('page-ready', this.pageReady)
-			EventBus.$on('close-case-study', this.leave)
 		},
 
 		unlistenEvents(){
 			window.removeEventListener('wheel', this.wheel)
 			EventBus.$off('page-ready', this.pageReady)
 			EventBus.$off('case-study-ready', this.pageReady)
-			EventBus.$off('close-case-study', this.leave)
 		},
 
 		pageReady(){
@@ -173,6 +169,15 @@ export default {
 			this.isOpen = true
 		},
 
+		leaveWhenScrollIsReset(){
+			if (this.smooth.vars.current === 0) {
+				return this.leaveSequence()
+			}
+			else {
+				requestAnimationFrame( this.leaveWhenScrollIsReset )
+			}
+		},
+
 		getScrollValue(){
 			!this.stopAf ? requestAnimationFrame(this.getScrollValue) : undefined
 			let newPosY = -this.smooth.vars.current * .5
@@ -186,10 +191,20 @@ export default {
 				tl.to(this.$refs.header, .4, {y: -100, ease: Expo.easeIn}, 0)
 		},
 
-		leave(){
+		leaveSequence(){
+			EventBus.$emit('close-case-study')
 			this.stopAf = true
 			this.smooth.destroy()
 			this.leaveAnim()
+			_.delay(()=>{
+				this.next()
+			}, 1000)
+		},
+
+		leave(next){
+			this.smooth.scrollTo(0)
+			this.next = next
+			this.leaveWhenScrollIsReset( this.leaveSequence )
 		},
 
 		wheel(){

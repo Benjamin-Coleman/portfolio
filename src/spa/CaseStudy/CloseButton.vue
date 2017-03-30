@@ -84,7 +84,6 @@ export default {
 		box-sizing: border-box;
 		border-radius: 50%;
 		border: 1px solid rgba(#ffffff, .3);
-		background-color: #011933;
 	}
 
 	.close-button__line {
