@@ -52,7 +52,7 @@ export default {
 			TweenMax.staggerFromTo(this.$lineFill, .7, {scaleY: 0}, {scaleY: 1, ease: Expo.easeIn, overwrite: 'all'}, .15)
 		},
 		click(){
-			this.$router.replace({name: 'work'})
+			this.$parent.isApear ? this.$router.replace({name: 'work'}) : undefined 
 		}
 	}
 }

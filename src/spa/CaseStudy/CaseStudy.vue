@@ -86,7 +86,8 @@ export default {
 	data(){
 		return {
 			isOpen: true,
-			stopAf: false
+			stopAf: false,
+			isApear: false
 		}
 	},
 
@@ -167,6 +168,7 @@ export default {
 			this.events()
 			this.getScrollValue()
 			this.isOpen = true
+			this.isApear = true
 		},
 
 		leaveWhenScrollIsReset(){

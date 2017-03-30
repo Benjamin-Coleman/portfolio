@@ -215,6 +215,9 @@ export default {
 			}
 		},
 		loadCaseStudy(){
+			if (this.$route.name === 'case-study') {
+				return undefined
+			}
 			let assetsToLoad
 			let caseStudyName = this.title.toLowerCase()
 			window.devicePixelRatio <= 1 ? assetsToLoad = this.findAssets('1x', caseStudyName) : assetsToLoad = this.findAssets('2x', caseStudyName)
