@@ -20,6 +20,12 @@ import {TimelineLite, Expo} from 'gsap'
 export default {
 	name: 'close-button',
 
+	data(){
+		return {
+			isActive: true
+		}
+	},
+
 	mounted(){
 		this.events()
 		this.$lineFill = this.$el.querySelectorAll('.close-button__line-fill')
@@ -52,7 +58,10 @@ export default {
 			TweenMax.staggerFromTo(this.$lineFill, .7, {scaleY: 0}, {scaleY: 1, ease: Expo.easeIn, overwrite: 'all'}, .15)
 		},
 		click(){
-			this.$parent.isApear ? this.$router.replace({name: 'work'}) : undefined 
+			if (this.$parent.isApear && this.isActive) {
+				this.$router.replace({name: 'work'})
+				this.isActive = false
+			}
 		}
 	}
 }

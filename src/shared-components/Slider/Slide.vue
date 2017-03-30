@@ -10,39 +10,24 @@
 			<div class="slide__id" :style="titleColorStyle">
 				<div class="slide__id__text">0{{ slideId + 1 }}.</div>
 			</div>
-			<div class="slide__title" :style="titleColorStyle">
-				{{ title }}
-			</div>
-			<div class="slide__description" :style="textColorStyle">
-				{{ description }}
-			</div>
+
+			<div class="slide__title" :style="titleColorStyle">{{ title }}</div>
+			<div class="slide__description" :style="textColorStyle">{{ description }}</div>
+
 			<div class="slide__sub-info">
-
 				<div class="slide__sub-info__info">
-					<div class="slide__sub-info__info__title" :style="titleColorStyle">
-						Role
-					</div>
-					<div class="slide__sub-info__info__description" :style="textColorStyle">
-						{{ role }}
-					</div>
+					<div class="slide__sub-info__info__title" :style="titleColorStyle">Role</div>
+					<div class="slide__sub-info__info__description" :style="textColorStyle">{{ role }}</div>
 				</div>
 
 				<div class="slide__sub-info__info">
-					<div class="slide__sub-info__info__title" :style="titleColorStyle">
-						Context
-					</div>
-					<div class="slide__sub-info__info__description" :style="textColorStyle">
-						{{ context }}
-					</div>
+					<div class="slide__sub-info__info__title" :style="titleColorStyle">Context</div>
+					<div class="slide__sub-info__info__description" :style="textColorStyle">{{ context }}</div>
 				</div>
 
 				<div class="slide__sub-info__info">
-					<div class="slide__sub-info__info__title" :style="titleColorStyle">
-						Period
-					</div>
-					<div class="slide__sub-info__info__description" :style="textColorStyle">
-						{{ period }}
-					</div>
+					<div class="slide__sub-info__info__title" :style="titleColorStyle">Period</div>
+					<div class="slide__sub-info__info__description" :style="textColorStyle">{{ period }}</div>
 				</div>
 
 			</div>
@@ -88,6 +73,7 @@ export default {
 			imgName: this.title,
 			isLoading: false,
 			progress: 0,
+			buttonIsClickable: true,
 			textColorStyle: {
 				color: this.textColor
 			},
@@ -190,6 +176,7 @@ export default {
 		closeCaseStudy(){
 			let tl = new TimelineLite({paused: true, onComplete: ()=>{
 				EventBus.$emit('case-study-closed')
+				this.buttonIsClickable = true
 			}})
 				tl.staggerTo(this.$refs.slideInfo.children, 1, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .05)
 				tl.to(this.$refs.slideImg, 1.5, {z: 0, ease: Expo.easeOut}, 0)
@@ -198,6 +185,7 @@ export default {
 		},
 		goToCaseStudy(){
 			event.preventDefault()
+			this.buttonIsClickable = false
 			if (this.slideId === this.currentSlideId) {
 				EventBus.$emit('go-to-case-study')
 				this.$router.replace({name: 'case-study', params: {id: this.title}})
@@ -215,7 +203,7 @@ export default {
 			}
 		},
 		loadCaseStudy(){
-			if (this.$route.name === 'case-study') {
+			if (!this.buttonIsClickable || this.$route.name === 'case-study') {
 				return undefined
 			}
 			let assetsToLoad
