@@ -236,7 +236,7 @@ export default {
 
 	.case-study__header {
 		background-color: #011933;
-		height: 100px;
+		height: 90px;
 		width: 100%;
 		top: 0px;
 		left: 0px;

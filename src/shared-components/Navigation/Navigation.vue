@@ -245,7 +245,7 @@ export default {
   }
 
   .menu-hit {
-    position: fixed;
+    position: absolute;
     top: 0px;
     left: 0px;
     width: 100px;
@@ -255,8 +255,8 @@ export default {
   }
 
   .menu-icon {
-    margin-top: 40px;
-    margin-left: 40px;
+    margin-top: 30px;
+    margin-left: 30px;
     width: 50px;
     position: relative;
     z-index: 10;
@@ -280,17 +280,6 @@ export default {
     width: 40%;
   }
 
-  .menu-tooltip {
-    margin-left: 30px;
-    margin-top: 40px;
-    vertical-align: middle;
-    display: inline-block;
-
-    font-size: 19px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-
   .menu--light {
     color: #ffffff;
   }
@@ -300,9 +289,9 @@ export default {
     height: 1px;
     background-color: #ffffff;
     opacity: 0;
-    position: fixed;
-    top: 50px;
-    left: 60px;
+    position: absolute;
+    top: 40px;
+    left: 50px;
     border-radius: 50%;
     transform-origin: center;
     z-index: -1;
