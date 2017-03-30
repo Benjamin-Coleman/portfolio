@@ -111,7 +111,7 @@ export default {
 		})
 
 		this.closeHeaderAnim = new TimelineLite({paused: true})
-			this.closeHeaderAnim.to(this.$refs.header, .6, {y: -100, ease: Expo.easeInOut})
+			this.closeHeaderAnim.to(this.$refs.header, .7, {y: -100, ease: Expo.easeInOut})
 
 		this.appearAnim()
 	},

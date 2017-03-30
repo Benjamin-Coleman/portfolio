@@ -81,7 +81,7 @@ export default {
     this.$menuCircleHover = this.$refs.menuCircleHover
     this.$menuLinks = this.$refs.menuLinks.children
 
-    this.changeColor()
+    this.changeColor(this.$route.name)
     this.events()
 
     this.iconEnterAnim = new TimelineLite()
@@ -152,16 +152,16 @@ export default {
       EventBus.$off('leave-page', this.leavePage)
     },
 
-    changeColor(){
+    changeColor(routeName){
       let gradient
-      if (slides[this.$route.name] === undefined) {
+      if (slides[routeName] === undefined) {
         gradient = slides['default'][0].navigationGradient
       }
-      else if ( slides[slides[this.$route.name]] ) {
-        gradient = slides['default'][0].navigationGradient
+      else if ( slides[slides[routeName]] ) {
+        return this.changeColor(slides[routeName])
       }
       else {
-        gradient = slides[this.$route.name][this.currentSlideId].navigationGradient
+        gradient = slides[routeName][this.currentSlideId].navigationGradient
       }
       let backgroundImage = "linear-gradient(to right ,"+gradient[0]+","+gradient[1]+")"
       let tl = new TimelineLite()
@@ -188,6 +188,9 @@ export default {
       if(!this.isClosed){
         menuStore.closeMenu()
         this.closeMenuAnim.play(0)
+      }
+      else {
+        this.iconEnterAnim.reverse(0)
       }
     },
 
