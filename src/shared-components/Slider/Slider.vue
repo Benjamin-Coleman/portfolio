@@ -37,6 +37,7 @@
 
 		mounted(){
 			this.events()
+			this.$route.name === 'case-study' ? this.goToCaseStudy() : undefined
 			this.debouncedBackToSlide = _.debounce(this.backToSlide, 400)
 		},
 
@@ -77,6 +78,9 @@
 			},
 			menuIsAnimated(){
 				return this.menuState.isAnimated
+			},
+			getSliderPosY(){
+				return this.state.posY
 			}
 		},
 
@@ -105,14 +109,18 @@
 			},
 
 			goToCaseStudy(){
+				this.caseStudyOpen = true
 				document.removeEventListener('wheel', this.wheel)
 				document.removeEventListener('keyup', this.keyUp)
+				this.wheelCaseStudy()
 				this.leave = true
 			},
 
 			closeCaseStudy(){
+				this.caseStudyOpen = false
 				document.addEventListener('wheel', this.wheel)
 				document.addEventListener('keyup', this.keyUp)
+				sliderStore.setActive()
 				this.leave = false
 				this.wheelLoop()
 			},
@@ -131,6 +139,14 @@
 
 			backToSlide(){
 				this.targetPosY = 0
+			},
+
+			wheelCaseStudy(){
+				sliderStore.setActive()
+				let newSlideTransform = this.getSliderPosY
+				this.slideTransform = newSlideTransform
+				this.transformStyle.transform = 'translate3d(0, '+this.slideTransform+'px, 0)'
+				this.caseStudyOpen ? requestAnimationFrame(this.wheelCaseStudy) : undefined
 			},
 
 			wheelLoop(){
@@ -241,6 +257,7 @@
 	.slide-container {
 		width: 100%;
 		height: 100%;
+		position: absolute;
 	}
 
 </style>

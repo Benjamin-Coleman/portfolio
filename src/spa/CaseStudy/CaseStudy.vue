@@ -85,7 +85,8 @@ export default {
 
 	data(){
 		return {
-			isOpen: true
+			isOpen: true,
+			stopAf: false
 		}
 	},
 
@@ -134,9 +135,8 @@ export default {
 			return window.location = '/work'
 		}
 		else {
-			next(vm=>{
-				SliderStore.setSlideId(projectId)
-			})
+			SliderStore.setSlideId(projectId)
+			next()
 		}
 	},
 
@@ -169,7 +169,14 @@ export default {
 		appear(){
 			this.smooth.init()
 			this.events()
+			this.getScrollValue()
 			this.isOpen = true
+		},
+
+		getScrollValue(){
+			!this.stopAf ? requestAnimationFrame(this.getScrollValue) : undefined
+			let newPosY = -this.smooth.vars.current * .5
+			SliderStore.setPosY(newPosY)
 		},
 
 		leaveAnim(){
@@ -180,6 +187,7 @@ export default {
 		},
 
 		leave(){
+			this.stopAf = true
 			this.smooth.destroy()
 			this.leaveAnim()
 		},
