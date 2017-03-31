@@ -23,7 +23,7 @@
 
 <script>
 
-import {TimelineLite, TweenLite, Power4} from 'gsap'
+import {TimelineLite, TweenLite, Power4, Power0, Expo} from 'gsap'
 import SplitText from '../../commons/script/SplitText.js'
 
 import {EventBus} from '../../event-bus.js'
@@ -142,6 +142,7 @@ export default {
       EventBus.$on('slide-next', this.changeSlide)
       EventBus.$on('slide-prev', this.changeSlide)
       EventBus.$on('leave-page', this.leavePage)
+      EventBus.$on('close-menu', this.closeMenu)
       EventBus.$on('click-current-link', this.closeMenu)
     },
 
@@ -150,6 +151,7 @@ export default {
       EventBus.$off('slide-next', this.changeSlide)
       EventBus.$off('slide-prev', this.changeSlide)
       EventBus.$off('leave-page', this.leavePage)
+      EventBus.$off('close-menu', this.closeMenu)
     },
 
     changeSlide(){

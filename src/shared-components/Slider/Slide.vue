@@ -184,8 +184,8 @@ export default {
 				EventBus.$emit('case-study-closed')
 				this.buttonIsClickable = true
 			}})
-				tl.staggerTo(this.$refs.slideInfo.children, 1, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .05)
-				tl.to(this.$refs.slideImg, 1.5, {z: 0, ease: Expo.easeOut}, 0)
+				tl.staggerTo(this.$refs.slideInfo.children, .6, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .04)
+				tl.to(this.$refs.slideImg, 1.4, {z: 0, ease: Expo.easeOut}, 0)
 
 			this.slideId === this.currentSlideId ? tl.play(0) : undefined
 		},
@@ -209,7 +209,6 @@ export default {
 			}
 		},
 		loadCaseStudy(){
-			console.log(this.sliderIsAnimated)
 			if (!this.buttonIsClickable || ( this.getSliderPosY < 1 && this.getSliderPosY > 1 ) || this.sliderIsAnimated) {
 				return undefined
 			}
@@ -302,7 +301,7 @@ export default {
 		leaveForward(){
 			let tl = new TimelineLite()
 				tl.to(this.$refs.slideImg, 1, {z: 1000, opacity: 0, ease: Expo.easeIn})
-				tl.add(TweenMax.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'all'}, -.05))
+				tl.add(TweenMax.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}, -.03), 0)
 		},
 		appearBackward(){
 			let tl = new TimelineLite({onComplete: ()=>{

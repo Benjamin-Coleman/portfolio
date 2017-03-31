@@ -87,7 +87,14 @@ export default {
 		return {
 			isOpen: true,
 			stopAf: false,
-			isApear: false
+			isApear: false,
+			menuState: MenuStore.state
+		}
+	},
+
+	computed: {
+		menuIsOpen(){
+			return !this.menuState.isClosed
 		}
 	},
 
@@ -144,12 +151,13 @@ export default {
 		events(){
 			window.addEventListener('wheel', this.wheel)
 			EventBus.$on('page-ready', this.pageReady)
+			EventBus.$on('case-study-closed', this.leaveWorkPage)
 		},
 
 		unlistenEvents(){
 			window.removeEventListener('wheel', this.wheel)
 			EventBus.$off('page-ready', this.pageReady)
-			EventBus.$off('case-study-ready', this.pageReady)
+			EventBus.$off('case-study-closed', this.leaveWorkPage)
 		},
 
 		pageReady(){
@@ -161,6 +169,12 @@ export default {
 				tl.fromTo(this.$refs.scrollZone, .8, {y: window.innerHeight}, {y: 0, ease: Expo.easeOut})
 				tl.staggerFromTo(this.$refs.infos.children, 1, {y: 20, autoAlpha: 0}, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .05, "-=.3")
 				tl.fromTo(this.$refs.header, 1, {y:-100}, {y: 0, ease: Expo.easeOut}, '-=1.5')
+		},
+
+		leaveWorkPage(){
+			if (this.next !== undefined) {
+				return _.delay(this.next, 100)
+			}
 		},
 
 		appear(){
@@ -198,12 +212,11 @@ export default {
 			this.stopAf = true
 			this.smooth.destroy()
 			this.leaveAnim()
-			_.delay(()=>{
-				this.next()
-			}, 1000)
 		},
 
 		leave(next){
+			console.log(this.menuIsOpen)
+			this.menuIsOpen ? EventBus.$emit('close-menu'):undefined
 			this.smooth.scrollTo(0)
 			this.next = next
 			this.leaveWhenScrollIsReset( this.leaveSequence )
