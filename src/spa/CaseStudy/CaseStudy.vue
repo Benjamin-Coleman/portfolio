@@ -108,17 +108,6 @@ export default {
 
 	mounted(){
 		SliderStore.openCaseStudy()
-
-		this.smooth = new Smooth({
-			native: false,
-			section: this.$refs.scrollZone,
-			ease: 0.15,
-			vs: {
-				mouseMultiplier: .4
-			},
-			noscrollbar: true
-		})
-
 		this.closeHeaderAnim = new TimelineLite({paused: true})
 			this.closeHeaderAnim.to(this.$refs.header, .7, {y: -100, ease: Expo.easeInOut})
 
@@ -181,6 +170,16 @@ export default {
 		},
 
 		appear(){
+			SliderStore.setActive()
+			this.smooth = new Smooth({
+				native: false,
+				section: this.$refs.scrollZone,
+				ease: 0.15,
+				vs: {
+					mouseMultiplier: .4
+				},
+				noscrollbar: true
+			})
 			this.smooth.init()
 			this.events()
 			this.getScrollValue()

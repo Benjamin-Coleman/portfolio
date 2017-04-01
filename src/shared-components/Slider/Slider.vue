@@ -142,7 +142,6 @@
 			},
 
 			wheelCaseStudy(){
-				sliderStore.setActive()
 				let newSlideTransform = this.getSliderPosY
 				this.slideTransform = newSlideTransform
 				this.transformStyle.transform = 'translate3d(0, '+this.slideTransform+'px, 0)'
