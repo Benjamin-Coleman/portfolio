@@ -98,8 +98,8 @@ export default {
     }})
     this.openMenuAnim
       .to(this.$menuLines[1], 0.5, {x:-10, autoAlpha: 0, ease: Expo.easeInOut})
-      .to(this.$menuLines[0], 0.5, {rotation: 45, scaleX:0.7 , ease: Expo.easeInOut}, 0)
-      .to(this.$menuLines[2], 0.5, {rotation:-45, scaleX:0.7 , ease: Expo.easeInOut}, 0)
+      .to(this.$menuLines[0], 0.5, {rotation: 45, scaleX:0.68 , ease: Expo.easeInOut}, 0)
+      .to(this.$menuLines[2], 0.5, {rotation:-45, scaleX:0.68 , ease: Expo.easeInOut}, 0)
       .set(this.$refs.menuLinks, {autoAlpha: 1}, 0)
       .to(this.$refs.menuBackground, 1, {autoAlpha: 1, ease: Expo.easeOut}, 0)
       .staggerTo(this.$menuLinks, 1.5, {y:0 , autoAlpha:1,  ease: Expo.easeOut}, 0.08, 0)
