@@ -9,10 +9,12 @@
 
 import {TimelineLite, TweenLite, Expo} from 'gsap'
 import {EventBus} from '../../event-bus.js'
+import _ from 'lodash'
 const THREE = require('three')
 
 const materials = require('./materials.json').materials
 const slides = require('./slides.json')
+const slidesFromSlider = require('../../shared-components/Slider/slides.json').slides
 
 import sliderStore from '../../stores/SliderStore.js'
 import menuStore from '../../stores/MenuStore.js'
@@ -50,6 +52,9 @@ export default {
 		},
 		sliderIsActive(){
 			return this.state.isActive
+		},
+		caseStudyIsOpen(){
+			return this.state.caseStudyIsOpen
 		}
 	},
 
@@ -147,8 +152,10 @@ export default {
 			this.menuIsClosed ? this.closeMenuAnim() : this.openMenuAnim()
 		},
 
-		goToPage(targetedPage){
+		goToPage(routerInfo){
+			let targetedPage = routerInfo.to.name
 			let leaveAnim = this.getCurrentAnimLeave
+			routerInfo.to.name === 'case-study' ? this.setCaseStudyId(routerInfo.to.params.id): undefined
 			this[leaveAnim](targetedPage)
 		},
 
@@ -158,6 +165,16 @@ export default {
 
 		leaveCaseStudy(){
 			TweenLite.to(this.camera.position, 2,{z: 10, ease: Expo.easeOut})
+		},
+
+		setCaseStudyId(projectToSearch){
+			let projectId = _.findIndex(slidesFromSlider, {'title': projectToSearch, 'case-study': true})
+			if (projectId < 0) {
+				return window.location = '/work'
+			}
+			else {
+				sliderStore.setSlideId(projectId)
+			}
 		},
 
 		nextAnim(){
@@ -181,18 +198,18 @@ export default {
 		},
 
 		leaveUp(to){
-			let targetedBg = slides[to][0].backgroundColor
+			let targetedBg = this.findTargetedBg(to)
 			TweenLite.to(this.camera.position, .8, {z: 10, ease: Expo.easeOut})
 			let tl = new TimelineLite()
 				tl.to(this.camera.position, 1,{y: -25, ease: Expo.easeIn})
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
-				tl.call(this.generateShapesForSlide, [to, 0])
+				tl.call(this.generateShapesForSlide, [to, this.currentSlideId])
 				tl.set(this.camera.position, {y: 20})
 				tl.to(this.camera.position, 1,{y: 0, ease: Expo.easeOut})
 		},
 
 		leaveDown(to){
-			let targetedBg = slides[to][0].backgroundColor
+			let targetedBg = this.findTargetedBg(to)
 			TweenLite.to(this.camera.position, .8, {z: 10, ease: Expo.easeOut})
 			let tl = new TimelineLite()
 				tl.to(this.camera.position, 1,{y: 25, ease: Expo.easeIn})
@@ -215,12 +232,12 @@ export default {
 		},
 
 		leaveBackward(to){
-			let targetedBg = slides[to][0].backgroundColor
+			let targetedBg = this.findTargetedBg(to)
 			let tl = new TimelineLite()
 				tl.to(this.camera.position, 1.5,{z: 50, ease: Expo.easeIn})
 				tl.to(this.$refs.bgRenderer.children, .5, {opacity: 0, ease: Power1.easeInOut}, '-=1')
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut}, '-=.5')
-				tl.call(this.generateShapesForSlide, [to, 0])
+				tl.call(this.generateShapesForSlide, [to, this.currentSlideId])
 				tl.set(this.camera.position, {z: 0})
 				tl.to(this.$refs.bgRenderer.children, 2, {opacity: 1, ease: Expo.easeOut})
 				tl.to(this.camera.position, 1,{z: 10, ease: Expo.easeOut}, '-=2')
@@ -233,6 +250,15 @@ export default {
 				tl.set(this.$refs.bgRenderer.children,{opacity: 0})
 				tl.to(this.$refs.bgRenderer.children, 2, {opacity: 1, ease: Expo.easeOut})
 				tl.to(this.camera.position, 2, {z: 10, ease: Expo.easeOut}, '-=2')
+		},
+
+		findTargetedBg(to){
+			if (to === 'case-study') {
+				return slides['work'][this.currentSlideId].backgroundColor
+			}
+			else {
+				return slides[to][0].backgroundColor
+			}
 		},
 
 		createGradientTexture(firstColor, secondColor){
@@ -255,9 +281,12 @@ export default {
 
 		generateShapesForSlide(page, slideId){
 
+			this.clearScene()
 			let slide  = slides[page][slideId]
 
-			this.clearScene()
+			if (slides[slides[page]] !== undefined) {
+				return this.generateShapesForSlide(slides[page], slideId)
+			}
 
 			for (let i = 0; i < slide.shapes.length; i++) {
 				let shape = slide.shapes[i]

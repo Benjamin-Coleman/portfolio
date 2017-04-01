@@ -107,6 +107,8 @@ export default {
 	},
 
 	mounted(){
+		SliderStore.openCaseStudy()
+
 		this.smooth = new Smooth({
 			native: false,
 			section: this.$refs.scrollZone,
@@ -124,6 +126,7 @@ export default {
 	},
 
 	beforeDestroy(){
+		SliderStore.closeCaseStudy()
 		this.unlistenEvents()
 		this.smooth.destroy()
 	},
@@ -215,7 +218,6 @@ export default {
 		},
 
 		leave(next){
-			console.log(this.menuIsOpen)
 			this.menuIsOpen ? EventBus.$emit('close-menu'):undefined
 			this.smooth.scrollTo(0)
 			this.next = next

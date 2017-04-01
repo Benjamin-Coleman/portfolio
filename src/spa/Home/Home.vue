@@ -31,7 +31,7 @@ export default {
 			let delay = 1500
 			let targetedPage = to.name
 			AnimationStore.setRouterInfo(from.name, targetedPage)
-			EventBus.$emit('leave-page', targetedPage)
+			EventBus.$emit('leave-page', {to: to, from: from})
 			_.delay(next, delay)
 		}
   },

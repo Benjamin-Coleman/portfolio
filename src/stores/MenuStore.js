@@ -8,12 +8,10 @@ class MenuStore {
 	}
 
 	openMenu(){
-		console.log('open')
 		this.state.isClosed = false
 	}
 
 	closeMenu(){
-		console.log('close')
 		this.state.isClosed = true
 	}
 

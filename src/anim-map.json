@@ -6,6 +6,10 @@
 					"appear": "appearDown",
 					"leave": "leaveUp"
 				},
+				"case-study": {
+					"appear": "appearDown",
+					"leave": "leaveUp"
+				},
 				"about": {
 					"appear": "appearForward",
 					"leave": "leaveForward"
@@ -31,6 +35,10 @@
 					"leave": "leaveBackward"
 				},
 				"work": {
+					"appear": "appearBackward",
+					"leave": "leaveBackward"
+				},
+				"case-study": {
 					"appear": "appearBackward",
 					"leave": "leaveBackward"
 				}

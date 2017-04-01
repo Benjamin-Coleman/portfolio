@@ -5,7 +5,8 @@ class SliderStore {
 			currentSlideId: 0,
 			isAnimated: false,
 			posY: 0,
-			isActive: false
+			isActive: false,
+			caseStudyIsOpen: false
 		}
 	}
 
@@ -39,6 +40,14 @@ class SliderStore {
 
 	setInactive(){
 		this.state.isActive = false
+	}
+
+	openCaseStudy(){
+		this.state.caseStudyIsOpen = true
+	}
+
+	closeCaseStudy(){
+		this.state.caseStudyIsOpen = false
 	}
 
 	reset(){

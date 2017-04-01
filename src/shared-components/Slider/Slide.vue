@@ -250,10 +250,11 @@ export default {
 				tlCaseStudy.to(this.$refs.slideInfo.children[0], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, '-=3')
 				tlCaseStudy.to(this.$refs.slideInfo.children[1], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, '-=2.8')
 
-			this.$route.name === 'case-study' ? tlCaseStudy.play(0) : tl.play(0)
+				this.$route.name === 'case-study' ? tlCaseStudy.play(0) : tl.play(0)
+
 		},
 		appearDown(delay){
-			let tl = new TimelineLite({delay: delay, onComplete: ()=>{
+			let tl = new TimelineLite({paused: true, delay: delay, onComplete: ()=>{
 				sliderStore.sliderIsNotAnimated()
 				EventBus.$emit('appear-slide')
 				sliderStore.setActive()
@@ -264,6 +265,17 @@ export default {
 				tl.set(this.$refs.slideInfo.children, {y:100, autoAlpha: 0})
 				tl.to(this.$refs.slideImg, .55, {y: 0,ease: Expo.easeOut})
 				tl.staggerTo(this.$refs.slideInfo.children, .7, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .05, 0)
+
+			let tlCaseStudy = new TimelineLite({paused: true})
+				tlCaseStudy.set(this.$refs.slideInfo.children, {y: 200, autoAlpha: 0})
+				tlCaseStudy.set(this.$refs.slideImg, {y: window.innerHeight*2})
+				tlCaseStudy.set(this.$el, {autoAlpha: 1})
+				tlCaseStudy.set(this.$refs.slideInfo, {y:0})
+				tlCaseStudy.to(this.$refs.slideImg, .55, {y: 0,ease: Expo.easeOut})
+				tlCaseStudy.to(this.$refs.slideInfo.children[0], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, 0)
+				tlCaseStudy.to(this.$refs.slideInfo.children[1], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, '-=1.8')
+
+			this.$route.name === 'case-study' ? tlCaseStudy.play() : tl.play()
 		},
 		appearUp(delay){
 			let tl = new TimelineLite({delay: delay, onComplete: ()=>{
@@ -304,7 +316,7 @@ export default {
 				tl.add(TweenMax.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}, -.03), 0)
 		},
 		appearBackward(){
-			let tl = new TimelineLite({onComplete: ()=>{
+			let tl = new TimelineLite({paused: true, onComplete: ()=>{
 				EventBus.$emit('appear-slide')
 				sliderStore.setActive()
 			}})
@@ -313,6 +325,16 @@ export default {
 				tl.set(this.$refs.slideImg, {z: 1000, opacity: 0})
 				tl.to(this.$refs.slideImg, 1.5, {z: 0, opacity: 1, ease: Expo.easeOut})
 				tl.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .08, 0)
+
+			let tlCaseStudy = new TimelineLite({paused: true})
+				tlCaseStudy.set(this.$el, {autoAlpha: 1})
+				tlCaseStudy.set(this.$refs.slideImg, {z: 1000, opacity: 0})
+				tlCaseStudy.set(this.$refs.slideInfo.children, {y: 200, autoAlpha: 0})
+				tlCaseStudy.to(this.$refs.slideImg, 1.5, {z: 0, opacity: 1, ease: Expo.easeOut})
+				tlCaseStudy.to(this.$refs.slideInfo.children[0], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, 0)
+				tlCaseStudy.to(this.$refs.slideInfo.children[1], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, '-=1.8')
+
+			this.$route.name === 'case-study' ? tlCaseStudy.play(0) : tl.play(0)
 		},
 
 		toggleMenu(){
