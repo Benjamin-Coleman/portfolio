@@ -169,7 +169,7 @@ export default {
 			EventBus.$off('leave-page', this.leavePage)
 			EventBus.$off('close-case-study', this.closeCaseStudy)
 		},
-		leavePage(){
+		leavePage(routerInfo){
 			let leaveAnim = this.getCurrentAnimLeave
 			sliderStore.setInactive()
 			TweenLite.to(this.$refs.slideImg, 1, {z: 0,ease: Expo.easeOut})
@@ -271,7 +271,7 @@ export default {
 				tlCaseStudy.set(this.$refs.slideImg, {y: window.innerHeight*2})
 				tlCaseStudy.set(this.$el, {autoAlpha: 1})
 				tlCaseStudy.set(this.$refs.slideInfo, {y:0})
-				tlCaseStudy.to(this.$refs.slideImg, .55, {y: 0,ease: Expo.easeOut})
+				tlCaseStudy.to(this.$refs.slideImg, .55, {y: 0, z:-100,ease: Expo.easeOut})
 				tlCaseStudy.to(this.$refs.slideInfo.children[0], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, 0)
 				tlCaseStudy.to(this.$refs.slideInfo.children[1], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, '-=1.8')
 
@@ -315,7 +315,7 @@ export default {
 				tl.to(this.$refs.slideImg, 1, {z: 1000, opacity: 0, ease: Expo.easeIn})
 				tl.add(TweenMax.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}, -.03), 0)
 		},
-		appearBackward(){
+		appearBackward(delay){
 			let tl = new TimelineLite({paused: true, onComplete: ()=>{
 				EventBus.$emit('appear-slide')
 				sliderStore.setActive()
@@ -330,7 +330,7 @@ export default {
 				tlCaseStudy.set(this.$el, {autoAlpha: 1})
 				tlCaseStudy.set(this.$refs.slideImg, {z: 1000, opacity: 0})
 				tlCaseStudy.set(this.$refs.slideInfo.children, {y: 200, autoAlpha: 0})
-				tlCaseStudy.to(this.$refs.slideImg, 1.5, {z: 0, opacity: 1, ease: Expo.easeOut})
+				tlCaseStudy.to(this.$refs.slideImg, 1.5, {z: -100, opacity: 1, ease: Expo.easeOut})
 				tlCaseStudy.to(this.$refs.slideInfo.children[0], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, 0)
 				tlCaseStudy.to(this.$refs.slideInfo.children[1], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, '-=1.8')
 

@@ -27,7 +27,8 @@ export default {
 			cameraY: 0,
 			state: sliderStore.state,
 			menuState: menuStore.state,
-			animationState: animationStore.state
+			animationState: animationStore.state,
+			targetZ: 10
 		}
 	},
 
@@ -155,8 +156,17 @@ export default {
 		goToPage(routerInfo){
 			let targetedPage = routerInfo.to.name
 			let leaveAnim = this.getCurrentAnimLeave
-			routerInfo.to.name === 'case-study' ? this.setCaseStudyId(routerInfo.to.params.id): undefined
+
+			if (routerInfo.to.name === 'case-study' ) {
+				this.setCaseStudyId(routerInfo.to.params.id)
+				this.targetZ = 10.5
+			}
+			else {
+				this.targetZ = 10
+			}
+
 			this[leaveAnim](targetedPage)
+
 		},
 
 		goToCaseStudy(){
@@ -205,7 +215,7 @@ export default {
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
 				tl.call(this.generateShapesForSlide, [to, this.currentSlideId])
 				tl.set(this.camera.position, {y: 20})
-				tl.to(this.camera.position, 1,{y: 0, ease: Expo.easeOut})
+				tl.to(this.camera.position, 1,{y: 0, z: this.targetZ, ease: Expo.easeOut})
 		},
 
 		leaveDown(to){
@@ -240,7 +250,7 @@ export default {
 				tl.call(this.generateShapesForSlide, [to, this.currentSlideId])
 				tl.set(this.camera.position, {z: 0})
 				tl.to(this.$refs.bgRenderer.children, 2, {opacity: 1, ease: Expo.easeOut})
-				tl.to(this.camera.position, 1,{z: 10, ease: Expo.easeOut}, '-=2')
+				tl.to(this.camera.position, 1,{z: this.targetZ, ease: Expo.easeOut}, '-=2')
 		},
 
 		goForward(){
