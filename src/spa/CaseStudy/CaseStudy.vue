@@ -217,6 +217,7 @@ export default {
 		},
 
 		leave(next){
+			window.removeEventListener('wheel', this.wheel)
 			this.menuIsOpen ? EventBus.$emit('close-menu'):undefined
 			this.smooth.scrollTo(0)
 			this.next = next
