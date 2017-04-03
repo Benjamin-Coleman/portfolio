@@ -192,7 +192,8 @@ export default {
 
 		leave(next){
 			window.removeEventListener('wheel', this.wheel)
-			this.menuIsOpen ? EventBus.$emit('close-menu'):undefined
+			this.menuIsOpen && EventBus.$emit('close-menu')
+			MenuStore.menuIsAnimated()
 			this.smooth.scrollTo(0)
 			this.next = next
 			this.leaveWhenScrollIsReset( this.leaveSequence )

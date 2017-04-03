@@ -71,6 +71,9 @@ export default {
     },
     sliderIsAnimated(){
       return this.sliderState.isAnimated
+    },
+    menuIsNotAnimated(){
+      return !this.state.isAnimated
     }
   },
 
@@ -175,7 +178,7 @@ export default {
     },
 
     toggleClose: function(){
-      if (this.menuIsNotAnimated() && !this.sliderIsAnimated) {
+      if (this.menuIsNotAnimated && !this.sliderIsAnimated) {
         if (this.isClosed){
           this.openMenu()
         }
@@ -213,14 +216,14 @@ export default {
       }
     },
 
-    menuIsNotAnimated: function(){
-      if (this.openMenuAnim.isActive() || this.closeMenuAnim.isActive() || this.iconEnterAnim.isActive()) {
-        return false
-      }
-      else {
-        return true
-      }
-    },
+    // menuIsNotAnimated: function(){
+    //   if (this.openMenuAnim.isActive() || this.closeMenuAnim.isActive() || this.iconEnterAnim.isActive()) {
+    //     return false
+    //   }
+    //   else {
+    //     return true
+    //   }
+    // },
 
     openMenu: function(){
       this.openMenuAnim.play(0)

@@ -182,6 +182,7 @@ export default {
 		closeCaseStudy(){
 			let tl = new TimelineLite({paused: true, onComplete: ()=>{
 				EventBus.$emit('case-study-closed')
+				menuStore.menuIsNotAnimated()
 				this.buttonIsClickable = true
 			}})
 				tl.staggerTo(this.$refs.slideInfo.children, .6, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .04)
