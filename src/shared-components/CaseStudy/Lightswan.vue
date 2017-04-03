@@ -2,8 +2,8 @@
 	<div class="case-study__lightswan">
 		<div class="case-study__photo-background-container">
 			<div class="case-study__photo-background"></div>
-			<img class="case-study__photo" src="/src/assets/imgs/case-study/lightswan/card.png"
-			srcset="/src/assets/imgs/case-study/lightswan/card@2x.png 2x"
+			<img class="case-study__photo" src="../../assets/imgs/case-study/lightswan/card.png"
+			srcset="../../assets/imgs/case-study/lightswan/card@2x.png 2x"
 			alt="">
 		</div>
 
@@ -13,13 +13,13 @@
 				<div class="case-study__mini-title">
 					Europa - titling
 				</div>
-				<img class="case-study__typo-img" src="/src/assets/imgs/case-study/lightswan/typo1.svg" alt="">
+				<img class="case-study__typo-img" src="../../assets/imgs/case-study/lightswan/typo1.svg" alt="">
 			</div>
 			<div class="case-study__typography-block">
 				<div class="case-study__mini-title">
 					Baskerville - text
 				</div>
-				<img class="case-study__typo-img" src="/src/assets/imgs/case-study/lightswan/typo2.svg" alt="">
+				<img class="case-study__typo-img" src="../../assets/imgs/case-study/lightswan/typo2.svg" alt="">
 			</div>
 		</div>
 
@@ -54,8 +54,8 @@
 				<div class="case-study__half-block">
 					<div class="case-study__mobile-screen">
 						<div class="case-study__screen-circle">
-							<img src="/src/assets/imgs/case-study/lightswan/home-mobile.png"
-							srcset="/src/assets/imgs/case-study/lightswan/home-mobile@2x.png 2x"
+							<img src="../../assets/imgs/case-study/lightswan/home-mobile.png"
+							srcset="../../assets/imgs/case-study/lightswan/home-mobile@2x.png 2x"
 							alt="">
 						</div>
 					</div>
@@ -65,18 +65,18 @@
 
 			<div class="case-study__full-screenshot">
 				<img class="case-study__full-screenshot__bg"
-					src="/src/assets/imgs/case-study/lightswan/screen-bg.svg"
+					src="../../assets/imgs/case-study/lightswan/screen-bg.svg"
 					alt="">
 				<img class="case-study__full-screenshot__img case-study__row case-study__img "
-					src="/src/assets/imgs/case-study/lightswan/home-desktop.jpg"
-					srcset="/src/assets/imgs/case-study/lightswan/home-desktop@2x.jpg 2x"
+					src="../../assets/imgs/case-study/lightswan/home-desktop.jpg"
+					srcset="../../assets/imgs/case-study/lightswan/home-desktop@2x.jpg 2x"
 					alt="">
 			</div>
 
 			<div class="case-study__row">
 					<img class="case-study__perspective-mockup"
-					src="/src/assets/imgs/case-study/lightswan/perspective-mockup.png"
-					srcset="/src/assets/imgs/case-study/lightswan/perspective-mockup@2x.png 2x"
+					src="../../assets/imgs/case-study/lightswan/perspective-mockup.png"
+					srcset="../../assets/imgs/case-study/lightswan/perspective-mockup@2x.png 2x"
 					alt="">
 			</div>
 
@@ -92,8 +92,8 @@
 				<div class="case-study__half-block">
 					<div class="case-study__mobile-screen">
 						<div class="case-study__screen-circle">
-							<img src="/src/assets/imgs/case-study/lightswan/article-mobile.png"
-							srcset="/src/assets/imgs/case-study/lightswan/article-mobile@2x.png 2x"
+							<img src="../../assets/imgs/case-study/lightswan/article-mobile.png"
+							srcset="../../assets/imgs/case-study/lightswan/article-mobile@2x.png 2x"
 							alt="">
 						</div>
 					</div>
@@ -103,11 +103,11 @@
 
 			<div class="case-study__full-screenshot">
 				<img class="case-study__full-screenshot__bg"
-					src="/src/assets/imgs/case-study/lightswan/screen-bg.svg"
+					src="../../assets/imgs/case-study/lightswan/screen-bg.svg"
 					alt="">
 				<img class="case-study__full-screenshot__img case-study__row case-study__img "
-					src="/src/assets/imgs/case-study/lightswan/article-desktop.jpg"
-					srcset="/src/assets/imgs/case-study/lightswan/article-desktop@2x.jpg 2x"
+					src="../../assets/imgs/case-study/lightswan/article-desktop.jpg"
+					srcset="../../assets/imgs/case-study/lightswan/article-desktop@2x.jpg 2x"
 					alt="">
 			</div>
 

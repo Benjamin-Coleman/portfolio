@@ -2,6 +2,7 @@ const assets = require('./assets.json')
 
 let LoaderMixin = {
 	methods: {
+
 		findAssets(size, caseStudyName){
 			let assetsToLoad = []
 			assetsToLoad = assetsToLoad.concat(assets['default'][size])
@@ -18,8 +19,20 @@ let LoaderMixin = {
 				assetsToLoad = assetsToLoad.concat(assetsPath[size])
 			}
 
+			assetsToLoad = this.resolveAssets(assetsToLoad)
+
 			return assetsToLoad
+		},
+
+		resolveAssets(assetsToResolve){
+			let resolvedAssets = []
+			for (var i = 0; i < assetsToResolve.length; i++) {
+				let resolvedAsset = require('../../assets/' + assetsToResolve[i])
+				resolvedAssets.push(resolvedAsset)
+			}
+			return resolvedAssets
 		}
+
 	}
 }
 

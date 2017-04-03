@@ -35,14 +35,11 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/
       },{
-        test: /\.(png|jpg|gif|svg)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]?[hash]'
-        }
+        test: /\.(png|jpg|gif|svg|ico)$/,
+        loader: 'file-loader'
       },
       {
-        test: /\.(ttf|eot|otf|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+        test: /\.(ttf|eot|otf|woff(2)?)(\?[a-z0-9=&.]+)?$/,
         loader: 'file-loader'
       }
     ]
