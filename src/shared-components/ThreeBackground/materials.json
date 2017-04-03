@@ -58,6 +58,11 @@
 				"id": 11,
 				"colorStart": "#FF635A",
 				"colorStop": "#773CFB"
+		},
+		{
+				"id": 12,
+				"colorStart": "#FFFFFF",
+				"colorStop": "#F7D261"
 		}
 	]
 }
