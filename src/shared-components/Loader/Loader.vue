@@ -2,7 +2,7 @@
 	<div class="loader-container" :class="{'loader--loaded': pageReady}">
 		<div class="loader">
 			<div class="loader__text">
-				<img src="/src/assets/imgs/loading.svg" alt="">
+				<img src="../../assets/imgs/loading.svg" alt="">
 			</div>
 			<div class="loader__lines">
 				<div class="loader__thin-line"></div>
