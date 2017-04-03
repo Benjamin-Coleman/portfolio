@@ -26,7 +26,7 @@
 				</div>
 
 				<div class="slide__sub-info__info">
-					<div class="slide__sub-info__info__title" :style="titleColorStyle">Period</div>
+					<div class="slide__sub-info__info__title" :style="titleColorStyle">Year</div>
 					<div class="slide__sub-info__info__description" :style="textColorStyle">{{ period }}</div>
 				</div>
 
