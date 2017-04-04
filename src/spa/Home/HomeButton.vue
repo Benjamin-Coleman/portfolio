@@ -6,7 +6,7 @@
 			<router-link class="home-button__square" to="/work" ref="square" @mouseover.native="mouseover" @mouseout.native="mouseout"></router-link>
 			<div class="home-button__arrow" ref="arrow">
 				<div class="home-button__arrow__line" ref="line"></div>
-				<img class="home-button__arrow__img" ref="arrowImg" src="../../assets/imgs/arrow.svg" alt="">
+				<img class="home-button__arrow__img" ref="arrowImg" src="/assets/imgs/arrow.svg" alt="">
 			</div>
 		</div>
 	</div>

@@ -38,6 +38,7 @@
 import CloseButton from './CloseButton.vue'
 import Lightswan from '../../shared-components/CaseStudy/Lightswan.vue'
 import Maje from '../../shared-components/CaseStudy/Maje.vue'
+import Shopsquare from '../../shared-components/CaseStudy/Shopsquare.vue'
 
 import {TimelineLite, Expo} from 'gsap'
 import Smooth from '../../commons/script/SmoothScrolling.js'
@@ -156,7 +157,6 @@ export default {
 				noscrollbar: true
 			})
 			this.smooth.init()
-			console.log(this.smooth)
 			this.events()
 			this.getScrollValue()
 			this.isOpen = true
@@ -216,7 +216,8 @@ export default {
 	components: {
 		CloseButton,
 		Lightswan,
-		Maje
+		Maje,
+		Shopsquare
 	}
 
 }

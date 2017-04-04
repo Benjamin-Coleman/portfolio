@@ -1,25 +1,25 @@
 {
 	"default": {
 		"1x": [
-			"imgs/slider/lightswan.png",
-			"imgs/slider/maje.png",
-			"imgs/slider/shopsquare.png",
-			"imgs/slider/google.png"
+			"../../../assets/imgs/slider/lightswan.png",
+			"../../../assets/imgs/slider/maje.png",
+			"../../../assets/imgs/slider/shopsquare.png",
+			"../../../assets/imgs/slider/google.png"
 		],
 		"2x": [
-			"imgs/slider/lightswan@2x.png",
-			"imgs/slider/maje@2x.png",
-			"imgs/slider/shopsquare@2x.png",
-			"imgs/slider/google@2x.png"
+			"../../../assets/imgs/slider/lightswan@2x.png",
+			"../../../assets/imgs/slider/maje@2x.png",
+			"../../../assets/imgs/slider/shopsquare@2x.png",
+			"../../../assets/imgs/slider/google@2x.png"
 		]
 	},
 	"case-study": {
 		"lightswan": {
 			"1x": [
-				"imgs/case-study/lightswan/card.png"
+				"../../../assets/imgs/case-study/lightswan/card.png"
 			],
 			"2x": [
-				"imgs/case-study/lightswan/card@2x.png"
+				"../../../assets/imgs/case-study/lightswan/card@2x.png"
 			]
 		}
 	}

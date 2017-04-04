@@ -34,7 +34,8 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/
-      },{
+      },
+      {
         test: /\.(png|jpg|gif|svg|ico)$/,
         loader: 'file-loader'
       },
@@ -51,8 +52,7 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    noInfo: true,
-    contentBase: './'
+    noInfo: true
   },
   performance: {
     hints: false
@@ -62,7 +62,6 @@ module.exports = {
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
-  module.exports.output.publicPath = '/'
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({

@@ -92,10 +92,10 @@ export default {
 
 	computed: {
 		resolvedImgPath(){
-			return require('../../assets/' + this.imgPath)
+			return '/assets/' + this.imgPath
 		},
 		resolvedImgPath2x(){
-			return require('../../assets/' + this.imgPath2x)
+			return '/assets/' + this.imgPath2x
 		},
 		getSliderPosY(){
 			return this.state.posY
