@@ -41,6 +41,7 @@ import Maje from '../../shared-components/CaseStudy/Maje.vue'
 
 import {TimelineLite, Expo} from 'gsap'
 import Smooth from '../../commons/script/SmoothScrolling.js'
+import VirtualScroll from 'virtual-scroll'
 import {EventBus} from  '../../event-bus.js'
 import _ from 'lodash'
 
@@ -132,7 +133,7 @@ export default {
 
 		appearAnim(){
 			let tl = new TimelineLite({onComplete: this.appear})
-				tl.fromTo(this.$refs.scrollZone, .8, {y: window.innerHeight}, {y: 0, ease: Expo.easeOut})
+				tl.add( TweenLite.fromTo(this.$refs.scrollZone, .8, {y: window.innerHeight}, {y: 0, ease: Expo.easeOut, clearProps: 'all'}) )
 				tl.staggerFromTo(this.$refs.infos.children, 1, {y: 20, autoAlpha: 0}, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .05, "-=.3")
 				tl.fromTo(this.$refs.header, 1, {y:-100}, {y: 0, ease: Expo.easeOut}, '-=1.5')
 		},
@@ -155,6 +156,7 @@ export default {
 				noscrollbar: true
 			})
 			this.smooth.init()
+			console.log(this.smooth)
 			this.events()
 			this.getScrollValue()
 			this.isOpen = true
