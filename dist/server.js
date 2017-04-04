@@ -5,6 +5,10 @@ var serveStatic = require('serve-static');
 app = express();
 app.use(serveStatic(__dirname));
 
+app.all('*', function(req, res) {
+  res.redirect('/index.html');
+});
+
 var port = process.env.PORT || 5000;
 app.listen(port);
 
