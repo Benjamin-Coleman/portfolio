@@ -16,10 +16,20 @@
 	"case-study": {
 		"lightswan": {
 			"1x": [
-				"../../../assets/imgs/case-study/lightswan/card.png"
+				"../../../assets/imgs/case-study/lightswan/card.png",
+				"../../../assets/imgs/case-study/lightswan/home-desktop.jpg",
+				"../../../assets/imgs/case-study/lightswan/home-mobile.png",
+				"../../../assets/imgs/case-study/lightswan/article-desktop.jpg",
+				"../../../assets/imgs/case-study/lightswan/article-mobile.png",
+				"../../../assets/imgs/case-study/lightswan/perspective-mockup.png"
 			],
 			"2x": [
-				"../../../assets/imgs/case-study/lightswan/card@2x.png"
+				"../../../assets/imgs/case-study/lightswan/card@2x.png",
+				"../../../assets/imgs/case-study/lightswan/home-desktop@2x.jpg",
+				"../../../assets/imgs/case-study/lightswan/home-mobile@2x.png",
+				"../../../assets/imgs/case-study/lightswan/article-desktop@2x.jpg",
+				"../../../assets/imgs/case-study/lightswan/article-mobile@2x.png",
+				"../../../assets/imgs/case-study/lightswan/perspective-mockup@2x.png"
 			]
 		}
 	}

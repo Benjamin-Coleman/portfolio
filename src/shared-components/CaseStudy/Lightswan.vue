@@ -152,6 +152,7 @@ export default {
 
 		.case-study__full-screenshot__bg {
 			background-color: #F7F3EA;
+			max-height: 3000px;
 		}
 
 		.case-study__screen-circle {

@@ -41,8 +41,7 @@ import Maje from '../../shared-components/CaseStudy/Maje.vue'
 import Shopsquare from '../../shared-components/CaseStudy/Shopsquare.vue'
 
 import {TimelineLite, Expo} from 'gsap'
-import Smooth from '../../commons/script/SmoothScrolling.js'
-import VirtualScroll from 'virtual-scroll'
+import SmoothScroll from '../../commons/script/SmoothScroll.js'
 import {EventBus} from  '../../event-bus.js'
 import _ from 'lodash'
 
@@ -91,7 +90,7 @@ export default {
 	beforeDestroy(){
 		SliderStore.closeCaseStudy()
 		this.unlistenEvents()
-		this.smooth.destroy()
+		this.smoothScroll.destroy()
 	},
 
 	beforeRouteLeave (to, from, next) {
@@ -134,7 +133,7 @@ export default {
 
 		appearAnim(){
 			let tl = new TimelineLite({onComplete: this.appear})
-				tl.add( TweenLite.fromTo(this.$refs.scrollZone, .8, {y: window.innerHeight}, {y: 0, ease: Expo.easeOut, clearProps: 'all'}) )
+				tl.add( TweenLite.fromTo(this.$refs.scrollZone, .8, {y: window.innerHeight}, {y: 0, ease: Expo.easeOut}) )
 				tl.staggerFromTo(this.$refs.infos.children, 1, {y: 20, autoAlpha: 0}, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .05, "-=.3")
 				tl.fromTo(this.$refs.header, 1, {y:-100}, {y: 0, ease: Expo.easeOut}, '-=1.5')
 		},
@@ -147,34 +146,20 @@ export default {
 
 		appear(){
 			SliderStore.setActive()
-			this.smooth = new Smooth({
-				native: false,
-				section: this.$refs.scrollZone,
-				ease: 0.15,
-				vs: {
-					mouseMultiplier: .4
-				},
-				noscrollbar: true
+			this.smoothScroll = new SmoothScroll(.1, {
+				el: this.$refs.scrollZone,
+				mouseMultiplier: .4
 			})
-			this.smooth.init()
+
 			this.events()
 			this.getScrollValue()
 			this.isOpen = true
 			this.isApear = true
 		},
 
-		leaveWhenScrollIsReset(){
-			if (this.smooth.vars.current === 0) {
-				return this.leaveSequence()
-			}
-			else {
-				requestAnimationFrame( this.leaveWhenScrollIsReset )
-			}
-		},
-
 		getScrollValue(){
 			!this.stopAf ? requestAnimationFrame(this.getScrollValue) : undefined
-			let newPosY = -this.smooth.vars.current * .7
+			let newPosY = this.smoothScroll.currentY * .7
 			SliderStore.setPosY(newPosY)
 		},
 
@@ -188,7 +173,7 @@ export default {
 		leaveSequence(){
 			EventBus.$emit('close-case-study')
 			this.stopAf = true
-			this.smooth.destroy()
+			this.smoothScroll.destroy()
 			this.leaveAnim()
 		},
 
@@ -196,9 +181,8 @@ export default {
 			window.removeEventListener('wheel', this.wheel)
 			this.menuIsOpen && EventBus.$emit('close-menu')
 			MenuStore.menuIsAnimated()
-			this.smooth.scrollTo(0)
+			this.smoothScroll.scrollTo(0, this.leaveSequence)
 			this.next = next
-			this.leaveWhenScrollIsReset( this.leaveSequence )
 		},
 
 		wheel(){
@@ -266,9 +250,8 @@ export default {
 	}
 
 	.case-study__scroll-zone {
-		position: relative;
+		position: absolute;
 		width: 100%;
-		height: 100%;
 	}
 
 	.case-study__infos {
