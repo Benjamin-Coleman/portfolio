@@ -48,10 +48,10 @@ export default class SmoothScroll {
 
 	getRoundedValue(valueToRound){
 		let roundedValue = valueToRound * 1000
-			roundedValue = Math.round(roundedValue)
-			roundedValue = roundedValue / 1000
+		roundedValue = Math.round(roundedValue)
+		roundedValue = roundedValue / 1000
 
-			return roundedValue
+		return roundedValue
 	}
 
 	reachOffset(){

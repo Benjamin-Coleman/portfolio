@@ -60,6 +60,7 @@
 				oldSlideTransform: 0,
 				oldDeltaY: 0,
 				leave: false,
+				directionQueue: '',
 				transformStyle: {
 					transform: 'translate3d(0, '+this.slideTransform+'px, 0)'
 				}
@@ -176,11 +177,11 @@
 					SliderStore.setPosY(this.slideTransform)
 				}
 
-				if (this.slideTransform <= -slideLimit) {
+				if (this.slideTransform <= -slideLimit || this.directionQueue === 'next') {
 					this.nextSlide()
 					_.delay(this.resetWheel.bind(this), 1000)
 				}
-				else if (this.slideTransform >= slideLimit){
+				else if (this.slideTransform >= slideLimit || this.directionQueue === 'prev'){
 					this.prevSlide()
 					_.delay(this.resetWheel.bind(this), 1000)
 				}
@@ -201,17 +202,18 @@
 				this.targetPosY = 0
 				this.slideTransform = 0
 				this.oldDeltaY = 0
-				TweenLite.set(this.$refs.slideContainer, {y: this.slideTransform})
+				this.directionQueue = ''
+				this.transformStyle.transform = 'translate3d(0, 0, 0)'
 			},
 
 			keyUp(event){
 				event.preventDefault()
 				if (!this.sliderIsAnimated && this.menuIsClosed && !this.menuIsAnimated) {
 					if (event.keyCode === 38) {
-						this.goToSlide(this.currentSlideId - 1)
+						this.directionQueue = 'prev'
 					}
 					else if (event.keyCode === 40) {
-						this.goToSlide(this.currentSlideId + 1)
+						this.directionQueue = 'next'
 					}
 				}
 			},
