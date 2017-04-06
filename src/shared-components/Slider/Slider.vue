@@ -141,6 +141,10 @@
 				event.preventDefault()
 				let targetModifier = event.deltaY / .8
 
+				if (!this.menuIsClosed) {
+					return undefined
+				}
+
 				if (event.deltaY !== this.oldDeltaY && !this.sliderIsAnimated) {
 					this.targetPosY -= targetModifier
 					this.oldDeltaY = event.deltaY
@@ -201,6 +205,7 @@
 			},
 
 			keyUp(event){
+				event.preventDefault()
 				if (!this.sliderIsAnimated && this.menuIsClosed && !this.menuIsAnimated) {
 					if (event.keyCode === 38) {
 						this.goToSlide(this.currentSlideId - 1)
