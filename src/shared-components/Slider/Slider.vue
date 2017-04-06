@@ -40,7 +40,7 @@
 		mounted(){
 			this.events()
 			this.loaderReady()
-			this.debouncedBackToSlide = _.debounce(this.backToSlide, 400)
+			this.debouncedBackToSlide = _.debounce(this.backToSlide, 200)
 		},
 
 		beforeDestroy(){
@@ -139,10 +139,10 @@
 
 			wheel(){
 				event.preventDefault()
-				let targetModifier = 9
+				let targetModifier = event.deltaY / .8
 
 				if (event.deltaY !== this.oldDeltaY && !this.sliderIsAnimated) {
-					event.deltaY > 0 ? this.targetPosY -= targetModifier : this.targetPosY += targetModifier
+					this.targetPosY -= targetModifier
 					this.oldDeltaY = event.deltaY
 				}
 
