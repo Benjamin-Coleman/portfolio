@@ -14,21 +14,28 @@
 import SplitText from '../../commons/script/SplitText.js'
 import {TimelineLite, Expo} from 'gsap'
 import {EventBus} from '../../event-bus.js'
-import sliderStore from '../../stores/SliderStore.js'
+
+import SliderStore from '../../stores/SliderStore.js'
+import LoaderStore from '../../stores/LoaderStore.js'
+
 const slides = require('./slides.json').slides
 
 export default {
 
 	data(){
 		return {
-			state: sliderStore.state,
-			currentSlideId: sliderStore.state.currentSlideId,
+			state: SliderStore.state,
+			loaderState: LoaderStore.state,
+			currentSlideId: SliderStore.state.currentSlideId,
 			sliderLength: slides.length,
 			sliderName: 'Projets'
 		}
 	},
 
 	computed: {
+		pageReady(){
+			return this.loaderState.pageReady
+		},
 		titleColor(){
 			return slides[this.state.currentSlideId].titleColor
 		},
@@ -36,10 +43,10 @@ export default {
 			return slides[this.state.currentSlideId].textColor
 		},
 		currentTitleColor(){
-			return slides[sliderStore.state.currentSlideId].titleColor
+			return slides[SliderStore.state.currentSlideId].titleColor
 		},
 		currentTextColor(){
-			return slides[sliderStore.state.currentSlideId].textColor
+			return slides[SliderStore.state.currentSlideId].textColor
 		}
 	},
 
@@ -49,7 +56,7 @@ export default {
 			classToGive: 'slide-indicator__slider-name__splitted'
 		})
 
-		this.$route.name !== 'case-study' ? this.appearAnim() : undefined
+		this.$route.name !== 'case-study' && this.pageReady ? this.appearAnim() : undefined
 
 		this.events()
 	},
@@ -66,6 +73,7 @@ export default {
 			EventBus.$on('leave-page', this.leaveAnim)
 			EventBus.$on('go-to-case-study', this.leaveAnim)
 			EventBus.$on('close-case-study', this.appearAnim)
+			EventBus.$on('page-ready', this.loaderReady)
 		},
 
 		unlistenEvents(){
@@ -74,6 +82,11 @@ export default {
 			EventBus.$off('leave-page', this.leaveAnim)
 			EventBus.$off('go-to-case-study', this.leaveAnim)
 			EventBus.$off('close-case-study', this.appearAnim)
+			EventBus.$off('page-ready', this.loaderReady)
+		},
+
+		loaderReady(){
+			this.$route.name !== 'case-study' ? this.appearAnim() : undefined
 		},
 
 		appearAnim(){
@@ -120,7 +133,7 @@ export default {
 		},
 
 		setNewSlideId(){
-			this.currentSlideId = sliderStore.state.currentSlideId
+			this.currentSlideId = SliderStore.state.currentSlideId
 		}
 	}
 

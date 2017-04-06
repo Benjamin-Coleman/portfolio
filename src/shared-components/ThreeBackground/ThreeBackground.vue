@@ -16,23 +16,28 @@ const materials = require('./materials.json').materials
 const slides = require('./slides.json')
 const slidesFromSlider = require('../../shared-components/Slider/slides.json').slides
 
-import sliderStore from '../../stores/SliderStore.js'
-import menuStore from '../../stores/MenuStore.js'
-import animationStore from '../../stores/AnimationStore.js'
+import SliderStore from '../../stores/SliderStore.js'
+import MenuStore from '../../stores/MenuStore.js'
+import AnimationStore from '../../stores/AnimationStore.js'
+import LoaderStore from '../../stores/LoaderStore.js'
 
 export default {
 
 	data(){
 		return {
 			cameraY: 0,
-			state: sliderStore.state,
-			menuState: menuStore.state,
-			animationState: animationStore.state,
+			state: SliderStore.state,
+			menuState: MenuStore.state,
+			animationState: AnimationStore.state,
+			loaderState: LoaderStore.state,
 			targetZ: 10
 		}
 	},
 
 	computed: {
+		pageReady(){
+			return this.loaderState.pageReady
+		},
 		currentSlideId(){
 			return this.state.currentSlideId
 		},
@@ -67,7 +72,11 @@ export default {
 		this.materials = []
 		this.generateMaterials()
 		this.initBg(this.$route.name)
-		this.$route.name === 'case-study' ? this.appearCaseStudy() : this.appearAnim()
+
+		if (this.pageReady) {
+			this.$route.name === 'case-study' ? this.appearCaseStudy() : this.appearAnim()
+		}
+
 	},
 
 	beforeDestroy(){
@@ -86,6 +95,10 @@ export default {
 			this.renderer.setSize(window.innerWidth, window.innerHeight)
 			this.$refs.bgRenderer.appendChild(this.renderer.domElement)
 			this.render()
+		},
+
+		loaderReady(){
+			this.$route.name === 'case-study' ? this.appearCaseStudy() : this.appearAnim()
 		},
 
 		appearAnim(){
@@ -136,6 +149,7 @@ export default {
 			EventBus.$on('slide-next',this.nextAnim)
 			EventBus.$on('slide-prev', this.prevAnim)
 			EventBus.$on('leave-page', this.goToPage)
+			EventBus.$on('page-ready', this.loaderReady)
 			EventBus.$on('go-to-case-study', this.goToCaseStudy)
 			EventBus.$on('close-case-study', this.leaveCaseStudy)
 		},
@@ -143,10 +157,11 @@ export default {
 		unlistenEvents(){
 			window.removeEventListener('resize', this.rendererResize.bind(this))
 			EventBus.$off('toggle-menu', this.toggleMenu);
+			EventBus.$off('page-ready', this.loaderReady)
 			EventBus.$off('slide-next',this.nextAnim)
 			EventBus.$off('slide-prev', this.prevAnim)
 			EventBus.$off('leave-page', this.goToPage)
-			EventBus.$on('close-case-study', this.leaveCaseStudy)
+			EventBus.$off('close-case-study', this.leaveCaseStudy)
 		},
 
 		toggleMenu(){
@@ -183,7 +198,7 @@ export default {
 				return window.location = '/work'
 			}
 			else {
-				sliderStore.setSlideId(projectId)
+				SliderStore.setSlideId(projectId)
 			}
 		},
 

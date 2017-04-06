@@ -48,6 +48,7 @@ import _ from 'lodash'
 import SliderStore from '../../stores/SliderStore.js'
 import MenuStore from '../../stores/MenuStore.js'
 import AnimationStore from '../../stores/AnimationStore.js'
+import LoaderStore from '../../stores/LoaderStore.js'
 
 const slides = require('../../shared-components/Slider/slides.json').slides
 
@@ -61,14 +62,21 @@ export default {
 			stopAf: false,
 			isApear: false,
 			menuState: MenuStore.state,
+			loaderState: LoaderStore.state,
 			projectName: ''
 		}
 	},
 
 	computed: {
+
+		pageReady(){
+			return this.loaderState.pageReady
+		},
+
 		menuIsOpen(){
 			return !this.menuState.isClosed
 		}
+
 	},
 
 	beforeMount(){
@@ -80,11 +88,12 @@ export default {
 	},
 
 	mounted(){
+		EventBus.$on('page-ready', this.loaderReady)
 		SliderStore.openCaseStudy()
 		this.closeHeaderAnim = new TimelineLite({paused: true})
 			this.closeHeaderAnim.to(this.$refs.header, .7, {y: -100, ease: Expo.easeInOut})
 
-		this.appearAnim()
+		this.loaderReady()
 	},
 
 	beforeDestroy(){
@@ -117,23 +126,22 @@ export default {
 
 		events(){
 			window.addEventListener('wheel', this.wheel)
-			EventBus.$on('page-ready', this.pageReady)
 			EventBus.$on('case-study-closed', this.leaveWorkPage)
 		},
 
 		unlistenEvents(){
 			window.removeEventListener('wheel', this.wheel)
-			EventBus.$off('page-ready', this.pageReady)
+			EventBus.$off('page-ready', this.loaderReady)
 			EventBus.$off('case-study-closed', this.leaveWorkPage)
 		},
 
-		pageReady(){
-			this.isOpen = false
+		loaderReady(){
+			this.pageReady && this.appearAnim()
 		},
 
 		appearAnim(){
 			let tl = new TimelineLite({onComplete: this.appear})
-				tl.add( TweenLite.fromTo(this.$refs.scrollZone, .8, {y: window.innerHeight}, {y: 0, ease: Expo.easeOut}) )
+				tl.fromTo(this.$refs.scrollZone, .8, {y: window.innerHeight}, {y: 0, ease: Expo.easeOut})
 				tl.staggerFromTo(this.$refs.infos.children, 1, {y: 20, autoAlpha: 0}, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .05, "-=.3")
 				tl.fromTo(this.$refs.header, 1, {y:-100}, {y: 0, ease: Expo.easeOut}, '-=1.5')
 		},

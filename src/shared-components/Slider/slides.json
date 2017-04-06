@@ -43,8 +43,8 @@
 		},
 		{
 			"title": "google-a&c",
-			"titleColor": "#FFFFFF",
-			"textColor": "#FEEFC3",
+			"titleColor": "#FDEFBD",
+			"textColor": "#EEBCC0",
 			"description": "During my second internship at StinkDigital I worked on the integration of the new Google Arts & Culture experiments desktop website. I had worked with Google closure tools",
 			"context": "internship",
 			"role": "Front end",

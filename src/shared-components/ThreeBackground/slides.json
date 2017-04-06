@@ -255,8 +255,8 @@
 		},
 		{
 			"name": "google-a&c",
-			"backgroundColor": "#FABC00",
-			"navigationGradient": ["#FFFFFF", "#F9C525"],
+			"backgroundColor": "#D2414F",
+			"navigationGradient": ["#FDEFBD", "#D54C5C"],
 			"shapes": [
 				{
 					"x": 11,

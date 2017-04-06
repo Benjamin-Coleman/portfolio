@@ -21,7 +21,8 @@ import {TimelineLite, TweenLite,Expo} from 'gsap'
 import SplitText from '../../commons/script/SplitText.js'
 import {EventBus} from '../../event-bus.js'
 
-import animationStore from '../../stores/AnimationStore.js'
+import AnimationStore from '../../stores/AnimationStore.js'
+import LoaderStore from '../../stores/LoaderStore.js'
 
 export default {
 
@@ -29,7 +30,8 @@ export default {
 		return {
 			name: 'Raoul Gaillard',
 			subtitle: "I’m a Dev & Ui student at Hetic.<br> Looking  for a 6 months internship.",
-			animationState: animationStore.state
+			animationState: AnimationStore.state,
+			loaderState: LoaderStore.state
 		}
 	},
 
@@ -39,6 +41,9 @@ export default {
 		},
 		getCurrentAnimLeave(){
 			return this.animationState.leave
+		},
+		pageReady(){
+			return this.loaderState.pageReady
 		}
 	},
 
@@ -49,7 +54,7 @@ export default {
 			whatToSplit: 'lines'
 		})
 
-		this.appearPage()
+		this.pageReady && this.appearPage()
 		this.events()
 
 		this.openMenuAnim = new TimelineLite({paused: true})
@@ -72,11 +77,13 @@ export default {
 		events(){
 			EventBus.$on('toggle-menu', this.toggleMenu)
 			EventBus.$on('leave-page', this.leavePage)
+			EventBus.$on('page-ready', this.appearPage)
 		},
 
 		unlistenEvents(){
 			EventBus.$off('toggle-menu', this.toggleMenu)
 			EventBus.$off('leave-page', this.leavePage)
+			EventBus.$on('page-ready', this.appearPage)
 		},
 
 		leavePage(){

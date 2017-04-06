@@ -54,9 +54,10 @@ import {TimelineLite, Expo} from 'gsap'
 import {EventBus} from '../../event-bus.js'
 import AssetsLoader from 'assets-loader'
 
-import sliderStore from '../../stores/SliderStore.js'
-import menuStore from '../../stores/MenuStore.js'
-import animationStore from '../../stores/AnimationStore.js'
+import SliderStore from '../../stores/SliderStore.js'
+import MenuStore from '../../stores/MenuStore.js'
+import AnimationStore from '../../stores/AnimationStore.js'
+import LoaderStore from '../../stores/LoaderStore.js'
 
 import LoaderMixin from '../Loader/LoaderMixin.js'
 
@@ -67,9 +68,10 @@ export default {
 
 	data(){
 		return {
-			state: sliderStore.state,
-			menuState: menuStore.state,
-			animationState: animationStore.state,
+			state: SliderStore.state,
+			menuState: MenuStore.state,
+			animationState: AnimationStore.state,
+			loaderState: LoaderStore.state,
 			imgName: this.title,
 			isLoading: false,
 			progress: 0,
@@ -91,6 +93,9 @@ export default {
 	},
 
 	computed: {
+		pageReady(){
+			return this.loaderState.pageReady
+		},
 		resolvedImgPath(){
 			return '/assets/' + this.imgPath
 		},
@@ -153,7 +158,7 @@ export default {
 			this.buttonHoverAnim.to(this.$refs.button, .5, {borderColor: new HexToRgba().convert(this.textColor, 1), ease: Expo.easeInOut}, 0)
 
 		this.events()
-		this.appearPage()
+		this.loaderReady()
 	},
 
 	beforeDestroy(){
@@ -161,34 +166,45 @@ export default {
 	},
 
 	methods: {
+
 		events(){
 			EventBus.$on('slide-prev', this.slidePrev)
 			EventBus.$on('slide-next', this.slideNext)
 			EventBus.$on('toggle-menu', this.toggleMenu)
 			EventBus.$on('leave-page', this.leavePage)
 			EventBus.$on('close-case-study', this.closeCaseStudy)
+			EventBus.$on('page-ready', this.loaderReady)
 		},
+
 		unlistenEvents(){
 			EventBus.$off('slide-prev', this.slidePrev)
 			EventBus.$off('slide-next', this.slideNext)
 			EventBus.$off('toggle-menu', this.toggleMenu)
 			EventBus.$off('leave-page', this.leavePage)
 			EventBus.$off('close-case-study', this.closeCaseStudy)
+			EventBus.$off('page-ready', this.loaderReady)
 		},
+
+		loaderReady(){
+			this.pageReady && this.appearPage()
+		},
+
 		leavePage(routerInfo){
 			let leaveAnim = this.getCurrentAnimLeave
-			sliderStore.setInactive()
+			SliderStore.setInactive()
 			TweenLite.to(this.$refs.slideImg, 1, {z: 0,ease: Expo.easeOut})
 			this.currentSlideId === this.slideId ? this[leaveAnim]() : undefined
 		},
+
 		appearPage(){
 			let appearAnim = this.getCurrentAnimAppear
 			this.currentSlideId === this.slideId ? this[appearAnim]() : undefined
 		},
+
 		closeCaseStudy(){
 			let tl = new TimelineLite({paused: true, onComplete: ()=>{
 				EventBus.$emit('case-study-closed')
-				menuStore.menuIsNotAnimated()
+				MenuStore.menuIsNotAnimated()
 				this.buttonIsClickable = true
 			}})
 				tl.staggerTo(this.$refs.slideInfo.children, .6, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .04)
@@ -196,6 +212,7 @@ export default {
 
 			this.slideId === this.currentSlideId ? tl.play(0) : undefined
 		},
+
 		goToCaseStudy(){
 			event.preventDefault()
 			this.buttonIsClickable = false
@@ -215,6 +232,7 @@ export default {
 				TweenLite.to(this.$refs.loadingBar, 1, {scaleX: 0, ease: Expo.easeOut})
 			}
 		},
+
 		loadCaseStudy(){
 			if (!this.buttonIsClickable || ( this.getSliderPosY < 1 && this.getSliderPosY > 1 ) || this.sliderIsAnimated) {
 				return undefined
@@ -238,10 +256,11 @@ export default {
 			})
 			loader.start()
 		},
+
 		appearAnim(){
 			let tl = new TimelineLite({paused: true, onComplete: ()=>{
 				EventBus.$emit('appear-slide')
-				sliderStore.setActive()
+				SliderStore.setActive()
 			}})
 				tl.set(this.$el, {autoAlpha: 1})
 				tl.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
@@ -260,11 +279,12 @@ export default {
 				this.$route.name === 'case-study' ? tlCaseStudy.play(0) : tl.play(0)
 
 		},
+
 		appearDown(delay){
 			let tl = new TimelineLite({paused: true, delay: delay, onComplete: ()=>{
-				sliderStore.sliderIsNotAnimated()
+				SliderStore.sliderIsNotAnimated()
 				EventBus.$emit('appear-slide')
-				sliderStore.setActive()
+				SliderStore.setActive()
 			}})
 				tl.set(this.$refs.slideImg, {y: window.innerHeight*2})
 				tl.set(this.$el, {autoAlpha: 1})
@@ -284,11 +304,12 @@ export default {
 
 			this.$route.name === 'case-study' ? tlCaseStudy.play() : tl.play()
 		},
+
 		appearUp(delay){
 			let tl = new TimelineLite({delay: delay, onComplete: ()=>{
-				sliderStore.sliderIsNotAnimated()
+				SliderStore.sliderIsNotAnimated()
 				EventBus.$emit('appear-slide')
-				sliderStore.setActive()
+				SliderStore.setActive()
 			}})
 				tl.set(this.$refs.slideImg, {y: -window.innerHeight*2})
 				tl.set(this.$el, {autoAlpha: 1})
@@ -297,6 +318,7 @@ export default {
 				tl.to(this.$refs.slideImg, .55, {y: 0, ease: Expo.easeOut})
 				tl.staggerTo(this.$refs.slideInfo.children, .7, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, -.05, 0)
 		},
+
 		prevDown(){
 			let tl = new TimelineLite()
 				tl.staggerTo(this.$refs.slideInfo.children, .4, {y: 100, autoAlpha: 0,ease: Power1.easeIn}, -.04)
@@ -304,12 +326,14 @@ export default {
 				tl.to(this.$refs.slideInfo, .4, {y: window.innerHeight,ease: Power1.easeIn}, 0)
 				tl.set(this.$el, {autoAlpha: 0})
 		},
+
 		leaveDown(transitionTime = .8){
 			let tl = new TimelineLite()
 				tl.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0,ease: Expo.easeIn}, -.05)
 				tl.to(this.$refs.slideImg, transitionTime, {y: window.innerHeight,ease: Expo.easeIn}, 0)
 				tl.set(this.$el, {autoAlpha: 0})
 		},
+
 		leaveUp(transitionTime){
 			let tl = new TimelineLite()
 				tl.staggerTo(this.$refs.slideInfo.children, .4, {y: -100, autoAlpha: 0,ease: Power1.easeIn}, .04)
@@ -317,15 +341,17 @@ export default {
 				tl.to(this.$refs.slideInfo, .4, {y: -window.innerHeight, ease: Power1.easeIn}, 0)
 				tl.set(this.$el, {autoAlpha: 0})
 		},
+
 		leaveForward(){
 			let tl = new TimelineLite()
 				tl.to(this.$refs.slideImg, 1, {z: 1000, opacity: 0, ease: Expo.easeIn})
 				tl.add(TweenMax.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}, -.03), 0)
 		},
+
 		appearBackward(delay){
 			let tl = new TimelineLite({paused: true, onComplete: ()=>{
 				EventBus.$emit('appear-slide')
-				sliderStore.setActive()
+				SliderStore.setActive()
 			}})
 				tl.set(this.$el, {autoAlpha: 1})
 				tl.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
@@ -348,16 +374,20 @@ export default {
 			this.currentSlideId === this.slideId && this.menuIsClosed ? this.openMenuAnim.play(0) : undefined
 			this.currentSlideId === this.slideId && !this.menuIsClosed ? this.closeMenuAnim.play(0) : undefined
 		},
+
 		buttonHover(){
 			!this.isLoading ? this.buttonHoverAnim.play() : undefined
 		},
+
 		buttonOut(){
 			this.buttonHoverAnim.reverse()
 		},
+
 		slidePrev(lastSlideId){
 			lastSlideId === this.slideId ? this.prevDown(.35) : undefined
 			this.currentSlideId === this.slideId ? this.appearUp(1) : undefined
 		},
+		
 		slideNext(lastSlideId){
 			lastSlideId === this.slideId ? this.leaveUp(.35) : undefined
 			this.currentSlideId === this.slideId ? this.appearDown(1) : undefined

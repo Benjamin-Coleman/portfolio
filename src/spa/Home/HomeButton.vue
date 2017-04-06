@@ -19,17 +19,36 @@
 	import {EventBus} from '../../event-bus.js'
 	import SplitText from '../../commons/script/SplitText.js'
 
+	import LoaderStore from '../../stores/LoaderStore.js'
+
 	export default {
+
+		data(){
+			return {
+				loaderState: LoaderStore.state
+			}
+		},
+
+		computed: {
+
+			pageReady(){
+				return this.loaderState.pageReady
+			}
+
+		},
+
 		mounted: function(){
 
 			let splittedText = new SplitText(this.$refs.buttonText, {classToGive: 'home-btn-st'})
 			this.$splittedText = this.$el.querySelectorAll('.home-btn-st')
 
-			this.appearAnim = new TimelineLite()
-				this.appearAnim.staggerFrom(this.$splittedText, 1.5, {y:-10, autoAlpha: 0, ease: Expo.easeOut}, .05)
+			this.appearAnim = new TimelineLite({paused: true, delay: .5})
+				this.appearAnim.staggerFrom(this.$splittedText, 2, {y:-10, autoAlpha: 0, ease: Expo.easeOut}, .03)
 				this.appearAnim.from(this.$refs.arrowImg, 1.5, {y:-50, autoAlpha: 0, ease: Expo.easeOut}, .05, 0)
 				this.appearAnim.from(this.$refs.line, 1.5, {scaleY:0, autoAlpha: 0, ease: Expo.easeOut}, .05, 0)
 				this.appearAnim.from(this.$refs.square.$el, 1.5, {autoAlpha: 0, ease: Expo.easeOut}, .05, 0)
+
+			this.pageReady && this.appearAnim.play()
 
 			this.homeButtonHoverAnim = new TimelineLite({paused: true})
 				this.homeButtonHoverAnim.to(this.$refs.square.$el, .5, {y:5, rotateY:90, ease: Expo.easeInOut})
@@ -58,11 +77,16 @@
 			leavePage(){
 				this.leaveAnim.play(0)
 			},
+			loaderReady(){
+				this.appearAnim.play()
+			},
 			events(){
 				EventBus.$on('leave-page', this.leavePage)
+				EventBus.$on('page-ready', this.loaderReady)
 			},
 			unlistenEvents(){
 				EventBus.$off('leave-page', this.leavePage)
+				EventBus.$off('page-ready', this.loaderReady)
 			}
 		}
 	}

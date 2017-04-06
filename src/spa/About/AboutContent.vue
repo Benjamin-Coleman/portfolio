@@ -19,7 +19,8 @@
 
 import {TimelineLite, TweenLite,Expo} from 'gsap'
 import {EventBus} from '../../event-bus.js'
-import menuStore from '../../stores/MenuStore.js'
+import MenuStore from '../../stores/MenuStore.js'
+import LoaderStore from '../../stores/LoaderStore.js'
 const aboutText = require('./about.json').about
 
 export default {
@@ -30,19 +31,25 @@ export default {
 			content: aboutText.content,
 			socialTitle: aboutText.socialTitle,
 			networks: aboutText.socialNetworks,
-			menuState: menuStore.state
+			menuState: MenuStore.state,
+			loaderState: LoaderStore.state
 		}
 	},
 
 	computed: {
+
+		pageReady(){
+			return this.loaderState.pageReady
+		},
+
 		menuIsClosed(){
 			return this.menuState.isClosed
 		}
+
 	},
 
 	mounted(){
 		this.$bigTitle = this.$el.querySelectorAll('.about-content__big-title')
-		this.appear()
 		this.events()
 	},
 
@@ -51,22 +58,33 @@ export default {
 	},
 
 	methods: {
+
 		events(){
 			EventBus.$on('leave-page', this.leave)
 			EventBus.$on('toggle-menu', this.toggleMenu)
+			EventBus.$on('page-ready', this.loaderReady)
 		},
+
 		unlistenEvents(){
 			EventBus.$off('leave-page', this.leave)
 			EventBus.$off('toggle-menu', this.toggleMenu)
+			EventBus.$off('page-ready', this.loaderReady)
 		},
+
+		loaderReady(){
+			this.pageReady && this.appear()
+		},
+
 		appear(){
-			let tl = new TimelineLite()
-				tl.staggerFromTo(this.$refs.aboutContent.children, 1.5, {y: 55, autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .1)
+			let tl = new TimelineLite({delay: .5})
+				tl.staggerFromTo(this.$refs.aboutContent.children, 1.5, {y: 40, autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .1)
 		},
+
 		leave(){
 			let tl = new TimelineLite()
-				tl.add(TweenMax.staggerTo(this.$refs.aboutContent.children, .3, {y: 55, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'all'}, -.08))
+				tl.add(TweenMax.staggerTo(this.$refs.aboutContent.children, .3, {y: 40, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'all'}, -.08))
 		},
+
 		toggleMenu(){
 			this.menuIsClosed ? this.appear() : this.leave()
 		}

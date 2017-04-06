@@ -20,6 +20,8 @@
 import AssetsLoader from 'assets-loader'
 import {EventBus} from '../../event-bus.js'
 import LoaderMixin from './LoaderMixin.js'
+import LoaderStore from '../../stores/LoaderStore.js'
+import _ from 'lodash'
 
 export default {
 
@@ -28,9 +30,21 @@ export default {
 	data(){
 		return {
 			linesScale: 0,
-			targetState: 100/3/100,
-			pageReady: false
+			state: LoaderStore.state,
+			targetState: 100/3/100
 		}
+	},
+
+	computed: {
+
+		pageReady(){
+			return this.state.pageReady
+		},
+
+		loadingState(){
+			return Math.floor(this.linesScale * 100)
+		}
+
 	},
 
 	mounted(){
@@ -59,7 +73,7 @@ export default {
 	methods: {
 		setPageReady(){
 			this.linesScale = 1
-			this.pageReady = true
+			LoaderStore.setPageReady()
 			EventBus.$emit('page-ready')
 		},
 		setProgression(progress){
@@ -74,12 +88,6 @@ export default {
 			this.$refs.loaderBigLine.style.OTransform = "scaleX("+this.linesScale+")";
 			this.$refs.loaderBigLine.style.transform = "scaleX("+this.linesScale+")";
 			this.linesScale >= 	1 ? undefined : requestAnimationFrame(this.progress.bind(this))
-		}
-	},
-
-	computed: {
-		loadingState(){
-			return Math.floor(this.linesScale * 100)
 		}
 	}
 

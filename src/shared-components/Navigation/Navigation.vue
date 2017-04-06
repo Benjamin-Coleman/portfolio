@@ -31,6 +31,7 @@ import NavItem from './NavItem.vue'
 
 import menuStore from '../../stores/MenuStore.js'
 import sliderStore from '../../stores/SliderStore.js'
+import LoaderStore from '../../stores/LoaderStore.js'
 
 const slides = require('../ThreeBackground/slides.json')
 
@@ -42,6 +43,7 @@ export default {
     return {
       state: menuStore.state,
       sliderState: sliderStore.state,
+      loaderState: LoaderStore.state,
       navItems: [
         {
           title: 'Home',
@@ -63,6 +65,9 @@ export default {
   },
 
   computed: {
+    pageReady(){
+      return this.loaderState.pageReady
+    },
     isClosed(){
       return this.state.isClosed
     },
@@ -87,10 +92,12 @@ export default {
     this.changeColor(this.$route.name)
     this.events()
 
-    this.iconEnterAnim = new TimelineLite()
+    this.iconEnterAnim = new TimelineLite({paused: true})
       this.iconEnterAnim.from(this.$menuLines[0], 0.4, {scaleX:0, ease:Power4.easeInOut}, '0.5')
       this.iconEnterAnim.from(this.$menuLines[2], 0.4, {scaleX:0, ease:Power4.easeInOut}, '-=0.2')
       this.iconEnterAnim.from(this.$menuLines[1], 0.4, {scaleX:0, ease:Power4.easeInOut}, '-=0.3')
+
+    this.pageReady && this.iconEnterAnim.play()
 
     this.openMenuAnim = new TimelineLite({paused: true,
     onStart: ()=>{
@@ -146,6 +153,7 @@ export default {
       EventBus.$on('slide-prev', this.changeSlide)
       EventBus.$on('leave-page', this.leavePage)
       EventBus.$on('close-menu', this.closeMenu)
+      EventBus.$on('page-ready', this.loaderReady)
       EventBus.$on('click-current-link', this.closeMenu)
     },
 
@@ -154,7 +162,12 @@ export default {
       EventBus.$off('slide-next', this.changeSlide)
       EventBus.$off('slide-prev', this.changeSlide)
       EventBus.$off('leave-page', this.leavePage)
+      EventBus.$off('page-ready', this.loaderReady)
       EventBus.$off('close-menu', this.closeMenu)
+    },
+
+    loaderReady(){
+      this.iconEnterAnim.play()
     },
 
     changeSlide(){

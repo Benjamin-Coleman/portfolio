@@ -27,9 +27,11 @@
 	import {TweenLite, Expo} from 'gsap'
 	import Slide from './Slide.vue'
 	import SlideIndicator from './SlideIndicator.vue'
-	import sliderStore from '../../stores/SliderStore.js'
-	import menuStore from '../../stores/MenuStore.js'
 	import _ from 'lodash'
+
+	import SliderStore from '../../stores/SliderStore.js'
+	import MenuStore from '../../stores/MenuStore.js'
+	import LoaderStore from '../../stores/LoaderStore.js'
 
 	const slides = require('./slides.json').slides
 
@@ -37,21 +39,22 @@
 
 		mounted(){
 			this.events()
-			this.$route.name === 'case-study' ? this.goToCaseStudy() : undefined
+			this.loaderReady()
 			this.debouncedBackToSlide = _.debounce(this.backToSlide, 400)
 		},
 
 		beforeDestroy(){
 			this.unlistenEvents()
-			sliderStore.reset()
-			sliderStore.setInactive()
+			SliderStore.reset()
+			SliderStore.setInactive()
 		},
 
 		data(){
 			return {
 				slides: slides,
-				state: sliderStore.state,
-				menuState: menuStore.state,
+				state: SliderStore.state,
+				menuState: MenuStore.state,
+				loaderState: LoaderStore.state,
 				targetPosY: 0,
 				slideTransform: 0,
 				oldSlideTransform: 0,
@@ -64,6 +67,9 @@
 		},
 
 		computed: {
+			pageReady(){
+				return this.loaderState.pageReady
+			},
 			currentSlideId(){
 				return this.state.currentSlideId
 			},
@@ -93,6 +99,7 @@
 				EventBus.$on('leave-page', this.leavePage)
 				EventBus.$on('go-to-case-study', this.goToCaseStudy)
 				EventBus.$on('case-study-closed', this.closeCaseStudy)
+				EventBus.$on('page-ready', this.loaderReady)
 			},
 
 			unlistenEvents(){
@@ -102,10 +109,15 @@
 				EventBus.$off('leave-page', this.leavePage)
 				EventBus.$off('go-to-case-study', this.goToCaseStudy)
 				EventBus.$off('case-study-closed', this.closeCaseStudy)
+				EventBus.$on('page-ready', this.loaderReady)
 			},
 
 			leavePage(){
 				this.leave = true
+			},
+
+			loaderReady(){
+				this.$route.name === 'case-study' && this.pageReady ? this.goToCaseStudy(): undefined
 			},
 
 			goToCaseStudy(){
@@ -120,7 +132,7 @@
 				this.caseStudyOpen = false
 				document.addEventListener('wheel', this.wheel)
 				document.addEventListener('keyup', this.keyUp)
-				sliderStore.setActive()
+				SliderStore.setActive()
 				this.leave = false
 				this.wheelLoop()
 			},
@@ -157,7 +169,7 @@
 					this.oldSlideTransform = this.slideTransform
 					this.slideTransform = newSlideTransform
 					this.transformStyle.transform = 'translate3d(0, '+this.slideTransform+'px, 0)'
-					sliderStore.setPosY(this.slideTransform)
+					SliderStore.setPosY(this.slideTransform)
 				}
 
 				if (this.slideTransform <= -slideLimit) {
@@ -222,18 +234,18 @@
 
 				if (slideId >= slides.length) {
 					direction = 'next'
-					sliderStore.reset()
+					SliderStore.reset()
 				}
 				else if (slideId < 0) {
 					direction = 'prev'
-					sliderStore.setSlideId(slides.length-1)
+					SliderStore.setSlideId(slides.length-1)
 				}
 				else {
 					this.currentSlideId < slideId ? direction = 'next' : direction= 'prev'
-					direction === 'next' ? sliderStore.increment() : sliderStore.decrement()
+					direction === 'next' ? SliderStore.increment() : SliderStore.decrement()
 				}
 				EventBus.$emit('slide-'+direction, lastSlideId)
-				sliderStore.sliderIsAnimated()
+				SliderStore.sliderIsAnimated()
 			}
 		},
 		components: {
