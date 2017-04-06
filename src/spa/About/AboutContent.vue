@@ -51,6 +51,7 @@ export default {
 	mounted(){
 		this.$bigTitle = this.$el.querySelectorAll('.about-content__big-title')
 		this.events()
+		this.loaderReady()
 	},
 
 	beforeDestroy(){
