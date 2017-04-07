@@ -74,6 +74,7 @@ export default {
 			EventBus.$on('go-to-case-study', this.leaveAnim)
 			EventBus.$on('close-case-study', this.appearAnim)
 			EventBus.$on('page-ready', this.loaderReady)
+			EventBus.$on('next-case-study', this.nextCaseStudy)
 		},
 
 		unlistenEvents(){
@@ -83,6 +84,11 @@ export default {
 			EventBus.$off('go-to-case-study', this.leaveAnim)
 			EventBus.$off('close-case-study', this.appearAnim)
 			EventBus.$off('page-ready', this.loaderReady)
+			EventBus.$off('next-case-study', this.nextCaseStudy)
+		},
+
+		nextCaseStudy(){
+			this.setNewSlideId()
 		},
 
 		loaderReady(){

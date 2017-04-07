@@ -5,7 +5,7 @@
 		</div>
 		<div class="case-study__scroll-zone" ref="scrollZone">
 			<div class="case-study__pane"></div>
-			<div class="case-study-content-background">
+			<div class="case-study-content-background" ref="contentBackground">
 				<div class="case-study__content case-study__row" ref="content">
 					<div class="case-study__infos" ref="infos">
 						<div class="case-study__info">
@@ -29,6 +29,7 @@
 					<component v-bind:is="projectName"></component>
 			</div>
 		</div>
+		<next-button></next-button>
 	</div>
 </div>
 </template>
@@ -36,6 +37,7 @@
 <script>
 
 import CloseButton from './CloseButton.vue'
+import NextButton from './NextButton.vue'
 import Lightswan from '../../shared-components/CaseStudy/Lightswan.vue'
 import Maje from '../../shared-components/CaseStudy/Maje.vue'
 import Shopsquare from '../../shared-components/CaseStudy/Shopsquare.vue'
@@ -79,7 +81,7 @@ export default {
 
 	},
 
-	beforeMount(){
+	created(){
 		let projectId = SliderStore.state.currentSlideId
 		this.slide = slides[projectId]
 		this.blockColorStyle = {
@@ -127,16 +129,32 @@ export default {
 		events(){
 			window.addEventListener('wheel', this.wheel)
 			EventBus.$on('case-study-closed', this.leaveWorkPage)
+			EventBus.$on('next-case-study', this.nextCaseStudy)
+			EventBus.$on('hide-case-study', this.hideCaseStudy)
 		},
 
 		unlistenEvents(){
 			window.removeEventListener('wheel', this.wheel)
 			EventBus.$off('page-ready', this.loaderReady)
 			EventBus.$off('case-study-closed', this.leaveWorkPage)
+			EventBus.$off('next-case-study', this.nextCaseStudy)
+			EventBus.$off('hide-case-study', this.hideCaseStudy)
 		},
 
 		loaderReady(){
 			this.pageReady && this.appearAnim()
+		},
+
+		nextCaseStudy(){
+			this.smoothScroll.destroy()
+			window.removeEventListener('wheel', this.wheel)
+			this.stopAf = true
+			this.isOpen = false
+			this.closeHeaderAnim.play()
+		},
+
+		hideCaseStudy(){
+			TweenLite.set(this.$refs.contentBackground, {autoAlpha: 0})
 		},
 
 		appearAnim(){
@@ -207,6 +225,7 @@ export default {
 
 	components: {
 		CloseButton,
+		NextButton,
 		Lightswan,
 		Maje,
 		Shopsquare
@@ -429,7 +448,6 @@ export default {
 		align-items: center;
 		width: 100%;
 		margin-top: 10em;
-		margin-bottom: 10em;
 	}
 
 	.case-study__full-screenshot__bg {

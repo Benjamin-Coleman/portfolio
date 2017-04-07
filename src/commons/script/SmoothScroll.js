@@ -9,6 +9,8 @@ export default class SmoothScroll {
 		this.currentY = 0
 		this.height = this.el.getBoundingClientRect().height
 
+		this.destroyed = false
+
 		this.vs = new VirtualScroll(vsOptions)
 		this.vs.on(this.onScroll.bind(this))
 
@@ -22,7 +24,10 @@ export default class SmoothScroll {
 	}
 
 	animate(){
-		if (this.callbackWhenReachOffset && (this.currentY >= -1 && this.currentY <= 1) ) {
+		if (this.destroyed) {
+			return undefined
+		}
+		else if (this.callbackWhenReachOffset && (this.currentY >= this.targetY - 1 && this.currentY <= this.targetY + 1) ) {
 			return this.reachOffset()
 		}
 		else {
@@ -40,7 +45,9 @@ export default class SmoothScroll {
 
 	scrollTo(offset, callback){
 		this.targetY = offset
+
 		if (callback) {
+			if (this.destroyed) { return callback() }
 			this.scroolToCallback = callback
 			this.callbackWhenReachOffset = true
 		}
@@ -60,7 +67,14 @@ export default class SmoothScroll {
 		this.callbackWhenReachOffset = false
 	}
 
+	reset(){
+		this.targetY = 0
+		this.currentY = 0
+	}
+
 	destroy(){
+		this.destroyed = true
+		this.reset()
 		this.vs.destroy()
 	}
 

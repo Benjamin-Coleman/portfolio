@@ -154,6 +154,8 @@ export default {
       EventBus.$on('leave-page', this.leavePage)
       EventBus.$on('close-menu', this.closeMenu)
       EventBus.$on('page-ready', this.loaderReady)
+      EventBus.$on('next-case-study', this.nextCaseStudy)
+      EventBus.$on('hide-case-study', this.loaderReady)
       EventBus.$on('click-current-link', this.closeMenu)
     },
 
@@ -163,10 +165,17 @@ export default {
       EventBus.$off('slide-prev', this.changeSlide)
       EventBus.$off('leave-page', this.leavePage)
       EventBus.$off('page-ready', this.loaderReady)
+      EventBus.$off('next-case-study', this.nextCaseStudy)
+      EventBus.$off('hide-case-study', this.loaderReady)
       EventBus.$off('close-menu', this.closeMenu)
     },
 
+    nextCaseStudy(){
+      this.iconEnterAnim.reverse()
+    },
+
     loaderReady(){
+      this.changeColor(this.$route.name)
       this.iconEnterAnim.play()
     },
 
@@ -228,15 +237,6 @@ export default {
         this.iconMouseOverAnim.reverse()
       }
     },
-
-    // menuIsNotAnimated: function(){
-    //   if (this.openMenuAnim.isActive() || this.closeMenuAnim.isActive() || this.iconEnterAnim.isActive()) {
-    //     return false
-    //   }
-    //   else {
-    //     return true
-    //   }
-    // },
 
     openMenu: function(){
       this.openMenuAnim.play(0)

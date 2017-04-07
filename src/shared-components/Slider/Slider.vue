@@ -110,7 +110,7 @@
 				EventBus.$off('leave-page', this.leavePage)
 				EventBus.$off('go-to-case-study', this.goToCaseStudy)
 				EventBus.$off('case-study-closed', this.closeCaseStudy)
-				EventBus.$on('page-ready', this.loaderReady)
+				EventBus.$off('page-ready', this.loaderReady)
 			},
 
 			leavePage(){

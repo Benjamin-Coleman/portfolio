@@ -77,7 +77,7 @@ export default {
 		},
 
 		appear(){
-			let tl = new TimelineLite({delay: .5})
+			let tl = new TimelineLite({delay: .3})
 				tl.staggerFromTo(this.$refs.aboutContent.children, 1.5, {y: 40, autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .1)
 		},
 

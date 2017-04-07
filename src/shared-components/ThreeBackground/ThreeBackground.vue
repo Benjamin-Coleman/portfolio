@@ -152,6 +152,7 @@ export default {
 			EventBus.$on('page-ready', this.loaderReady)
 			EventBus.$on('go-to-case-study', this.goToCaseStudy)
 			EventBus.$on('close-case-study', this.leaveCaseStudy)
+			EventBus.$on('next-case-study', this.nextCaseStudy)
 		},
 
 		unlistenEvents(){
@@ -162,10 +163,18 @@ export default {
 			EventBus.$off('slide-prev', this.prevAnim)
 			EventBus.$off('leave-page', this.goToPage)
 			EventBus.$off('close-case-study', this.leaveCaseStudy)
+			EventBus.$off('close-case-study', this.leaveCaseStudy)
+			EventBus.$off('next-case-study', this.nextCaseStudy)
 		},
 
 		toggleMenu(){
 			this.menuIsClosed ? this.closeMenuAnim() : this.openMenuAnim()
+		},
+
+		nextCaseStudy(){
+			let targetedBg = slides['work'][this.currentSlideId].backgroundColor
+			TweenLite.set(this.$el, {backgroundColor: targetedBg})
+			this.generateShapesForSlide('work', this.currentSlideId)
 		},
 
 		goToPage(routerInfo){

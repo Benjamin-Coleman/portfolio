@@ -53,6 +53,7 @@ import SplitText from '../../commons/script/SplitText.js'
 import {TimelineLite, Expo} from 'gsap'
 import {EventBus} from '../../event-bus.js'
 import AssetsLoader from 'assets-loader'
+import _ from 'lodash'
 
 import SliderStore from '../../stores/SliderStore.js'
 import MenuStore from '../../stores/MenuStore.js'
@@ -60,6 +61,8 @@ import AnimationStore from '../../stores/AnimationStore.js'
 import LoaderStore from '../../stores/LoaderStore.js'
 
 import LoaderMixin from '../Loader/LoaderMixin.js'
+
+const slides = require('./slides.json').slides
 
 export default {
 	props: ['title', 'description', 'context', 'role', 'period', 'slideId', 'titleColor', 'textColor', 'imgPath', 'imgPath2x', 'caseStudy', 'url'],
@@ -75,6 +78,7 @@ export default {
 			imgName: this.title,
 			isLoading: false,
 			progress: 0,
+			nextHook: false,
 			buttonIsClickable: true,
 			textColorStyle: {
 				color: this.textColor
@@ -95,6 +99,9 @@ export default {
 	computed: {
 		pageReady(){
 			return this.loaderState.pageReady
+		},
+		nextAppear(){
+			return this.state.nextAppear
 		},
 		resolvedImgPath(){
 			return '/assets/' + this.imgPath
@@ -174,6 +181,7 @@ export default {
 			EventBus.$on('leave-page', this.leavePage)
 			EventBus.$on('close-case-study', this.closeCaseStudy)
 			EventBus.$on('page-ready', this.loaderReady)
+			EventBus.$on('next-case-study', this.nextCaseStudy)
 		},
 
 		unlistenEvents(){
@@ -183,6 +191,37 @@ export default {
 			EventBus.$off('leave-page', this.leavePage)
 			EventBus.$off('close-case-study', this.closeCaseStudy)
 			EventBus.$off('page-ready', this.loaderReady)
+			EventBus.$off('next-case-study', this.nextCaseStudy)
+		},
+
+		nextCaseStudy(payload){
+			let currentSlideId = payload.currentId
+			let oldSlideId = payload.oldId
+
+			this.nextHook = true
+
+			if (this.slideId === currentSlideId) {
+				TweenLite.set(this.$el, {autoAlpha: 1})
+				TweenLite.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
+				TweenLite.set(this.$refs.slideInfo.children[0], {y: 100, autoAlpha: 1})
+				TweenLite.set(this.$refs.slideInfo.children[1], {y: 100, autoAlpha: 1})
+				TweenLite.set(this.$refs.slideImg, {y: 0})
+				TweenLite.set(this.$refs.slideImg, {z: -100})
+				TweenLite.set(this.$refs.slideInfo, {y: 0})
+			}
+
+			if (this.slideId === oldSlideId) {
+				this.buttonIsClickable = true
+				TweenLite.set(this.$refs.slideImg, {z: 0})
+				TweenLite.set(this.$el, {autoAlpha: 0})
+			}
+
+		},
+
+		getOldSlideId(){
+			let oldSlideId
+			slides[this.currentSlideId - 1] ? oldSlideId = this.currentSlideId - 1 : oldSlideId = slides.length - 1
+			return oldSlideId
 		},
 
 		loaderReady(){
@@ -205,8 +244,16 @@ export default {
 			let tl = new TimelineLite({paused: true, onComplete: ()=>{
 				EventBus.$emit('case-study-closed')
 				MenuStore.menuIsNotAnimated()
-				this.buttonIsClickable = true
+				_.delay( ()=>{
+					this.buttonIsClickable = true
+					this.nextHook = false
+				}, 100 )
 			}})
+				tl.set(this.$refs.slideInfo.children,{y: 100})
+				tl.set(this.$refs.slideInfo.children[2], {autoAlpha: 0})
+				tl.set(this.$refs.slideInfo.children[3], {autoAlpha: 0})
+				tl.set(this.$refs.slideInfo.children[4], {autoAlpha: 0})
+				tl.set(this.$refs.slideImg, {z: -100})
 				tl.staggerTo(this.$refs.slideInfo.children, .6, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .04)
 				tl.to(this.$refs.slideImg, 1.4, {z: 0, ease: Expo.easeOut}, 0)
 
@@ -224,7 +271,6 @@ export default {
 					tl.to(this.$refs.slideInfo.children[2], 1, {autoAlpha: 0,ease: Expo.easeOut}, 0)
 					tl.to(this.$refs.slideInfo.children[3], 1, {autoAlpha: 0,ease: Expo.easeOut}, 0)
 					tl.to(this.$refs.slideInfo.children[4], 1, {autoAlpha: 0,ease: Expo.easeOut}, 0)
-					tl.to(this.$refs.slideImg, 2, {z: -100, ease: Expo.easeOut}, 0)
 					tl.to(this.$refs.slideImg, 2, {z: -100, ease: Expo.easeOut}, 0)
 					tl.set(this.$refs.loadingBar, {scaleX: 0})
 			}
@@ -387,7 +433,7 @@ export default {
 			lastSlideId === this.slideId ? this.prevDown(.35) : undefined
 			this.currentSlideId === this.slideId ? this.appearUp(1) : undefined
 		},
-		
+
 		slideNext(lastSlideId){
 			lastSlideId === this.slideId ? this.leaveUp(.35) : undefined
 			this.currentSlideId === this.slideId ? this.appearDown(1) : undefined
