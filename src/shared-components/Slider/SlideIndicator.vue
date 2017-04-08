@@ -28,7 +28,8 @@ export default {
 			loaderState: LoaderStore.state,
 			currentSlideId: SliderStore.state.currentSlideId,
 			sliderLength: slides.length,
-			sliderName: 'Projets'
+			sliderName: 'Projets',
+			isVisible: false
 		}
 	},
 
@@ -89,6 +90,7 @@ export default {
 
 		nextCaseStudy(){
 			this.setNewSlideId()
+			this.appearAnim()
 		},
 
 		loaderReady(){
@@ -96,7 +98,8 @@ export default {
 		},
 
 		appearAnim(){
-			let tl = new TimelineLite({delay: .3})
+
+			let tl = new TimelineLite({delay: .3, paused: true})
 				tl.set(this.$el, {autoAlpha: 1})
 				tl.set(this.$refs.currentSlide, {color: this.currentTitleColor})
 				tl.set(this.$refs.sliderLength, {color: this.currentTitleColor})
@@ -106,9 +109,17 @@ export default {
 				tl.fromTo(this.$refs.sliderLength, 1.5, {y: 30,autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, 0)
 				tl.fromTo(this.$refs.separator, 1.5, {scaleY: 0,autoAlpha: 0}, {scaleY: 1, autoAlpha: 1, ease: Expo.easeOut}, '-=1.5')
 				tl.staggerFromTo(this.$refs.sliderName.children, 2, {y: 10, autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .06, 0)
+
+				if (!this.isVisible) {
+					tl.play()
+					this.isVisible = true
+				}
+
 		},
 
 		leaveAnim(){
+			this.isVisible = false
+
 			let tl = new TimelineLite()
 				tl.to(this.$refs.currentSlide, .6, {y: -30,autoAlpha: 0, ease: Expo.easeIn})
 				tl.to(this.$refs.sliderLength, .6, {y: 30,autoAlpha: 0, ease: Expo.easeIn}, 0)
