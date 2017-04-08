@@ -209,6 +209,11 @@ export default {
 				TweenLite.set(this.$refs.slideImg, {y: 0})
 				TweenLite.set(this.$refs.slideImg, {z: -100})
 				TweenLite.set(this.$refs.slideInfo, {y: 0})
+				TweenMax.staggerTo(this.$refs.slideInfo.children, 1, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .04)
+				TweenLite.to(this.$refs.slideImg, 1.4, {z: 0, ease: Expo.easeOut}, 0)
+				_.delay( ()=>{
+					this.caseStudyClosed()
+				}, 1500 )
 			}
 
 			if (this.slideId === oldSlideId) {
@@ -241,14 +246,18 @@ export default {
 			this.currentSlideId === this.slideId ? this[appearAnim]() : undefined
 		},
 
+		caseStudyClosed(){
+			EventBus.$emit('case-study-closed')
+			MenuStore.menuIsNotAnimated()
+			_.delay( ()=>{
+				this.buttonIsClickable = true
+				this.nextHook = false
+			}, 100 )
+		},
+
 		closeCaseStudy(){
 			let tl = new TimelineLite({paused: true, onComplete: ()=>{
-				EventBus.$emit('case-study-closed')
-				MenuStore.menuIsNotAnimated()
-				_.delay( ()=>{
-					this.buttonIsClickable = true
-					this.nextHook = false
-				}, 100 )
+				this.caseStudyClosed()
 			}})
 				tl.set(this.$refs.slideInfo.children,{y: 100})
 				tl.set(this.$refs.slideInfo.children[2], {autoAlpha: 0})
@@ -258,7 +267,7 @@ export default {
 				tl.staggerTo(this.$refs.slideInfo.children, .6, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .04)
 				tl.to(this.$refs.slideImg, 1.4, {z: 0, ease: Expo.easeOut}, 0)
 
-			this.slideId === this.currentSlideId ? tl.play(0) : undefined
+			this.slideId === this.currentSlideId && !this.nextHook ? tl.play(0) : undefined
 		},
 
 		goToCaseStudy(){

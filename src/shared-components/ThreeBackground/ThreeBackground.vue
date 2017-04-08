@@ -175,6 +175,7 @@ export default {
 			let targetedBg = slides['work'][this.currentSlideId].backgroundColor
 			TweenLite.set(this.$el, {backgroundColor: targetedBg})
 			this.generateShapesForSlide('work', this.currentSlideId)
+			TweenLite.to(this.camera.position, 1.4, {z: 10, ease: Expo.easeOut})
 		},
 
 		goToPage(routerInfo){
