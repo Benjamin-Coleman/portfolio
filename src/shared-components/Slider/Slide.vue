@@ -248,6 +248,7 @@ export default {
 
 		caseStudyClosed(){
 			EventBus.$emit('case-study-closed')
+			MenuStore.unblockMenu()
 			MenuStore.menuIsNotAnimated()
 			_.delay( ()=>{
 				this.nextHook = false

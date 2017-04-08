@@ -52,6 +52,8 @@ export default {
 		onClick(){
 			let parentSmoothScroll = this.$parent.smoothScroll
 			let offset = (parentSmoothScroll.height - window.innerHeight) * -1
+			MenuStore.blockMenu()
+			parentSmoothScroll.off()
 			parentSmoothScroll.scrollTo(offset, this.nextProject)
 		},
 

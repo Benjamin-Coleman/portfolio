@@ -71,6 +71,9 @@ export default {
     isClosed(){
       return this.state.isClosed
     },
+    isBlocked(){
+      return this.state.isBlocked
+    },
     currentSlideId(){
       return this.sliderState.currentSlideId
     },
@@ -200,7 +203,7 @@ export default {
     },
 
     toggleClose: function(){
-      if (this.menuIsNotAnimated && !this.sliderIsAnimated) {
+      if (this.menuIsNotAnimated && !this.sliderIsAnimated && !this.isBlocked) {
         if (this.isClosed){
           this.openMenu()
         }

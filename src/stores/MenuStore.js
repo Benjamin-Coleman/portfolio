@@ -3,7 +3,8 @@ class MenuStore {
 	constructor() {
 		this.state = {
 			isClosed: true,
-			isAnimated: false
+			isAnimated: false,
+			isBlocked: false
 		}
 	}
 
@@ -20,11 +21,20 @@ class MenuStore {
 	}
 
 	menuIsAnimated(){
+		console.trace('animated')
 		this.state.isAnimated = true
 	}
 
 	menuIsNotAnimated(){
 		this.state.isAnimated = false
+	}
+
+	blockMenu(){
+		this.state.isBlocked = true
+	}
+
+	unblockMenu(){
+		this.state.isBlocked = false
 	}
 
 }
