@@ -78,11 +78,11 @@ export default {
 			this.linesScale = 1
 
 			let tl = new TimelineLite()
-			tl.staggerTo(this.$refs.loaderLines.children, .7, { scaleX: 0, ease: Expo.easeInOut}, -.08)
+			tl.staggerTo(this.$refs.loaderLines.children, 1, { scaleX: 0, ease: Expo.easeInOut}, -.08)
 			tl.call(()=>{
 				LoaderStore.setPageReady()
 				EventBus.$emit('page-ready')
-			}, [], null, '-=.3')
+			}, [], null, '-=.4')
 			tl.to(this.$el, .5, {autoAlpha: 0, ease: Power1.easeIn}, '-=.4')
 
 		},
