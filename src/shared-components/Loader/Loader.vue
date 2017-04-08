@@ -1,10 +1,10 @@
 <template lang="html">
-	<div class="loader-container" :class="{'loader--loaded': pageReady}">
+	<div class="loader-container">
 		<div class="loader">
 			<div class="loader__text">
 				<img src="/assets/imgs/loading.svg" alt="">
 			</div>
-			<div class="loader__lines">
+			<div class="loader__lines" ref="loaderLines">
 				<div class="loader__thin-line"></div>
 				<div class="loader__big-line" ref="loaderBigLine"></div>
 			</div>
@@ -21,6 +21,7 @@ import AssetsLoader from 'assets-loader'
 import {EventBus} from '../../event-bus.js'
 import LoaderMixin from './LoaderMixin.js'
 import LoaderStore from '../../stores/LoaderStore.js'
+import {TimelineLite, Expo, TweenMax, Power1} from 'gsap'
 import _ from 'lodash'
 
 export default {
@@ -31,7 +32,8 @@ export default {
 		return {
 			linesScale: 0,
 			state: LoaderStore.state,
-			targetState: 100/3/100
+			targetState: 100/3/100,
+			complete: false
 		}
 	},
 
@@ -63,7 +65,7 @@ export default {
 			this.setProgression(progress)
 		})
 		loader.on('complete', assets=>{
-			this.setPageReady()
+			this.complete = true
 		})
 		loader.start()
 
@@ -71,23 +73,34 @@ export default {
 	},
 
 	methods: {
+
 		setPageReady(){
 			this.linesScale = 1
-			LoaderStore.setPageReady()
-			EventBus.$emit('page-ready')
+
+			let tl = new TimelineLite()
+			tl.staggerTo(this.$refs.loaderLines.children, .7, { scaleX: 0, ease: Expo.easeInOut}, -.08)
+			tl.call(()=>{
+				LoaderStore.setPageReady()
+				EventBus.$emit('page-ready')
+			}, [], null, '-=.3')
+			tl.to(this.$el, .5, {autoAlpha: 0, ease: Power1.easeIn}, '-=.4')
+
 		},
+
 		setProgression(progress){
-			this.targetState = progress
+			progress > this.targetState ? this.targetState = progress : undefined
 		},
+
 		progress(){
-			this.linesScale += (this.targetState - this.linesScale) * 0.009
+			this.linesScale += (this.targetState - this.linesScale) * 0.05
 
 			this.$refs.loaderBigLine.style.webkitTransform = "scaleX("+this.linesScale+")";
 			this.$refs.loaderBigLine.style.MozTransform = "scaleX("+this.linesScale+")";
 			this.$refs.loaderBigLine.style.msTransform = "scaleX("+this.linesScale+")";
 			this.$refs.loaderBigLine.style.OTransform = "scaleX("+this.linesScale+")";
 			this.$refs.loaderBigLine.style.transform = "scaleX("+this.linesScale+")";
-			this.linesScale >= 	1 ? undefined : requestAnimationFrame(this.progress.bind(this))
+			this.linesScale < .99 ? requestAnimationFrame(this.progress.bind(this)) : undefined
+			this.linesScale < 1 && this.linesScale > .99 && this.complete ? this.setPageReady() : undefined
 		}
 	}
 
@@ -147,19 +160,6 @@ export default {
 		background-image: linear-gradient(-135deg, #FFC3CA 0%, #7E9DF6 100%);
 	}
 
-	.loader--loaded {
-		animation-name: pageReady;
-		animation-duration: .8s;
-		animation-timing-function: ease;
-		animation-fill-mode: forwards;
-
-		.loader__big-line {
-			transition: all .7s cubic-bezier(0.19, 1, 0.22, 1);
-			transform: scale(1);
-		}
-
-	}
-
 	.loader__state {
 		color: #ffffff;
 		font-family: 'PlayfairDisplay';
@@ -169,12 +169,6 @@ export default {
 		margin-left: .6em;
 		display: inline-block;
 		vertical-align: middle;
-	}
-
-	@keyframes pageReady {
-	    0%   {opacity: 1;}
-			99%  {opacity: 0;}
-	    100% {opacity: 0; visibility: hidden;}
 	}
 
 </style>
