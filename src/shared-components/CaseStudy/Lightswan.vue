@@ -167,6 +167,7 @@ export default {
 
 		.case-study__perspective-mockup {
 			display: block;
+			margin-top: 10em;
 		}
 
 		.case-study__article-mobile {

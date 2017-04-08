@@ -72,6 +72,10 @@ export default class SmoothScroll {
 		this.currentY = 0
 	}
 
+	off(){
+		this.vs.off()
+	}
+
 	destroy(){
 		this.destroyed = true
 		this.reset()

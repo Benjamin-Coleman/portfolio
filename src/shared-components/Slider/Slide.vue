@@ -250,8 +250,8 @@ export default {
 			EventBus.$emit('case-study-closed')
 			MenuStore.menuIsNotAnimated()
 			_.delay( ()=>{
-				this.buttonIsClickable = true
 				this.nextHook = false
+				this.buttonIsClickable = true
 			}, 100 )
 		},
 

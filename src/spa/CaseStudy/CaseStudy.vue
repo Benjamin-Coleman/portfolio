@@ -207,6 +207,7 @@ export default {
 			window.removeEventListener('wheel', this.wheel)
 			this.menuIsOpen && EventBus.$emit('close-menu')
 			MenuStore.menuIsAnimated()
+			this.smoothScroll.off()
 			this.smoothScroll.scrollTo(0, this.leaveSequence)
 			this.next = next
 		},
