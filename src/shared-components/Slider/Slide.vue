@@ -201,6 +201,7 @@ export default {
 			this.nextHook = true
 
 			if (this.slideId === currentSlideId) {
+				this.buttonIsClickable = false
 				TweenLite.set(this.$el, {autoAlpha: 1})
 				TweenLite.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
 				TweenLite.set(this.$refs.slideInfo.children[0], {y: 100, autoAlpha: 1})

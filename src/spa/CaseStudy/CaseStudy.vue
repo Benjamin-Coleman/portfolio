@@ -240,6 +240,7 @@ export default {
 		height: 100%;
 		position: relative;
 		z-index: 1;
+		font-size: 30px;
 	}
 
 	.case-study__header {
@@ -264,6 +265,7 @@ export default {
 		width: 100%;
 		height: 100%;
 		background-color: #011933;
+		padding-bottom: 6em;
 	}
 
 	.case-study__content {

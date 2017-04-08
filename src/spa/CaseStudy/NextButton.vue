@@ -112,9 +112,9 @@ export default {
 		height: 100%;
 		width: 100%;
 		font-size: 110px;
-		padding: 2em 0em;
+		padding: 1.7em 0em;
 		display: block;
-		background-color: #011933;
+		background-color: #03162A;
 		z-index: 10;
 	}
 
@@ -144,10 +144,11 @@ export default {
 		background-image: linear-gradient(-135deg, #FFC3CA 0%, #7E9DF6 100%);
 		transform: translate3d(-50%, -90px, 0px) scaleX(0);
 		transform-origin: left;
+		z-index: 10;
 	}
 
 	.next-button__background {
-		background-color: #03162A;
+		background-color: darken(#03162A, 1);
 		width: 100%;
 		height: 100vh;
 		bottom: 0px;
@@ -160,7 +161,7 @@ export default {
 
 	.next-button__content {
 		position: relative;
-		z-index: 10;
+		z-index: 11;
 	}
 
 </style>
