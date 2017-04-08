@@ -56,12 +56,12 @@ export default {
 		},
 
 		nextProject(){
-			let newSlideId = this.getNextSlideId()
-			let oldSlideId = this.currentSlideId
-			SliderStore.setSlideId(newSlideId)
+			this.newSlideId = this.getNextSlideId()
+			this.oldSlideId = this.currentSlideId
+			SliderStore.setSlideId(this.newSlideId)
 			EventBus.$emit('next-case-study', {
-				currentId: newSlideId,
-				oldId: oldSlideId,
+				currentId: this.newSlideId,
+				oldId: this.oldSlideId,
 			})
 			this.blocked = true
 			this.leaveAnim()
@@ -84,7 +84,10 @@ export default {
 
 		hideCaseStudy(){
 			TweenLite.set(this.$el, {backgroundColor: 'rgba(0,0,0,0)'})
-			EventBus.$emit('hide-case-study')
+			EventBus.$emit('hide-case-study', {
+				currentId: this.newSlideId,
+				oldId: this.oldSlideId,
+			})
 		},
 
 		onMouseOver(){

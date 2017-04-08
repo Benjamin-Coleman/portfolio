@@ -181,7 +181,7 @@ export default {
 			EventBus.$on('leave-page', this.leavePage)
 			EventBus.$on('close-case-study', this.closeCaseStudy)
 			EventBus.$on('page-ready', this.loaderReady)
-			EventBus.$on('next-case-study', this.nextCaseStudy)
+			EventBus.$on('hide-case-study', this.nextCaseStudy)
 		},
 
 		unlistenEvents(){
@@ -191,7 +191,7 @@ export default {
 			EventBus.$off('leave-page', this.leavePage)
 			EventBus.$off('close-case-study', this.closeCaseStudy)
 			EventBus.$off('page-ready', this.loaderReady)
-			EventBus.$off('next-case-study', this.nextCaseStudy)
+			EventBus.$off('hide-case-study', this.nextCaseStudy)
 		},
 
 		nextCaseStudy(payload){

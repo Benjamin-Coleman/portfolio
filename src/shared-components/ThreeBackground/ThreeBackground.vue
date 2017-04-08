@@ -152,7 +152,7 @@ export default {
 			EventBus.$on('page-ready', this.loaderReady)
 			EventBus.$on('go-to-case-study', this.goToCaseStudy)
 			EventBus.$on('close-case-study', this.leaveCaseStudy)
-			EventBus.$on('next-case-study', this.nextCaseStudy)
+			EventBus.$on('hide-case-study', this.nextCaseStudy)
 		},
 
 		unlistenEvents(){
@@ -164,7 +164,7 @@ export default {
 			EventBus.$off('leave-page', this.goToPage)
 			EventBus.$off('close-case-study', this.leaveCaseStudy)
 			EventBus.$off('close-case-study', this.leaveCaseStudy)
-			EventBus.$off('next-case-study', this.nextCaseStudy)
+			EventBus.$off('hide-case-study', this.nextCaseStudy)
 		},
 
 		toggleMenu(){
