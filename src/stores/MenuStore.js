@@ -21,7 +21,6 @@ class MenuStore {
 	}
 
 	menuIsAnimated(){
-		console.trace('animated')
 		this.state.isAnimated = true
 	}
 

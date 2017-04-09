@@ -27,6 +27,7 @@
 					</div>
 
 					<component v-bind:is="projectName"></component>
+
 			</div>
 		</div>
 		<next-button></next-button>
@@ -356,7 +357,7 @@ export default {
 		justify-content: center;
 		align-items: center;
 
-		margin: 200px 0px;
+		margin: 250px 0px;
 	}
 
 	.case-study__photo-background {
@@ -428,6 +429,7 @@ export default {
 
 	.case-study__half-block {
 		position: relative;
+		display: inline-block;
 		width: 50%;
 	}
 

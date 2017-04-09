@@ -39,6 +39,14 @@
 			"2x": [
 				"../../../assets/imgs/case-study/maje/woman@2x.png"
 			]
+		},
+		"shopsquare": {
+			"1x": [
+				"../../../assets/imgs/case-study/shopsquare/shoes.png"
+			],
+			"2x": [
+				"../../../assets/imgs/case-study/shopsquare/shoes@2x.png"
+			]
 		}
 	}
 }

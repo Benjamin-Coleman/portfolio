@@ -1,5 +1,5 @@
 <template lang="html">
-	<div class="case-study__video case-study__row">
+	<div class="case-study__video">
 		<video class="case-study__video-element " autoplay loop>
 			<slot></slot>
 		</video>
@@ -8,7 +8,7 @@
 
 <script>
 export default {
-
+	props: ['type']
 }
 </script>
 
@@ -19,7 +19,7 @@ export default {
 	font-size: 30px;
 	display: block;
 	position: relative;
-	padding: 7em 7em;
+	padding: 5em 5em;
 	background-color: #03162A;
 	z-index: 1;
 }
@@ -32,10 +32,40 @@ export default {
 	align-items: center;
 	justify-content: center;
 
-	&:last-child {
-		margin-bottom: 0em;
+}
+
+.case-study__video-half {
+
+	width: 40%;
+	margin-bottom: 0em;
+
+	.case-study__video-element {
+		padding: 5em 5em;
+		max-height: 530px;
 	}
 
+	&:first-child {
+		.case-study__video-element {
+			margin-right: 5em;
+			padding-left: 5em;
+			padding-right: 2.5em;
+		}
+	}
+
+	&:last-child {
+		.case-study__video-element {
+			margin-left: 5em;
+			padding-left: 2.5em;
+			padding-right: 5em;
+		}
+	}
+
+}
+
+.case-study__video-row {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 </style>

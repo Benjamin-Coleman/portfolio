@@ -128,7 +128,8 @@ export default {
 			return this.animationState.leave
 		},
 		loadingState(){
-			return 'Loading ' + this.progress * 100 + '%'
+			let progress = this.progress*100
+			return 'Loading ' + progress.toFixed() + '%'
 		}
 	},
 
