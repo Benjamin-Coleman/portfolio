@@ -36,8 +36,8 @@
 
 <script>
 
-import CloseButton from './CloseButton.vue'
-import NextButton from './NextButton.vue'
+import CloseButton from '../../shared-components/CaseStudy/CloseButton.vue'
+import NextButton from '../../shared-components/CaseStudy/NextButton.vue'
 import Lightswan from '../../shared-components/CaseStudy/Lightswan.vue'
 import Maje from '../../shared-components/CaseStudy/Maje.vue'
 import Shopsquare from '../../shared-components/CaseStudy/Shopsquare.vue'
@@ -415,8 +415,9 @@ export default {
 
 	.case-study__text-content {
 		font-family: 'PlayfairDisplay';
-		font-size: 13px;
-		line-height: 1.8em;
+		font-size: 14px;
+		line-height: 2em;
+		opacity: .6;
 	}
 
 	.case-study__line {

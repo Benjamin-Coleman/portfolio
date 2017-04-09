@@ -33,12 +33,6 @@
 			</div>
 		</div>
 
-		<div class="case-study__middle-part">
-
-		</div>
-
-
-
 		<div class="case-study__home">
 
 			<div class="case-study__line case-study__row">

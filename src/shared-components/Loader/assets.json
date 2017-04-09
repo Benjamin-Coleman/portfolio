@@ -31,6 +31,14 @@
 				"../../../assets/imgs/case-study/lightswan/article-mobile@2x.png",
 				"../../../assets/imgs/case-study/lightswan/perspective-mockup@2x.png"
 			]
+		},
+		"maje": {
+			"1x": [
+				"../../../assets/imgs/case-study/maje/woman.png"
+			],
+			"2x": [
+				"../../../assets/imgs/case-study/maje/woman@2x.png"
+			]
 		}
 	}
 }

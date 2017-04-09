@@ -1,13 +1,56 @@
 <template lang="html">
   <div class="case-study__maje">
+    <div class="case-study__photo-background-container">
+			<div class="case-study__photo-background"></div>
+			<img class="case-study__photo" src="/assets/imgs/case-study/maje/woman.png"
+			srcset="/assets/imgs/case-study/maje/woman@2x.png 2x"
+			alt="">
+		</div>
+
+    <div class="case-study__row case-study__section">
+      <div class="case-study__title">My work at maje</div>
+      <div class="case-study__text-content">
+        During 1 year  I worked as a freelance for Maje France.  It was a great experience because I worked  directly with the client. Before the season to come I had a meeting at the Paris Maje headquarter with the digital creative team.
+        They presented  the design of the pages and we discussed about the interactions that we have in mind.
+        You can see some of them below.
+      </div>
+    </div>
+
+    <case-study-video><source src="/assets/videos/case-study/maje/maje1.mp4" type="video/mp4"></case-study-video>
+    <case-study-video><source src="/assets/videos/case-study/maje/maje2.mp4" type="video/mp4"></case-study-video>
+    <case-study-video><source src="/assets/videos/case-study/maje/maje3.mp4" type="video/mp4"></case-study-video>
+    <case-study-video><source src="/assets/videos/case-study/maje/maje4.mp4" type="video/mp4"></case-study-video>
 
   </div>
 </template>
 
 <script>
+
+import CaseStudyVideo from './CaseStudyVideo.vue'
+
 export default {
+
+  components: {
+    CaseStudyVideo
+  }
+
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
+  .case-study__maje {
+
+    font-size: 30px;
+
+    .case-study__photo-background {
+      background-color: lighten(#313596, 1);
+    }
+
+    .case-study__section {
+      margin-top: 10em;
+      margin-bottom: 6em;
+    }
+
+  }
+
 </style>
