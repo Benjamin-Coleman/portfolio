@@ -181,6 +181,7 @@ export default {
 			EventBus.$on('toggle-menu', this.toggleMenu)
 			EventBus.$on('leave-page', this.leavePage)
 			EventBus.$on('close-case-study', this.closeCaseStudy)
+			EventBus.$on('click-close-button', this.setNextHook)
 			EventBus.$on('page-ready', this.loaderReady)
 			EventBus.$on('hide-case-study', this.nextCaseStudy)
 		},
@@ -189,10 +190,15 @@ export default {
 			EventBus.$off('slide-prev', this.slidePrev)
 			EventBus.$off('slide-next', this.slideNext)
 			EventBus.$off('toggle-menu', this.toggleMenu)
+			EventBus.$off('click-close-button', this.setNextHook)
 			EventBus.$off('leave-page', this.leavePage)
 			EventBus.$off('close-case-study', this.closeCaseStudy)
 			EventBus.$off('page-ready', this.loaderReady)
 			EventBus.$off('hide-case-study', this.nextCaseStudy)
+		},
+
+		setNextHook(){
+			this.nextHook = false
 		},
 
 		nextCaseStudy(payload){

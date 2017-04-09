@@ -59,6 +59,7 @@ export default {
 		},
 		click(){
 			if (this.$parent.isApear && this.isActive) {
+				EventBus.$emit('click-close-button')
 				this.$router.replace({name: 'work'})
 				this.isActive = false
 			}
