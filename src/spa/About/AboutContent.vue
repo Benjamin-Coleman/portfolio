@@ -25,6 +25,8 @@ const aboutText = require('./about.json').about
 
 export default {
 
+	name: 'about-content',
+
 	data(){
 		return {
 			title: aboutText.title,
@@ -190,8 +192,10 @@ export default {
 	}
 
 	@media screen and (max-width: 760px) {
-		.about-content { font-size: 15px; margin: 0 .8em;}
-		.about-content__big-title { font-size: 30px;}
+		.about-content { font-size: 14px; margin: 0 .8em; overflow: auto;}
+		.about-content__content { text-align: left;}
+		.about-content__big-title { font-size: 40px;}
+		.about-content__title { font-size: 16px; text-align: left; letter-spacing: .05em;}
 	}
 
 </style>
