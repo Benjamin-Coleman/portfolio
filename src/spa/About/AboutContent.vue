@@ -192,10 +192,10 @@ export default {
 	}
 
 	@media screen and (max-width: 760px) {
-		.about-content { font-size: 14px; margin: 0 .8em; overflow: auto;}
-		.about-content__content { text-align: left;}
-		.about-content__big-title { font-size: 40px;}
-		.about-content__title { font-size: 16px; text-align: left; letter-spacing: .05em;}
+		.about-content { font-size: 14px; margin: 0 1.9em;}
+		.about-content__content { text-align: left; margin-bottom: 2em;}
+		.about-content__big-title { font-size: 35px;}
+		.about-content__title { font-size: 16px; text-align: left; letter-spacing: .02em;}
 	}
 
 </style>
