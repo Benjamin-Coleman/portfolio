@@ -30,12 +30,10 @@ export default {
 		height: 100%;
 		background-color: #021B39;
 		display: none;
-		justify-content: center;
-		align-items: center;
 		overflow: scroll;
 
 		@media screen and (max-width: 760px) {
-			display: flex;
+			display: block;
 		}
 
 	}

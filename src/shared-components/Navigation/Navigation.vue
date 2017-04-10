@@ -2,12 +2,14 @@
 
   <div ref="menu" class="menu menu--light">
     <div class="menu-hit" @click="toggleClose" @mouseover="iconMouseOver" @mouseout="iconMouseOut"></div>
-    <div ref="menuIcon" class="menu-icon">
-      <div class="menu-line menu-line--big"></div>
-      <div class="menu-line menu-line--little"></div>
-      <div class="menu-line menu-line--big"></div>
+    <div class="menu-icon__container">
+      <div ref="menuIcon" class="menu-icon">
+        <div class="menu-line menu-line--big"></div>
+        <div class="menu-line menu-line--little"></div>
+        <div class="menu-line menu-line--big"></div>
+      </div>
+      <span ref="menuCircleHover" class="menu-circle-hover"></span>
     </div>
-    <span ref="menuCircleHover" class="menu-circle-hover"></span>
     <div class="menu-links" ref="menuLinks">
       <nav-item
         v-for="navItem in navItems"
@@ -137,7 +139,8 @@ export default {
       .to(this.$menuLines[1], 0.3, {x:12,ease:Expo.easeOut}, 0)
 
     this.circleWaveAnim = new TimelineLite({paused: true})
-      .to(this.$menuCircleHover, 0.6, {scale: 100, autoAlpha: .7, ease:Expo.easeInOut})
+      .set(this.$menuCircleHover, {scale: 0, autoAlpha: 0})
+      .to(this.$menuCircleHover, 0.6, {scale: 2, autoAlpha: .7, ease:Expo.easeInOut})
       .to(this.$menuCircleHover, 0.5, {autoAlpha: 0, ease:Expo.easeInOut}, '-=0.4')
 
     this.iconMouseOutAnim = new TimelineLite({paused: true})
@@ -282,14 +285,19 @@ export default {
     z-index: 11;
   }
 
-  .menu-icon {
-    margin-top: 30px;
-    margin-left: 30px;
-    width: 50px;
+  .menu-icon__container {
     position: relative;
+    width: 100px;
+    height: 100px;
+  }
+
+  .menu-icon {
+    width: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 10;
-    display: inline-block;
-    vertical-align: middle;
   }
 
   .menu-line {
@@ -313,15 +321,16 @@ export default {
   }
 
   .menu-circle-hover {
-    width: 1px;
-    height: 1px;
+    width: 50px;
+    height: 50px;
     background-color: #ffffff;
     opacity: 0;
-    position: absolute;
-    top: 40px;
-    left: 50px;
     border-radius: 50%;
     transform-origin: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: -1;
   }
 
