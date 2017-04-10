@@ -154,7 +154,7 @@
 					this.oldDeltaY = event.deltaY
 				}
 
-				this.debouncedBackToSlide()
+				// this.debouncedBackToSlide()
 			},
 
 			backToSlide(){

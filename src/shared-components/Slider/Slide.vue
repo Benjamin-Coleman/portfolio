@@ -533,7 +533,7 @@ export default {
 	}
 
 	.slide__button {
-		padding: 17px 36px 15px 36px;
+		padding: .9em 2em;
 		border-style: solid;
 		border-width: 1px;
 		border-radius: 3px;
