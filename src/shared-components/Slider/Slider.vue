@@ -143,16 +143,13 @@
 			},
 
 			wheel(){
-				console.log('wheel')
 				let targetModifier = event.deltaY
 
 				if (!this.menuIsClosed) {
 					return undefined
 				}
-				console.log('deltaY: ' + event.deltaY)
-				console.log('OlddeltaY: ' + this.oldDeltaY)
-				console.log('deltaY: ' + this.sliderIsAnimated)
-				if (event.deltaY !== this.oldDeltaY && !this.sliderIsAnimated) {
+
+				if (!this.sliderIsAnimated) {
 					this.targetPosY -= targetModifier
 					this.oldDeltaY = event.deltaY
 				}
