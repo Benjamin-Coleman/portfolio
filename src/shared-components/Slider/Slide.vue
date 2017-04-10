@@ -80,6 +80,7 @@ export default {
 			progress: 0,
 			nextHook: false,
 			buttonIsClickable: true,
+			loadNextProject: false,
 			textColorStyle: {
 				color: this.textColor
 			},
@@ -205,6 +206,7 @@ export default {
 			let currentSlideId = payload.currentId
 			let oldSlideId = payload.oldId
 
+			this.loadNextProject = true
 			this.nextHook = true
 
 			if (this.slideId === currentSlideId) {
@@ -260,6 +262,8 @@ export default {
 			_.delay( ()=>{
 				this.nextHook = false
 				this.buttonIsClickable = true
+				this.loadNextProject && this.caseStudy ? this.loadCaseStudy() : undefined
+				this.loadNextProject = false
 			}, 100 )
 		},
 
