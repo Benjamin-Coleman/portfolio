@@ -32,7 +32,7 @@ export default {
 		display: none;
 		overflow: scroll;
 
-		@media screen and (max-width: 760px) {
+		@media screen and (max-width: 960px) {
 			display: block;
 		}
 

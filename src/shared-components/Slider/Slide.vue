@@ -462,7 +462,7 @@ export default {
 
 <style lang="scss">
 
-	$medium-mq: 1200px;
+	$medium-mq: 1300px;
 
 	.slide {
 		position: absolute;

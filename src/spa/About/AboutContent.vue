@@ -153,7 +153,7 @@ export default {
 
 	.about-content__mobile-message {
 		display: none;
-		font-size: 1.5em;
+		font-size: 14px;
 		margin-top: 2em;
 		font-style: italic;
 		text-transform: uppercase;
@@ -195,6 +195,7 @@ export default {
 		text-transform: uppercase;
 		letter-spacing: .1em;
 		font-size: 32px;
+		line-height: 1.5em;
 		transition: all .4s ease;
 
 		&:hover {
@@ -203,13 +204,22 @@ export default {
 
 	}
 
-	@media screen and (max-width: 760px) {
-		.about-content__social-title { font-size: 18px;}
+	@media screen and (min-width: 760px) and (max-width: 960px) {
+		.about-content__social-title { font-size: 15px;}
+		.about-content__mobile-message { display: block;}
+		.about-content { font-size: 14px; margin: 3em 2em; text-align: left; max-width: none; display: block; visibility: visible; opacity: 1;}
+		.about-content__content { font-size: 16px;}
+		.about-content__big-title { font-size: 60px;}
+		.about-content__title { font-size: 23px; letter-spacing: .02em; line-height: 2.9em;}
+	}
+
+	@media screen and (max-width: 760px){
+		.about-content__social-title { font-size: 15px;}
 		.about-content__mobile-message { display: block;}
 		.about-content { font-size: 14px; margin: 3em 2em; text-align: left; max-width: none; display: block; visibility: visible; opacity: 1;}
 		.about-content__content { font-size: 16px;}
 		.about-content__big-title { font-size: 40px;}
-		.about-content__title { font-size: 18px; letter-spacing: .02em; line-height: 2.5em;}
+		.about-content__title { font-size: 20px; letter-spacing: .02em; line-height: 2.8em;}
 	}
 
 </style>
