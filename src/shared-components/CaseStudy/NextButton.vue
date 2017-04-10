@@ -122,6 +122,11 @@ export default {
 		background-color: #03162A;
 		text-align: center;
 		z-index: 10;
+
+		@media screen and (max-width: 1300px){
+			font-size: 80px;
+		}
+
 	}
 
 	.next-button__title {

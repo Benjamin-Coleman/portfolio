@@ -4,7 +4,7 @@
 			<close-button></close-button>
 		</div>
 		<div class="case-study__scroll-zone" ref="scrollZone">
-			<div class="case-study__pane"></div>
+			<div class="case-study__pane" ref="pane"></div>
 			<div class="case-study-content-background" ref="contentBackground">
 				<div class="case-study__content case-study__row" ref="content">
 					<div class="case-study__infos" ref="infos">
@@ -129,6 +129,7 @@ export default {
 
 		events(){
 			window.addEventListener('wheel', this.wheel)
+			window.addEventListener( 'resize', _.throttle(this.resize, 200) )
 			EventBus.$on('case-study-closed', this.leaveWorkPage)
 			EventBus.$on('next-case-study', this.nextCaseStudy)
 			EventBus.$on('hide-case-study', this.hideCaseStudy)
@@ -136,10 +137,15 @@ export default {
 
 		unlistenEvents(){
 			window.removeEventListener('wheel', this.wheel)
+			window.removeEventListener( 'resize', _.throttle(this.resize, 200) )
 			EventBus.$off('page-ready', this.loaderReady)
 			EventBus.$off('case-study-closed', this.leaveWorkPage)
 			EventBus.$off('next-case-study', this.nextCaseStudy)
 			EventBus.$off('hide-case-study', this.hideCaseStudy)
+		},
+
+		resize(){
+			this.smoothScroll.onResize()
 		},
 
 		loaderReady(){

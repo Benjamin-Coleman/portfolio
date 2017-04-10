@@ -557,10 +557,6 @@ export default {
 	.slide-img__img {
 		display: block;
 
-		@media screen and (max-width: 1500px){
-			width: 25vw;
-		}
-
 		@media screen and (max-width: 1300px){
 			width: 30vw;
 		}

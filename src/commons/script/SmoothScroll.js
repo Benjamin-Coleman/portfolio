@@ -7,7 +7,7 @@ export default class SmoothScroll {
 		this.ease = options.ease || .1
 		this.targetY = 0
 		this.currentY = 0
-		this.height = this.el.getBoundingClientRect().height
+		this.height = this.getHeight()
 
 		this.destroyed = false
 
@@ -21,6 +21,14 @@ export default class SmoothScroll {
 		this.targetY += e.deltaY
 		this.targetY = Math.max( (this.height - window.innerHeight) * -1, this.targetY)
 		this.targetY = Math.min(0, this.targetY)
+	}
+
+	getHeight(){
+		return this.el.getBoundingClientRect().height
+	}
+
+	onResize(){
+		this.height = this.getHeight()
 	}
 
 	animate(){
