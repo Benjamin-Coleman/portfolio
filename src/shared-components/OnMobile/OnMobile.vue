@@ -1,7 +1,7 @@
 <template lang="html">
 
 	<div class="on-mobile">
-		<about-content></about-content>
+		<about-content :isMobile="true" ></about-content>
 	</div>
 
 </template>
