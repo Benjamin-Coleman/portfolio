@@ -42,7 +42,7 @@
 			this.vs = new VirtualScroll()
 			this.events()
 			this.loaderReady()
-			this.debouncedBackToSlide = _.debounce(this.backToSlide, 200)
+			this.debouncedBackToSlide = _.debounce(this.backToSlide, 300)
 		},
 
 		beforeDestroy(){
@@ -143,8 +143,7 @@
 			},
 
 			wheel(){
-				event.preventDefault()
-				let targetModifier = event.deltaY / .8
+				let targetModifier = event.deltaY
 
 				if (!this.menuIsClosed) {
 					return undefined
