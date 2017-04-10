@@ -30,7 +30,7 @@ export default {
 	mounted(){
 		this.vs = new VirtualScroll()
 		this.onceWheel = _.once(this.wheel)
-		this.events()
+		_.delay(this.events, 1500)
 	},
 
 	beforeDestroy(){
