@@ -18,12 +18,23 @@ import {EventBus} from '../../event-bus.js'
 const animMap = require('../../anim-map.json')
 
 import _ from 'lodash'
+import VirtualScroll from 'virtual-scroll'
 
 export default {
 	name: 'home',
 
 	data() {
 		return {}
+	},
+
+	mounted(){
+		this.vs = new VirtualScroll()
+		this.onceWheel = _.once(this.wheel)
+		this.events()
+	},
+
+	beforeDestroy(){
+		this.unlistenEvents()
 	},
 
 	beforeRouteLeave (to, from, next) {
@@ -35,6 +46,22 @@ export default {
 			_.delay(next, delay)
 		}
   },
+
+	methods: {
+
+		events(){
+			this.vs.on(this.onceWheel)
+		},
+
+		unlistenEvents(){
+			this.vs.destroy()
+		},
+
+		wheel(){
+			this.$router.push('work')
+		},
+
+	},
 
 	components: {
 		Navigation,
