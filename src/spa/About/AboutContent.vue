@@ -158,6 +158,7 @@ export default {
 		font-style: italic;
 		text-transform: uppercase;
 		letter-spacing: .2em;
+		line-height: 1.5em;
 		color: #9AB8DC;
 	}
 
@@ -205,10 +206,10 @@ export default {
 	@media screen and (max-width: 760px) {
 		.about-content__social-title { font-size: 18px;}
 		.about-content__mobile-message { display: block;}
-		.about-content { font-size: 14px; margin: 0 2em; margin-top: 3em; text-align: left; max-width: none;}
-		.about-content__content { font-size: 18px;}
-		.about-content__big-title { font-size: 50px;}
-		.about-content__title { font-size: 18px; letter-spacing: .02em;}
+		.about-content { font-size: 14px; margin: 3em 2em; text-align: left; max-width: none; display: block; visibility: visible; opacity: 1;}
+		.about-content__content { font-size: 16px;}
+		.about-content__big-title { font-size: 40px;}
+		.about-content__title { font-size: 18px; letter-spacing: .02em; line-height: 2.5em;}
 	}
 
 </style>
