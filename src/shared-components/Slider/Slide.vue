@@ -298,7 +298,13 @@ export default {
 		},
 
 		loadCaseStudy(){
-			if (!this.buttonIsClickable || ( this.getSliderPosY < 1 && this.getSliderPosY > 1 ) || this.sliderIsAnimated) {
+			if (
+				!this.buttonIsClickable
+				|| ( this.getSliderPosY < 1 && this.getSliderPosY > 1 )
+				|| this.sliderIsAnimated
+				|| this.$route.name !== 'work'
+			)
+			{
 				return undefined
 			}
 			let assetsToLoad
