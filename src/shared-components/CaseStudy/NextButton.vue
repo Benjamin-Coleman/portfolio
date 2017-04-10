@@ -2,9 +2,13 @@
 	<a class="next-button" @click.prevent.once="onClick" @mouseover.prevent="onMouseOver" @mouseout.prevent="onMouseOut">
 		<div class="next-button__content" ref="buttonContent">
 			<div class="next-button__subtitle">Next project</div>
-			<div class="next-button__title">{{ nextSlide.title }}</div>
+			<div class="next-button__title-container">
+				<span class="next-button__title">
+					{{ nextSlide.title }}
+					<div class="next-button__line" ref="hoverLine"></div>
+				</span>
+			</div>
 		</div>
-		<div class="next-button__line" ref="hoverLine"></div>
 		<div class="next-button__background" ref="background"></div>
 	</a>
 </template>
@@ -109,14 +113,14 @@ export default {
 
 	.next-button {
 		color: #ffffff;
-		text-align: center;
 		cursor: pointer;
-		// height: 100%;
+		position: relative;
 		width: 100%;
 		font-size: 110px;
 		padding: 1.7em 0em;
 		display: block;
 		background-color: #03162A;
+		text-align: center;
 		z-index: 10;
 	}
 
@@ -125,6 +129,7 @@ export default {
 		text-transform: uppercase;
 		letter-spacing: .05em;
 		position: relative;
+		padding: 0em .1em;
 		z-index: 1;
 	}
 
@@ -138,15 +143,16 @@ export default {
 	}
 
 	.next-button__line {
-		width: 3em;
+		width: 100%;
 		height: .4em;
 		opacity: 0;
 		position: absolute;
-		margin-left: 50%;
+		left: 0px;
+		top: 50%;
 		background-image: linear-gradient(-135deg, #FFC3CA 0%, #7E9DF6 100%);
-		transform: translate3d(-50%, -90px, 0px) scaleX(0);
+		transform: translate3d(0px, -50%, 0px) scaleX(0);
 		transform-origin: left;
-		z-index: 10;
+		z-index: -1;
 	}
 
 	.next-button__background {

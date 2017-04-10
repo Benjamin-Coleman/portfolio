@@ -2,8 +2,10 @@
 
 	<div class="menu-link" @mouseover="mouseover" @mouseout="mouseout">
 		<router-link class="menu-link__link" :to="to" ref="link" exact>
-			<div class="menu-link__title" ref="title">{{ title }}</div>
-			<div class="menu-link__hover" ref="hoverLine"></div>
+			<div class="menu-link__title" ref="title">
+				{{ title }}
+				<div class="menu-link__hover" ref="hoverLine"></div>
+			</div>
 			<div class="menu-link__subtitle">{{ subtitle }}</div>
 		</router-link>
 	</div>
@@ -92,8 +94,9 @@ export default {
 		opacity: 0;
 		position: absolute;
 		margin-left: 50%;
+		top: 50%;
 		background-image: linear-gradient(-135deg, #FFC3CA 0%, #7E9DF6 100%);
-		transform: translate3d(-50%, -90px, 0px) scaleX(0);
+		transform: translate3d(-50%, -50%, 0px) scaleX(0);
 		transform-origin: left;
 	}
 
@@ -103,6 +106,7 @@ export default {
 		text-transform: uppercase;
 		color: #ffffff;
 		display: block;
+		position: relative;
 	}
 
 
