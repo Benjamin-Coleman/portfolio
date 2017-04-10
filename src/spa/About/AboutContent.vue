@@ -2,6 +2,7 @@
 
 	<div class="about-content" ref="aboutContent">
 		<div class="about-content__title" v-html="title"></div>
+		<div class="about-content__mobile-message">See my work on desktop</div>
 		<div class="about-content__content" v-html="content"></div>
 		<div class="about-content__social">
 			<div class="about-content__social-title">{{ socialTitle }}</div>
@@ -150,6 +151,16 @@ export default {
 
 	}
 
+	.about-content__mobile-message {
+		display: none;
+		font-size: 1.5em;
+		margin-top: 2em;
+		font-style: italic;
+		text-transform: uppercase;
+		letter-spacing: .2em;
+		color: #9AB8DC;
+	}
+
 	.about-content__social-title {
 		font-size: 14px;
 		margin-bottom: 1em;
@@ -192,10 +203,12 @@ export default {
 	}
 
 	@media screen and (max-width: 760px) {
-		.about-content { font-size: 14px; margin: 0 1.9em; margin-top: 1em; text-align: left;}
-		.about-content__content { margin-bottom: 2em;}
-		.about-content__big-title { font-size: 35px;}
-		.about-content__title { font-size: 16px; letter-spacing: .02em;}
+		.about-content__social-title { font-size: 18px;}
+		.about-content__mobile-message { display: block;}
+		.about-content { font-size: 14px; margin: 0 2em; margin-top: 3em; text-align: left; max-width: none;}
+		.about-content__content { font-size: 18px;}
+		.about-content__big-title { font-size: 50px;}
+		.about-content__title { font-size: 18px; letter-spacing: .02em;}
 	}
 
 </style>
