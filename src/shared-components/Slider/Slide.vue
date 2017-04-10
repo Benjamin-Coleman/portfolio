@@ -480,7 +480,7 @@ export default {
 		font-family: 'SorrenMedium';
 
 		@media screen and (max-width: $medium-mq){
-			max-width: 350px;
+			max-width: 400px;
 		}
 
 	}
@@ -534,7 +534,8 @@ export default {
 		perspective: 1000px;
 
 		@media screen and (max-width: $medium-mq){
-			margin-right: 70px;
+			margin-right: 100px;
+			margin-left: 70px;
 		}
 
 	}

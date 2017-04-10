@@ -1,14 +1,42 @@
 <template lang="html">
 	<div class="case-study__video">
-		<video class="case-study__video-element " autoplay loop>
+		<video class="case-study__video-element " loop ref="video">
 			<slot></slot>
 		</video>
 	</div>
 </template>
 
 <script>
+
+import inViewport from 'in-viewport'
+import _ from 'lodash'
+
 export default {
-	props: ['type']
+
+	mounted(){
+		this.events()
+	},
+
+	beforeDestroy(){
+		this.unlistenEvents()
+	},
+
+	methods: {
+
+		events(){
+			window.addEventListener('wheel', this.isVisible)
+		},
+
+		unlistenEvents(){
+			window.removeEventListener('wheel', this.isVisible)
+		},
+
+		isVisible(){
+			inViewport(this.$refs.video) ? this.$refs.video.play() : this.$refs.video.pause()
+		}
+
+	}
+
 }
 </script>
 

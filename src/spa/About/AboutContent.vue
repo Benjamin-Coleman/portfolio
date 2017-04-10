@@ -210,7 +210,7 @@ export default {
 		.about-content { font-size: 14px; margin: 3em 2em; text-align: left; max-width: none; display: block; visibility: visible; opacity: 1;}
 		.about-content__content { font-size: 16px;}
 		.about-content__big-title { font-size: 60px;}
-		.about-content__title { font-size: 23px; letter-spacing: .02em; line-height: 2.9em;}
+		.about-content__title { font-size: 24px; letter-spacing: .08em; line-height: 3.2em;}
 	}
 
 	@media screen and (max-width: 760px){
