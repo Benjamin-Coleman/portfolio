@@ -467,6 +467,7 @@ export default {
 <style lang="scss">
 
 	$medium-mq: 1300px;
+	$large-mq: 1500px;
 
 	.slide {
 		position: absolute;
@@ -515,6 +516,11 @@ export default {
 		font-family: 'PlayfairDisplay';
 		font-size: 13px;
 		line-height: 2em;
+
+		@media screen and (max-width: $medium-mq){
+			font-size: 12px;
+		}
+
 	}
 
 	.slide__sub-info__info {
@@ -537,6 +543,10 @@ export default {
 		perspective-origin: 150% 50%;
 		perspective: 1000px;
 
+		@media screen and (max-width: $large-mq){
+			margin-right: 90px;
+		}
+
 		@media screen and (max-width: $medium-mq){
 			margin-right: 100px;
 			margin-left: 70px;
@@ -547,8 +557,8 @@ export default {
 	.slide-img__img {
 		display: block;
 
-		@media screen and (max-width: $medium-mq){
-			max-width: 400px;
+		@media screen and (max-width: 1500px){
+			width: 30vw;
 		}
 
 	}

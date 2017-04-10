@@ -111,7 +111,7 @@ export default {
 		color: #ffffff;
 		text-align: center;
 		cursor: pointer;
-		height: 100%;
+		// height: 100%;
 		width: 100%;
 		font-size: 110px;
 		padding: 1.7em 0em;
