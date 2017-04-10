@@ -38,6 +38,10 @@
 
 	export default {
 
+		beforeCreate(){
+			this.slides = slides
+		},
+
 		mounted(){
 			this.vs = new VirtualScroll()
 			this.events()
@@ -53,7 +57,6 @@
 
 		data(){
 			return {
-				slides: slides,
 				state: SliderStore.state,
 				menuState: MenuStore.state,
 				loaderState: LoaderStore.state,

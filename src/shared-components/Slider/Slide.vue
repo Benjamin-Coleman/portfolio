@@ -1,8 +1,8 @@
 <template lang="html">
 	<div class="slide">
 		<div class="slide-img">
-			<img :src="resolvedImgPath" alt=""
-					 :srcset="resolvedImgPath2x + ' 2x'"
+			<img :src="imgPath" alt=""
+					 :srcset="imgPath2x + ' 2x'"
 					 class="slide-img__img" ref="slideImg"
 			>
 		</div>
@@ -103,12 +103,6 @@ export default {
 		},
 		nextAppear(){
 			return this.state.nextAppear
-		},
-		resolvedImgPath(){
-			return '/assets/' + this.imgPath
-		},
-		resolvedImgPath2x(){
-			return '/assets/' + this.imgPath2x
 		},
 		getSliderPosY(){
 			return this.state.posY

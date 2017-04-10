@@ -11,8 +11,8 @@
 			"period": "2016",
 			"case-study": true,
 			"url": "",
-			"imgPath": "imgs/slider/lightswan.png",
-			"imgPath2x": "imgs/slider/lightswan@2x.png"
+			"imgPath": "/assets/imgs/slider/lightswan.png",
+			"imgPath2x": "/assets/imgs/slider/lightswan@2x.png"
 		},
 		{
 			"title": "shopsquare",
@@ -25,8 +25,8 @@
 			"period": "2016",
 			"case-study": true,
 			"url": "https://www.shopsquare.fr/",
-			"imgPath": "imgs/slider/shopsquare.png",
-			"imgPath2x": "imgs/slider/shopsquare@2x.png"
+			"imgPath": "/assets/imgs/slider/shopsquare.png",
+			"imgPath2x": "/assets/imgs/slider/shopsquare@2x.png"
 		},
 		{
 			"title": "maje",
@@ -38,8 +38,8 @@
 			"period": "2016",
 			"case-study": true,
 			"url": "",
-			"imgPath": "imgs/slider/maje.png",
-			"imgPath2x": "imgs/slider/maje@2x.png"
+			"imgPath": "/assets/imgs/slider/maje.png",
+			"imgPath2x": "/assets/imgs/slider/maje@2x.png"
 		},
 		{
 			"title": "google-a&c",
@@ -51,8 +51,8 @@
 			"period": "2016",
 			"case-study": false,
 			"url": "https://artsexperiments.withgoogle.com/",
-			"imgPath": "imgs/slider/google.png",
-			"imgPath2x": "imgs/slider/google@2x.png"
+			"imgPath": "/assets/imgs/slider/google.png",
+			"imgPath2x": "/assets/imgs/slider/google@2x.png"
 		}
 	]
 }
