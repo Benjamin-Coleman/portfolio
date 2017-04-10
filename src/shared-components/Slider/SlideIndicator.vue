@@ -28,7 +28,7 @@ export default {
 			loaderState: LoaderStore.state,
 			currentSlideId: SliderStore.state.currentSlideId,
 			sliderLength: slides.length,
-			sliderName: 'Projets',
+			sliderName: 'Projects',
 			isVisible: false
 		}
 	},
