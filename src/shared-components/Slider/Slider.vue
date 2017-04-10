@@ -30,6 +30,7 @@
 	import _ from 'lodash'
 
 	import SliderStore from '../../stores/SliderStore.js'
+	import VirtualScroll from 'virtual-scroll'
 	import MenuStore from '../../stores/MenuStore.js'
 	import LoaderStore from '../../stores/LoaderStore.js'
 
@@ -38,6 +39,7 @@
 	export default {
 
 		mounted(){
+			this.vs = new VirtualScroll()
 			this.events()
 			this.loaderReady()
 			this.debouncedBackToSlide = _.debounce(this.backToSlide, 200)
@@ -95,7 +97,7 @@
 
 			events(){
 				document.addEventListener('keyup', this.keyUp)
-				document.addEventListener('wheel', this.wheel)
+				this.vs.on(this.wheel)
 				EventBus.$on('appear-slide', this.wheelLoop)
 				EventBus.$on('leave-page', this.leavePage)
 				EventBus.$on('go-to-case-study', this.goToCaseStudy)
@@ -105,7 +107,7 @@
 
 			unlistenEvents(){
 				document.removeEventListener('keyup', this.keyUp)
-				document.removeEventListener('wheel', this.wheel)
+				this.vs.destroy()
 				EventBus.$off('appear-slide', this.wheelLoop)
 				EventBus.$off('leave-page', this.leavePage)
 				EventBus.$off('go-to-case-study', this.goToCaseStudy)
@@ -123,7 +125,7 @@
 
 			goToCaseStudy(){
 				this.caseStudyOpen = true
-				document.removeEventListener('wheel', this.wheel)
+				this.vs.off(this.wheel)
 				document.removeEventListener('keyup', this.keyUp)
 				this.wheelCaseStudy()
 				this.leave = true
@@ -132,7 +134,7 @@
 			closeCaseStudy(){
 				_.delay( ()=>{
 					this.caseStudyOpen = false
-					document.addEventListener('wheel', this.wheel)
+					this.vs.on(this.wheel)
 					document.addEventListener('keyup', this.keyUp)
 					SliderStore.setActive()
 					this.leave = false
