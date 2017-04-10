@@ -462,6 +462,8 @@ export default {
 
 <style lang="scss">
 
+	$medium-mq: 1200px;
+
 	.slide {
 		position: absolute;
 		opacity: 0;
@@ -476,19 +478,33 @@ export default {
 	.slide__info {
 		max-width: 500px;
 		font-family: 'SorrenMedium';
+
+		@media screen and (max-width: $medium-mq){
+			max-width: 350px;
+		}
+
 	}
 
 	.slide__id__text {
 		font-size: 90px;
 		letter-spacing: .05em;
 		opacity: .2;
-		transform: translateY(20px);
+		transform: translateY(.3em);
+
+		@media screen and (max-width: $medium-mq){
+			font-size: 80px;
+		}
+
 	}
 
 	.slide__title {
 		text-transform: uppercase;
 		font-size: 112px;
 		letter-spacing: .05em;
+
+		@media screen and (max-width: $medium-mq){
+			font-size: 100px;
+		}
 	}
 
 	.slide__description {
@@ -506,16 +522,30 @@ export default {
 			margin-left: 0px;
 		}
 
+		@media screen and (max-width: $medium-mq){
+			font-size: 5px;
+		}
+
 	}
 
 	.slide-img {
 		margin-right: 200px;
 		perspective-origin: 150% 50%;
 		perspective: 1000px;
+
+		@media screen and (max-width: $medium-mq){
+			margin-right: 70px;
+		}
+
 	}
 
 	.slide-img__img {
 		display: block;
+
+		@media screen and (max-width: $medium-mq){
+			max-width: 400px;
+		}
+
 	}
 
 	.slide__sub-info__info__title {
@@ -534,13 +564,13 @@ export default {
 
 	.slide__button {
 		padding: .9em 2em;
+		margin-top: 2em;
 		border-style: solid;
 		border-width: 1px;
 		border-radius: 3px;
 
 		display: inline-block;
 		position: relative;
-		margin-top: 40px;
 
 		text-decoration: none;
 		font-size: 19px;
@@ -550,6 +580,11 @@ export default {
 		perspective: 1000px;
 		overflow: hidden;
 		cursor: pointer;
+
+		@media screen and (max-width: $medium-mq){
+			font-size: 17px;
+		}
+
 	}
 
 	.slide__button__splitted-text {
