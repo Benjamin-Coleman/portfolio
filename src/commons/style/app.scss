@@ -1,13 +1,16 @@
 @import 'normalize';
 @import 'fonts';
 
-html {
+html, body {
 	height: 100%;
+	width: 100%;
 	overflow: hidden;
 }
 
 body {
-	height: 100%;
+	@media screen and (max-width: 960px) {
+		position: fixed;
+	}
 }
 
 .app {
