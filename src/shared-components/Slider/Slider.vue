@@ -174,7 +174,7 @@
 			},
 
 			wheelLoop(){
-				let slideLimit = 130
+				let slideLimit = 165
 				let newSlideTransform = this.slideTransform + (this.targetPosY - this.slideTransform) * .09
 						newSlideTransform = this.getRoundedValue(newSlideTransform)
 
