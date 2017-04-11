@@ -137,7 +137,7 @@
 			},
 
 			closeCaseStudy(loadNextProject){
-				if (!loadNextProject) {
+				if (!loadNextProject || !slides[this.currentSlideId]['case-study']) {
 					_.delay( ()=>{
 						this.caseStudyOpen = false
 						this.vs.on(this.wheel)

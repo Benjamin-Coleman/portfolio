@@ -2,7 +2,7 @@
 	<div class="case-study__lightswan">
 		<div class="case-study__photo-background-container">
 			<div class="case-study__photo-background">
-				<img class="case-study__photo" src="/assets/imgs/case-study/lightswan/card.png"
+				<img class="case-study__photo" ref="paraPhoto" src="/assets/imgs/case-study/lightswan/card.png"
 				srcset="/assets/imgs/case-study/lightswan/card@2x.png 2x"
 				alt="">
 			</div>
@@ -50,7 +50,7 @@
 						<div class="case-study__screen-circle">
 							<img src="/assets/imgs/case-study/lightswan/home-mobile.png"
 							srcset="/assets/imgs/case-study/lightswan/home-mobile@2x.png 2x"
-							alt="">
+							alt="" ref="iphone1" class="case-study__mobile-screen__img">
 						</div>
 					</div>
 				</div>
@@ -60,7 +60,7 @@
 			<div class="case-study__full-screenshot">
 				<img class="case-study__full-screenshot__bg"
 					src="/assets/imgs/case-study/lightswan/screen-bg.svg"
-					alt="">
+					alt="" ref="bg1">
 				<img class="case-study__full-screenshot__img case-study__row case-study__img "
 					src="/assets/imgs/case-study/lightswan/home-desktop.jpg"
 					srcset="/assets/imgs/case-study/lightswan/home-desktop@2x.jpg 2x"
@@ -88,7 +88,7 @@
 						<div class="case-study__screen-circle">
 							<img src="/assets/imgs/case-study/lightswan/article-mobile.png"
 							srcset="/assets/imgs/case-study/lightswan/article-mobile@2x.png 2x"
-							alt="">
+							alt="" ref="iphone2">
 						</div>
 					</div>
 				</div>
@@ -98,7 +98,7 @@
 			<div class="case-study__full-screenshot">
 				<img class="case-study__full-screenshot__bg"
 					src="/assets/imgs/case-study/lightswan/screen-bg.svg"
-					alt="">
+					alt="" ref="bg2">
 				<img class="case-study__full-screenshot__img case-study__row case-study__img "
 					src="/assets/imgs/case-study/lightswan/article-desktop.jpg"
 					srcset="/assets/imgs/case-study/lightswan/article-desktop@2x.jpg 2x"
@@ -113,6 +113,7 @@
 
 <script>
 export default {
+
 	data(){
 		return {
 			colors: [
@@ -122,7 +123,34 @@ export default {
 				{hex: '#EE8A73'}
 			]
 		}
-	}
+	},
+
+	mounted(){
+		let parallaxElements = [
+			{
+				el: this.$refs.paraPhoto,
+				ratio: .06
+			},
+			{
+				el:this.$refs.iphone1,
+				ratio: .06
+			},
+			{
+				el:this.$refs.iphone2,
+				ratio: .06
+			},
+			{
+				el:this.$refs.bg1,
+				ratio: -.1
+			},
+			{
+				el:this.$refs.bg2,
+				ratio: -.1
+			}
+		]
+		this.$parent.smoothScroll.setParallaxElements(parallaxElements)
+	},
+
 }
 </script>
 
@@ -132,6 +160,10 @@ export default {
 
 		.case-study__photo-background {
 			background-color: #F7F3EA;
+		}
+
+		.case-study__photo {
+			margin-top: 100px;
 		}
 
 		.case-study__color-block {
@@ -146,12 +178,16 @@ export default {
 
 		.case-study__full-screenshot__bg {
 			background-color: #F7F3EA;
-			min-height: 3000px;
-			max-height: 3000px;
+			min-height: 2500px;
+			max-height: 2500px;
 		}
 
 		.case-study__screen-circle {
 			background-color: #F7F3EA;
+		}
+
+		.case-study__mobile-screen__img {
+			margin-top: 100px;
 		}
 
 		.case-study__home {

@@ -1,6 +1,6 @@
 <template lang="html">
 
-	<a class="slide__button link-button" :href="url" target="_blank" @mouseover="buttonHover" @mouseout="buttonOut" ref="button">
+	<a class="slide__button link-button" :style="buttonStyle" :href="url" target="_blank" @mouseover="buttonHover" @mouseout="buttonOut" ref="button">
 		<div class="slide__button-text" ref="buttonText">Go to website</div>
 	</a>
 
@@ -15,7 +15,10 @@ export default {
 
 	data(){
 		return {
-			textColor: '#ffffff'
+			textColor: '#ffffff',
+			buttonStyle: {
+				borderColor: new HexToRgba().convert('#ffffff', 0.3)
+			}
 		}
 	},
 

@@ -4,7 +4,7 @@
 			<div class="case-study__photo-background"></div>
 			<img class="case-study__photo" src="/assets/imgs/case-study/maje/woman.png"
 			srcset="/assets/imgs/case-study/maje/woman@2x.png 2x"
-			alt="">
+			alt="" ref="woman">
 		</div>
 
     <div class="case-study__row case-study__section">
@@ -28,6 +28,16 @@ import CaseStudyVideo from './CaseStudyVideo.vue'
 
 export default {
 
+  mounted(){
+    let parallaxElements = [
+      {
+        el: this.$refs.woman,
+        ratio: .06
+      }
+    ]
+    this.$parent.smoothScroll.setParallaxElements(parallaxElements)
+  },
+
   components: {
     CaseStudyVideo
   }
@@ -43,6 +53,10 @@ export default {
 
     .case-study__photo-background {
       background-color: #313596;
+    }
+
+    .case-study__photo {
+        margin-top: 100px;
     }
 
     .case-study__section {

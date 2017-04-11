@@ -20,20 +20,33 @@ export default class Parallax extends SmoothScroll {
 	testParallaxElements(){
 
 		for (var i = 0; i < this.parallaxElements.length; i++) {
-			InViewport(this.parallaxElements[i].element) ?  this.parallaxElements[i].inViewport = true : this.parallaxElements[i].inViewport = false
+			InViewport(this.parallaxElements[i].el) ?  this.parallaxElements[i].inViewport = true : this.parallaxElements[i].inViewport = false
 		}
 
 	}
 
+	getCurrentTransformStyle(element){
+
+	}
+
 	moveElement(elementToMove){
-		let distanceToMove = this.currentY * elementToMove.ratio
+		let distanceToMove
+
+		if (elementToMove.newPosY !== undefined ){
+			distanceToMove = elementToMove.newPosY + (this.currentY - this.oldY) * elementToMove.ratio
+		}
+		else {
+			distanceToMove = (this.currentY - this.oldY) * elementToMove.ratio
+		}
+
 		this.applyTransform(elementToMove.el, distanceToMove)
+		return distanceToMove
 	}
 
 	moveElements(){
 		for (var i = 0; i < this.parallaxElements.length; i++) {
 			if(this.parallaxElements[i].inViewport){
-				this.moveElement(this.parallaxElements[i])
+				this.parallaxElements[i].newPosY = this.moveElement(this.parallaxElements[i])
 			}
 		}
 	}
@@ -41,6 +54,11 @@ export default class Parallax extends SmoothScroll {
 	animate(){
 		super.animate()
 		this.parallaxElements && this.moveElements()
+	}
+
+	destroy(){
+		this.parallaxElements = null
+		super.destroy()
 	}
 
 }

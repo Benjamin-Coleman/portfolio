@@ -46,7 +46,7 @@ import Shopsquare from '../../shared-components/CaseStudy/Shopsquare.vue'
 import LinkButton from '../../shared-components/CaseStudy/LinkButton.vue'
 
 import {TimelineLite, Expo} from 'gsap'
-import SmoothScroll from '../../commons/script/SmoothScroll.js'
+import SmoothScroll from '../../commons/script/Parallax.js'
 import {EventBus} from  '../../event-bus.js'
 import _ from 'lodash'
 
@@ -99,6 +99,11 @@ export default {
 			this.closeHeaderAnim.to(this.$refs.header, .7, {y: -100, ease: Expo.easeInOut})
 
 		this.loaderReady()
+
+		this.smoothScroll = new SmoothScroll(.1, {
+			el: this.$refs.scrollZone,
+			mouseMultiplier: .4
+		})
 
 	},
 
@@ -182,12 +187,7 @@ export default {
 
 		appear(){
 			SliderStore.setActive()
-
-			this.smoothScroll = new SmoothScroll(.1, {
-				el: this.$refs.scrollZone,
-				mouseMultiplier: .4
-			})
-
+			this.smoothScroll.init()
 			this.events()
 			this.getScrollValue()
 			this.isOpen = true

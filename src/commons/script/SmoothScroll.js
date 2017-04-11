@@ -6,14 +6,17 @@ export default class SmoothScroll {
 		this.el = vsOptions.el
 		this.ease = options.ease || .1
 		this.targetY = 0
+		this.oldtY = 0
 		this.currentY = 0
-		this.height = this.getHeight()
 
 		this.destroyed = false
-
 		this.vs = new VirtualScroll(vsOptions)
-		this.vs.on(this.onScroll.bind(this))
 
+	}
+
+	init(){
+		this.height = this.getHeight()
+		this.vs.on( this.onScroll.bind(this) )
 		this.animate()
 	}
 
@@ -41,7 +44,7 @@ export default class SmoothScroll {
 		else {
 			requestAnimationFrame(this.animate.bind(this));
 		}
-
+		this.oldY = this.currentY
 		this.currentY += this.getRoundedValue( (this.targetY - this.currentY) * this.ease )
 		this.applyTransform(this.el, this.currentY)
 
