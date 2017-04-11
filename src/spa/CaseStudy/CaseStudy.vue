@@ -24,7 +24,7 @@
 					<div class="case-study__intro case-study__row">
 						<div class="case-study__title">Presentation</div>
 						<div class="case-study__intro__text">{{ slide.description }}</div>
-						<link-button :url="slide.url"></link-button>
+						<link-button v-if="slide.url !== ''" :url="slide.url"></link-button>
 					</div>
 
 					<component v-bind:is="projectName"></component>
