@@ -50,17 +50,17 @@ export default {
         {
           title: 'Home',
           subtitle: 'Fresh start',
-          to: '/'
+          to: 'home'
         },
         {
           title: 'Work',
           subtitle: 'Some of my productions',
-          to: '/work'
+          to: 'work'
         },
         {
           title: 'About',
           subtitle: 'Me myself and I',
-          to: '/about'
+          to: 'about'
         }
       ]
     }
@@ -245,14 +245,12 @@ export default {
     },
 
     openMenu: function(){
-      console.log('not animated: '+this.menuIsNotAnimated)
       this.openMenuAnim.play(0)
       menuStore.openMenu()
       this.$route.name !== 'case-study' ? EventBus.$emit('toggle-menu', this.isClosed) : undefined
     },
 
     closeMenu: function(){
-      console.log('not animated: '+this.menuIsNotAnimated)
       this.closeMenuAnim.play(0)
       menuStore.closeMenu()
       this.$route.name !== 'case-study' ? EventBus.$emit('toggle-menu', this.isClosed) : undefined

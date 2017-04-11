@@ -1,13 +1,13 @@
 <template lang="html">
 
 	<div class="menu-link" @mouseover="mouseover" @mouseout="mouseout">
-		<router-link class="menu-link__link" :to="to" ref="link" exact>
+		<a class="menu-link__link" :to="to" ref="link" @click.prevent="onClick">
 			<div class="menu-link__title" ref="title">
 				{{ title }}
 				<div class="menu-link__hover" ref="hoverLine"></div>
 			</div>
 			<div class="menu-link__subtitle">{{ subtitle }}</div>
-		</router-link>
+		</a>
 	</div>
 
 </template>
@@ -30,43 +30,47 @@ export default {
 	},
 
 	computed: {
+
 		menuIsClosed(){
 			return this.state.isClosed
+		},
+
+		menuIsAnimated(){
+			return this.state.isAnimated
+		},
+
+		isCurrentRoute(){
+			let isCurrentRoute = this.$route.name === this.to ? true : false
+			return isCurrentRoute
 		}
+
 	},
 
 	mounted: function(){
-		this.currentRoute = this.isCurrentRoute()
-
 		this.hoverAnim = new TimelineLite({paused: true})
 			this.hoverAnim.to(this.$refs.hoverLine, .6, {x: '-50%', scaleX: 1, autoAlpha: 1, ease: Expo.easeOut})
 
-		this.event()
-	},
-
-	beforeDestroy(){
-		this.unlistenEvent()
 	},
 
 	methods: {
-		event(){
-			this.currentRoute ? this.$el.addEventListener('click', this.clickCurrentLink) : undefined
-		},
-		unlistenEvent(){
-			this.currentRoute ? this.$el.removeEventListener('click', this.clickCurrentLink) : undefined
-		},
-		isCurrentRoute(){
-			return this.$refs.link.$el.classList.contains('router-link-active')
-		},
+
 		mouseover: function(){
 			this.hoverAnim.play()
 		},
+
 		mouseout: function(){
 			this.hoverAnim.reverse()
 		},
-		clickCurrentLink(){
-			this.currentRoute ? EventBus.$emit('click-current-link') : undefined
+
+		onClick(){
+			if (this.isCurrentRoute) {
+				return EventBus.$emit('click-current-link')
+			}
+			else if (!this.menuIsAnimated) {
+				this.$router.push( {name: this.to} )
+			}
 		}
+
 	},
 
 }
@@ -80,6 +84,7 @@ export default {
 
 	.menu-link {
 		visibility: hidden;
+		cursor: pointer;
 		margin-bottom: 60px;
 		transform: translateY(200px);
 		&:last-child {
@@ -108,7 +113,6 @@ export default {
 		display: block;
 		position: relative;
 	}
-
 
 	.menu-link__subtitle {
 		font-family: 'PlayfairDisplay';
