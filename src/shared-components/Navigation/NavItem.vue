@@ -63,7 +63,7 @@ export default {
 		},
 
 		onClick(){
-			if (this.isCurrentRoute) {
+			if (!this.menuIsAnimated && this.isCurrentRoute) {
 				return EventBus.$emit('click-current-link')
 			}
 			else if (!this.menuIsAnimated) {
