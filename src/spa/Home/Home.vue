@@ -28,7 +28,9 @@ export default {
 	},
 
 	mounted(){
-		this.vs = new VirtualScroll()
+		this.vs = new VirtualScroll({
+			el: this.$el
+		})
 		this.onceWheel = _.once(this.wheel)
 		_.delay(this.events, 1500)
 	},
