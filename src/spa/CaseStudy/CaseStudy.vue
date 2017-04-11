@@ -24,6 +24,7 @@
 					<div class="case-study__intro case-study__row">
 						<div class="case-study__title">Presentation</div>
 						<div class="case-study__intro__text">{{ slide.description }}</div>
+						<link-button :url="slide.url"></link-button>
 					</div>
 
 					<component v-bind:is="projectName"></component>
@@ -42,6 +43,7 @@ import NextButton from '../../shared-components/CaseStudy/NextButton.vue'
 import Lightswan from '../../shared-components/CaseStudy/Lightswan.vue'
 import Maje from '../../shared-components/CaseStudy/Maje.vue'
 import Shopsquare from '../../shared-components/CaseStudy/Shopsquare.vue'
+import LinkButton from '../../shared-components/CaseStudy/LinkButton.vue'
 
 import {TimelineLite, Expo} from 'gsap'
 import SmoothScroll from '../../commons/script/SmoothScroll.js'
@@ -236,6 +238,7 @@ export default {
 	components: {
 		CloseButton,
 		NextButton,
+		LinkButton,
 		Lightswan,
 		Maje,
 		Shopsquare

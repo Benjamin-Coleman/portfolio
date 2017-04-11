@@ -63,12 +63,16 @@ export default {
 		},
 
 		onClick(){
-			if (!this.menuIsAnimated && this.isCurrentRoute) {
-				return EventBus.$emit('click-current-link')
+
+			if (!this.menuIsAnimated) {
+				if (this.isCurrentRoute) {
+					return EventBus.$emit('click-current-link')
+				}
+				else if (!this.menuIsAnimated) {
+					this.$router.push( {name: this.to} )
+				}
 			}
-			else if (!this.menuIsAnimated) {
-				this.$router.push( {name: this.to} )
-			}
+
 		}
 
 	},

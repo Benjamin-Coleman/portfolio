@@ -136,15 +136,17 @@
 				this.leave = true
 			},
 
-			closeCaseStudy(){
-				_.delay( ()=>{
-					this.caseStudyOpen = false
-					this.vs.on(this.wheel)
-					document.addEventListener('keyup', this.keyUp)
-					SliderStore.setActive()
-					this.leave = false
-					this.wheelLoop()
-				},100)
+			closeCaseStudy(loadNextProject){
+				if (!loadNextProject) {
+					_.delay( ()=>{
+						this.caseStudyOpen = false
+						this.vs.on(this.wheel)
+						document.addEventListener('keyup', this.keyUp)
+						SliderStore.setActive()
+						this.leave = false
+						this.wheelLoop()
+					},100)
+				}
 			},
 
 			wheel(){

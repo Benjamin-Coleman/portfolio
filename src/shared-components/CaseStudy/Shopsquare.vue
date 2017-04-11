@@ -2,8 +2,6 @@
 
 	<div class="case-study__shopsquare">
 
-		<link-button :url="url"></link-button>
-
 		<div class="case-study__photo-background-container">
 			<div class="case-study__photo-background"></div>
 			<img class="case-study__photo" src="/assets/imgs/case-study/shopsquare/shoes.png"
@@ -39,25 +37,11 @@
 <script>
 
 import CaseStudyVideo from './CaseStudyVideo.vue'
-import LinkButton from './LinkButton.vue'
 
 export default {
 
-	data(){
-		return {
-			slide: this.$parent.slide
-		}
-	},
-
-	computed: {
-		url(){
-			return this.slide.url
-		}
-	},
-
 	components: {
-		CaseStudyVideo,
-		LinkButton
+		CaseStudyVideo
 	}
 
 }

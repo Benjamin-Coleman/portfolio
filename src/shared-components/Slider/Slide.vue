@@ -250,7 +250,7 @@ export default {
 		},
 
 		caseStudyClosed(){
-			EventBus.$emit('case-study-closed')
+			EventBus.$emit('case-study-closed', this.loadNextProject)
 			MenuStore.unblockMenu()
 			MenuStore.menuIsNotAnimated()
 			_.delay( ()=>{
