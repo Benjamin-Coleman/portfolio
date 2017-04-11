@@ -1,4 +1,5 @@
 import Home from './spa/Home/Home.vue'
+import NotFound from './spa/NotFound/NotFound.vue'
 import Work from './spa/Work/Work.vue'
 import About from './spa/About/About.vue'
 import CaseStudy from './spa/CaseStudy/CaseStudy.vue'
@@ -29,6 +30,6 @@ export const routes = [
 	{
 		path: '*',
 		name: 'all',
-		component: Home
+		component: NotFound
 	}
 ]
