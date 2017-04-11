@@ -29,7 +29,7 @@ export default {
 	data() {
 		return {
 			name: 'Raoul Gaillard',
-			subtitle: "I’m a Dev & Ui student at Hetic.<br> Looking  for a 6 months internship.",
+			subtitle: "I’m a Dev & Ui student at Hetic.<br> Looking  for a 6-month internship.",
 			animationState: AnimationStore.state,
 			loaderState: LoaderStore.state
 		}
