@@ -149,7 +149,7 @@ export default {
 	.about-content__content {
 		font-size: 14px;
 		text-align: left;
-		max-width: 29em;
+		max-width: 31em;
 		line-height: 1.8em;
 		margin: 3.5em auto;
 	}
