@@ -43,8 +43,13 @@ export default class SmoothScroll {
 		}
 
 		this.currentY += this.getRoundedValue( (this.targetY - this.currentY) * this.ease )
-		let t = 'translate3d(0, ' + this.currentY + 'px, 0)'
-		let s = this.el.style
+		this.applyTransform(this.el, this.currentY)
+
+	}
+
+	applyTransform(el, transformY){
+		let t = 'translate3d(0, ' + transformY + 'px, 0)'
+		let s = el.style
 		s["transform"] = t
 		s["webkitTransform"] = t
 		s["mozTransform"] = t

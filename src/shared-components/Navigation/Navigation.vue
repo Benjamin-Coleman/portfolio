@@ -289,6 +289,7 @@ export default {
     position: relative;
     width: 100px;
     height: 100px;
+    z-index: 10;
   }
 
   .menu-icon {
@@ -297,7 +298,6 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 10;
   }
 
   .menu-line {
@@ -331,7 +331,7 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: -1;
+    z-index: 2;
   }
 
   .menu-background {

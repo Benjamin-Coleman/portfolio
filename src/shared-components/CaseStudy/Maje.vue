@@ -10,9 +10,7 @@
     <div class="case-study__row case-study__section">
       <div class="case-study__title">My work at maje</div>
       <div class="case-study__text-content">
-        During 1 year  I worked as a freelance for Maje France.  It was a great experience because I worked  directly with the client. Before the season to come I had a meeting at the Paris Maje headquarter with the digital creative team.
-        They presented  the design of the pages and we discussed about the interactions that we have in mind.
-        You can see some of them below.
+        During 1 year I worked as a freelance for Maje France. It was a great experience because I worked directly with the client. Before the season to come, I had a meeting at the Paris Maje headquarter with the digital creative team. They presented the design of the pages and we discussed the interactions that we had in mind. You can see some of them below.
       </div>
     </div>
 

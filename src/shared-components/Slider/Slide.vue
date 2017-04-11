@@ -200,7 +200,7 @@ export default {
 			let currentSlideId = payload.currentId
 			let oldSlideId = payload.oldId
 
-			this.loadNextProject = true
+			this.slideId === this.currentSlideId ? this.loadNextProject = true : undefined
 			this.nextHook = true
 
 			if (this.slideId === currentSlideId) {
@@ -587,6 +587,7 @@ export default {
 		display: inline-block;
 		position: relative;
 
+		font-family: 'SorrenMedium';
 		text-decoration: none;
 		font-size: 19px;
 		letter-spacing: .09em;

@@ -97,6 +97,7 @@ export default {
 			this.closeHeaderAnim.to(this.$refs.header, .7, {y: -100, ease: Expo.easeInOut})
 
 		this.loaderReady()
+
 	},
 
 	beforeDestroy(){
@@ -179,6 +180,7 @@ export default {
 
 		appear(){
 			SliderStore.setActive()
+
 			this.smoothScroll = new SmoothScroll(.1, {
 				el: this.$refs.scrollZone,
 				mouseMultiplier: .4
@@ -273,7 +275,7 @@ export default {
 		width: 100%;
 		height: 100%;
 		background-color: #011933;
-		padding-bottom: 6em;
+		padding-bottom: 5em;
 	}
 
 	.case-study__content {
@@ -459,9 +461,6 @@ export default {
 	}
 
 	.case-study__full-screenshot {
-		display: flex;
-		justify-content: center;
-		align-items: center;
 		width: 100%;
 		margin-top: 10em;
 	}

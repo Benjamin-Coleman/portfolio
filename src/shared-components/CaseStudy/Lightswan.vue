@@ -41,8 +41,7 @@
 				<div class="case-study__half-block">
 					<div class="case-study__title">Home</div>
 					<div class="case-study__text-content">
-						We choose to put Jesse Owens on the homepage of Lightswan.
-						It was an important cultural reference for François Pumir and Florian Pittion-Rossillon.  It’s also a strong symbol which corresponds to the image they want to give to their company. Forerunner, powerful and limitless.
+						We chose to put Jesse Owens on the homepage of Lightswan. It was an important cultural reference for François Pumir and Florian Pittion-Rossillon. It’s also a strong symbol which corresponds to the image they want to give to their company. Forerunner, powerful and limitless.
 					</div>
 				</div>
 
@@ -80,7 +79,7 @@
 				<div class="case-study__half-block">
 					<div class="case-study__title">Article</div>
 					<div class="case-study__text-content">
-						It was very important to have a blog on the site to share the vision of the company.  The content  is the heart of the communication strategy of lightswan. This is why there is many custom blog functionalities like a custom player, as slideshow, differents styling fot pictures and custom block for quotes.
+						It was very important to have a blog on the website to share the vision of the company. It's content is the heart of Lightswan's communication strategy. This is why there are many custom blog functionalities like a custom player, A slideshow, different styling for pictures and custom blocks for quotes.
 					</div>
 				</div>
 

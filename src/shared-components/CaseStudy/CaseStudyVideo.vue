@@ -54,11 +54,15 @@ export default {
 
 .case-study__video {
 	font-size: 30px;
-	margin: 5em 0em;
+	margin: 4em 0em;
 	position: relative;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	&:last-child {
+		margin-bottom: 0em;
+	}
 
 }
 
@@ -68,7 +72,7 @@ export default {
 	margin-bottom: 0em;
 
 	.case-study__video-element {
-		padding: 5em 5em;
+		padding: 5em;
 		max-height: 530px;
 	}
 
