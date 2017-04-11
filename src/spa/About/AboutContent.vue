@@ -148,8 +148,10 @@ export default {
 
 	.about-content__content {
 		font-size: 14px;
+		text-align: left;
+		max-width: 29em;
 		line-height: 1.8em;
-		margin: 3.5em 0px;
+		margin: 3.5em auto;
 	}
 
 	.about-content__link {
@@ -237,6 +239,10 @@ export default {
 
 	@media screen and (max-width: 340px){
 		.about-content__big-title{ font-size: 30px;}
+	}
+
+	@media screen and (max-width: 960px){
+		.about-content__content { max-width: none; }
 	}
 
 </style>
