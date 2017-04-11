@@ -1,10 +1,11 @@
 <template lang="html">
 	<div class="case-study__lightswan">
 		<div class="case-study__photo-background-container">
-			<div class="case-study__photo-background"></div>
-			<img class="case-study__photo" src="/assets/imgs/case-study/lightswan/card.png"
-			srcset="/assets/imgs/case-study/lightswan/card@2x.png 2x"
-			alt="">
+			<div class="case-study__photo-background">
+				<img class="case-study__photo" src="/assets/imgs/case-study/lightswan/card.png"
+				srcset="/assets/imgs/case-study/lightswan/card@2x.png 2x"
+				alt="">
+			</div>
 		</div>
 
 		<div class="case-study__typography case-study__row">
@@ -146,6 +147,7 @@ export default {
 
 		.case-study__full-screenshot__bg {
 			background-color: #F7F3EA;
+			min-height: 3000px;
 			max-height: 3000px;
 		}
 

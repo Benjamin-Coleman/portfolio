@@ -368,13 +368,17 @@ export default {
 
 	.case-study__photo-background {
 		position: absolute;
-		left: 0;
+		left: 0px;
 		width: 100%;
 		height: 400px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
 	.case-study__photo  {
-		position: absolute;
+		position: relative;
+		display: block;
 	}
 
 	.case-study__typography {
@@ -464,7 +468,9 @@ export default {
 
 	.case-study__full-screenshot__bg {
 		width: 100%;
+		margin-top: 160px;
 		position: absolute;
+		left: 0px;
 	}
 
 	.case-study__full-screenshot__img {
