@@ -43,7 +43,9 @@
 		},
 
 		mounted(){
-			this.vs = new VirtualScroll()
+			this.vs = new VirtualScroll({
+				el: this.$el
+			})
 			this.events()
 			this.loaderReady()
 			this.debouncedBackToSlide = _.debounce(this.backToSlide, 200)

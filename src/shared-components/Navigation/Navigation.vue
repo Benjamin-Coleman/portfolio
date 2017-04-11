@@ -232,7 +232,7 @@ export default {
     },
 
     iconMouseOver: function(){
-      if (this.isClosed || (!this.iconMouseOverAnim.isActive() || !this.iconMouseOutAnim.isActive())) {
+      if ( this.isClosed && (!this.iconMouseOverAnim.isActive() || !this.iconMouseOutAnim.isActive())) {
         this.iconMouseOverAnim.play()
         this.circleWaveAnim.play(0)
       }
