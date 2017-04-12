@@ -152,7 +152,7 @@ export default {
 				this.openMenuAnim.kill()
 			})
 			this.closeMenuAnim.staggerTo(this.$refs.slideInfo.children, .3, {y: 100, autoAlpha: 0,ease: Expo.easeIn, force3D: true}, -.04)
-			this.closeMenuAnim.to(this.$refs.slideImg, 2, {z: -800, ease: Expo.easeOut}, 0)
+			this.closeMenuAnim.to(this.$refs.slideImg, 1.5, {z: -800, ease: Expo.easeOut}, 0)
 
 		this.buttonHoverAnim = new TimelineLite({paused: true})
 			this.buttonHoverAnim.to(this.$refs.buttonText, .2,{y: -20, rotationX: 45,autoAlpha: 0, ease: Expo.easeIn})

@@ -108,7 +108,7 @@ export default {
 				tl.fromTo(this.$refs.currentSlide, 1.5, {y: -30,autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut})
 				tl.fromTo(this.$refs.sliderLength, 1.5, {y: 30,autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, 0)
 				tl.fromTo(this.$refs.separator, 1.5, {scaleY: 0,autoAlpha: 0}, {scaleY: 1, autoAlpha: 1, ease: Expo.easeOut}, '-=1.5')
-				tl.staggerFromTo(this.$refs.sliderName.children, 2, {y: 10, autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .06, 0)
+				tl.staggerFromTo(this.$refs.sliderName.children, 2, {y: 10, autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut, force3D: true }, .06, 0)
 
 				if (!this.isVisible) {
 					tl.play()
@@ -124,7 +124,7 @@ export default {
 				tl.to(this.$refs.currentSlide, .6, {y: -30,autoAlpha: 0, ease: Expo.easeIn})
 				tl.to(this.$refs.sliderLength, .6, {y: 30,autoAlpha: 0, ease: Expo.easeIn}, 0)
 				tl.to(this.$refs.separator, .6, {scaleY: 0,autoAlpha: 0, ease: Expo.easeIn}, '-=1')
-				tl.staggerTo(this.$refs.sliderName.children, .4, {y: 5, autoAlpha: 0, ease: Expo.easeIn}, -.04, 0)
+				tl.staggerTo(this.$refs.sliderName.children, .4, {y: 5, autoAlpha: 0, ease: Expo.easeIn, force3D: true }, -.04, 0)
 		},
 
 		prevAnim(){

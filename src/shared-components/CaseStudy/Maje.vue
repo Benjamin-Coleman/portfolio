@@ -32,7 +32,7 @@ export default {
     let parallaxElements = [
       {
         el: this.$refs.woman,
-        ratio: .06
+        ratio: .07
       }
     ]
     this.$parent.smoothScroll.setParallaxElements(parallaxElements)
