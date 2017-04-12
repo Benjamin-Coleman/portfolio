@@ -133,11 +133,11 @@ export default {
 			},
 			{
 				el:this.$refs.iphone1,
-				ratio: .06
+				ratio: .07
 			},
 			{
 				el:this.$refs.iphone2,
-				ratio: .06
+				ratio: .07
 			},
 			{
 				el:this.$refs.bg1,

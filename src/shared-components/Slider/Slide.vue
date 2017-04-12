@@ -131,12 +131,12 @@ export default {
 	mounted(){
 
 		this.goUpAnim = new TimelineLite({paused: true})
-			this.goUpAnim.staggerTo(this.$refs.slideInfo.children, .5, {y: -100, autoAlpha: 0,ease: Expo.easeIn}, .05)
+			this.goUpAnim.staggerTo(this.$refs.slideInfo.children, .5, {y: -100, autoAlpha: 0,ease: Expo.easeIn, force3D: true}, .05)
 			this.goUpAnim.to(this.$refs.slideImg, .8, {y: -window.innerHeight, ease: Expo.easeIn}, 0)
 			this.goUpAnim.set(this.$el, {autoAlpha: 0})
 
 		this.goDownAnim = new TimelineLite({paused: true})
-			this.goDownAnim.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0,ease: Expo.easeIn}, -.05)
+			this.goDownAnim.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0,ease: Expo.easeIn, force3D: true}, -.05)
 			this.goDownAnim.to(this.$refs.slideImg, .8, {y: window.innerHeight,ease: Expo.easeIn}, 0)
 			this.goDownAnim.set(this.$el, {autoAlpha: 0})
 
@@ -144,14 +144,14 @@ export default {
 			this.openMenuAnim.call(()=>{
 				this.closeMenuAnim.kill()
 			})
-			this.openMenuAnim.staggerTo(this.$refs.slideInfo.children, 1.4, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .05)
+			this.openMenuAnim.staggerTo(this.$refs.slideInfo.children, 1.4, {y: 0, autoAlpha: 1,ease: Expo.easeOut, force3D: true}, .05)
 			this.openMenuAnim.to(this.$refs.slideImg, 2, {z: 0,ease: Expo.easeOut}, 0)
 
 		this.closeMenuAnim = new TimelineLite({paused: true})
 			this.closeMenuAnim.call(()=>{
 				this.openMenuAnim.kill()
 			})
-			this.closeMenuAnim.staggerTo(this.$refs.slideInfo.children, .3, {y: 100, autoAlpha: 0,ease: Expo.easeIn}, -.04)
+			this.closeMenuAnim.staggerTo(this.$refs.slideInfo.children, .3, {y: 100, autoAlpha: 0,ease: Expo.easeIn, force3D: true}, -.04)
 			this.closeMenuAnim.to(this.$refs.slideImg, 2, {z: -800, ease: Expo.easeOut}, 0)
 
 		this.buttonHoverAnim = new TimelineLite({paused: true})
@@ -212,7 +212,7 @@ export default {
 				TweenLite.set(this.$refs.slideImg, {y: 0})
 				TweenLite.set(this.$refs.slideImg, {z: -100})
 				TweenLite.set(this.$refs.slideInfo, {y: 0})
-				TweenMax.staggerTo(this.$refs.slideInfo.children, 1, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .04)
+				TweenMax.staggerTo(this.$refs.slideInfo.children, 1, {y: 0, autoAlpha: 1, ease: Expo.easeOut, force3D: true}, .04)
 				TweenLite.to(this.$refs.slideImg, 1.4, {z: 0, ease: Expo.easeOut}, 0)
 				_.delay( ()=>{
 					this.caseStudyClosed()
@@ -270,7 +270,7 @@ export default {
 				tl.set(this.$refs.slideInfo.children[3], {autoAlpha: 0})
 				tl.set(this.$refs.slideInfo.children[4], {autoAlpha: 0})
 				tl.set(this.$refs.slideImg, {z: -100})
-				tl.staggerTo(this.$refs.slideInfo.children, .6, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .04)
+				tl.staggerTo(this.$refs.slideInfo.children, .6, {y: 0, autoAlpha: 1, ease: Expo.easeOut, force3D: true}, .04)
 				tl.to(this.$refs.slideImg, 1.4, {z: 0, ease: Expo.easeOut}, 0)
 
 			this.slideId === this.currentSlideId && !this.nextHook ? tl.play(0) : undefined
@@ -283,10 +283,10 @@ export default {
 				EventBus.$emit('go-to-case-study')
 				this.$router.replace({name: 'case-study', params: {id: this.title}})
 				let tl = new TimelineLite()
-					tl.to(this.$refs.slideInfo.children, 2, {y: 100,ease: Expo.easeOut})
-					tl.to(this.$refs.slideInfo.children[2], 1, {autoAlpha: 0,ease: Expo.easeOut}, 0)
-					tl.to(this.$refs.slideInfo.children[3], 1, {autoAlpha: 0,ease: Expo.easeOut}, 0)
-					tl.to(this.$refs.slideInfo.children[4], 1, {autoAlpha: 0,ease: Expo.easeOut}, 0)
+					tl.to(this.$refs.slideInfo.children, 2, {y: 100,ease: Expo.easeOut, force3D: true})
+					tl.to(this.$refs.slideInfo.children[2], 1, {autoAlpha: 0,ease: Expo.easeOut, force3D: true}, 0)
+					tl.to(this.$refs.slideInfo.children[3], 1, {autoAlpha: 0,ease: Expo.easeOut, force3D: true}, 0)
+					tl.to(this.$refs.slideInfo.children[4], 1, {autoAlpha: 0,ease: Expo.easeOut, force3D: true}, 0)
 					tl.to(this.$refs.slideImg, 2, {z: -100, ease: Expo.easeOut}, 0)
 					tl.set(this.$refs.loadingBar, {scaleX: 0})
 			}
@@ -341,8 +341,8 @@ export default {
 				tlCaseStudy.set(this.$refs.slideInfo.children, {y: 200, autoAlpha: 0})
 				tlCaseStudy.set(this.$refs.slideImg, {z: -1000})
 				tlCaseStudy.to(this.$refs.slideImg, 3, {z: -100, ease: Expo.easeOut})
-				tlCaseStudy.to(this.$refs.slideInfo.children[0], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, '-=3')
-				tlCaseStudy.to(this.$refs.slideInfo.children[1], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, '-=2.8')
+				tlCaseStudy.to(this.$refs.slideInfo.children[0], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut, force3D: true}, '-=3')
+				tlCaseStudy.to(this.$refs.slideInfo.children[1], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut, force3D: true}, '-=2.8')
 
 				this.$route.name === 'case-study' ? tlCaseStudy.play(0) : tl.play(0)
 
@@ -359,7 +359,7 @@ export default {
 				tl.set(this.$refs.slideInfo, {y:0})
 				tl.set(this.$refs.slideInfo.children, {y:100, autoAlpha: 0})
 				tl.to(this.$refs.slideImg, .55, {y: 0,ease: Expo.easeOut})
-				tl.staggerTo(this.$refs.slideInfo.children, .7, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .05, 0)
+				tl.staggerTo(this.$refs.slideInfo.children, .7, {y: 0, autoAlpha: 1,ease: Expo.easeOut, force3D: true}, .05, 0)
 
 			let tlCaseStudy = new TimelineLite({paused: true})
 				tlCaseStudy.set(this.$refs.slideInfo.children, {y: 200, autoAlpha: 0})
@@ -367,8 +367,8 @@ export default {
 				tlCaseStudy.set(this.$el, {autoAlpha: 1})
 				tlCaseStudy.set(this.$refs.slideInfo, {y:0})
 				tlCaseStudy.to(this.$refs.slideImg, .55, {y: 0, z:-100,ease: Expo.easeOut})
-				tlCaseStudy.to(this.$refs.slideInfo.children[0], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, 0)
-				tlCaseStudy.to(this.$refs.slideInfo.children[1], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, '-=1.8')
+				tlCaseStudy.to(this.$refs.slideInfo.children[0], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut, force3D: true}, 0)
+				tlCaseStudy.to(this.$refs.slideInfo.children[1], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut, force3D: true}, '-=1.8')
 
 			this.$route.name === 'case-study' ? tlCaseStudy.play() : tl.play()
 		},
@@ -384,12 +384,12 @@ export default {
 				tl.set(this.$refs.slideInfo, {y:0})
 				tl.set(this.$refs.slideInfo.children, {y: -100, autoAlpha:0})
 				tl.to(this.$refs.slideImg, .55, {y: 0, ease: Expo.easeOut})
-				tl.staggerTo(this.$refs.slideInfo.children, .7, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, -.05, 0)
+				tl.staggerTo(this.$refs.slideInfo.children, .7, {y: 0, autoAlpha: 1,ease: Expo.easeOut, force3D: true}, -.05, 0)
 		},
 
 		prevDown(){
 			let tl = new TimelineLite()
-				tl.staggerTo(this.$refs.slideInfo.children, .4, {y: 100, autoAlpha: 0,ease: Power1.easeIn}, -.04)
+				tl.staggerTo(this.$refs.slideInfo.children, .4, {y: 100, autoAlpha: 0,ease: Power1.easeIn, force3D: true}, -.04)
 				tl.to(this.$refs.slideImg, .35, {y: window.innerHeight,ease: Power1.easeIn}, 0)
 				tl.to(this.$refs.slideInfo, .4, {y: window.innerHeight,ease: Power1.easeIn}, 0)
 				tl.set(this.$el, {autoAlpha: 0})
@@ -397,14 +397,14 @@ export default {
 
 		leaveDown(transitionTime = .8){
 			let tl = new TimelineLite()
-				tl.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0,ease: Expo.easeIn}, -.05)
+				tl.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0,ease: Expo.easeIn, force3D: true}, -.05)
 				tl.to(this.$refs.slideImg, transitionTime, {y: window.innerHeight,ease: Expo.easeIn}, 0)
 				tl.set(this.$el, {autoAlpha: 0})
 		},
 
 		leaveUp(transitionTime){
 			let tl = new TimelineLite()
-				tl.staggerTo(this.$refs.slideInfo.children, .4, {y: -100, autoAlpha: 0,ease: Power1.easeIn}, .04)
+				tl.staggerTo(this.$refs.slideInfo.children, .4, {y: -100, autoAlpha: 0,ease: Power1.easeIn, force3D: true}, .04)
 				tl.to(this.$refs.slideImg, transitionTime, {y: -window.innerHeight, ease: Power1.easeIn}, 0)
 				tl.to(this.$refs.slideInfo, .4, {y: -window.innerHeight, ease: Power1.easeIn}, 0)
 				tl.set(this.$el, {autoAlpha: 0})
@@ -425,7 +425,7 @@ export default {
 				tl.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
 				tl.set(this.$refs.slideImg, {z: 1000, opacity: 0})
 				tl.to(this.$refs.slideImg, 1.5, {z: 0, opacity: 1, ease: Expo.easeOut})
-				tl.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .08, 0)
+				tl.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut, force3D: true}, .08, 0)
 
 			let tlCaseStudy = new TimelineLite({paused: true})
 				tlCaseStudy.set(this.$el, {autoAlpha: 1})

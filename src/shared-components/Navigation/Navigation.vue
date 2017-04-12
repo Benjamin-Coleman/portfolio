@@ -117,7 +117,7 @@ export default {
       .to(this.$menuLines[2], 0.5, {rotation:-45, scaleX:0.68 , ease: Expo.easeInOut}, 0)
       .set(this.$refs.menuLinks, {autoAlpha: 1}, 0)
       .to(this.$refs.menuBackground, 1, {autoAlpha: 1, ease: Expo.easeOut}, 0)
-      .staggerTo(this.$menuLinks, 1.5, {y:0 , autoAlpha:1,  ease: Expo.easeOut}, 0.08, 0)
+      .staggerTo(this.$menuLinks, 1.5, {y:0 , autoAlpha:1,  ease: Expo.easeOut, force3D: true}, 0.08, 0)
 
     this.closeMenuAnim = new TimelineLite({paused: true,
     onStart: ()=>{
