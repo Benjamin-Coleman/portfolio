@@ -3,12 +3,12 @@
 	<div class="about-content" ref="aboutContent">
 		<div class="about-content__title" v-html="title"></div>
 		<div class="about-content__mobile-message">See my work on desktop</div>
-		<div class="about-content__content-container">
+		<div class="about-content__content-container" ref="contentContainer">
 
 			<div class="about-content__content" v-html="content"></div>
 			<div class="about-content__social">
 				<div class="about-content__social-title">{{ socialTitle }}</div>
-				<div class="about-content__networks">
+				<div class="about-content__networks" ref="network">
 					<div class="about-content__network" v-for="network in networks">
 						<a class="about-content__network__link" :href="network.link" target="_blank">{{ network.name }}</a>
 					</div>
@@ -100,6 +100,7 @@ export default {
 		appear(){
 			let tl = new TimelineLite({delay: .3})
 				tl.staggerFromTo(this.$refs.aboutContent.children, 1.5, {y: 40, autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .1)
+				tl.fromTo(this.$refs.network, 1.5, {y: 40, autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, '-=1.4')
 		},
 
 		leave(){
@@ -138,6 +139,7 @@ export default {
 
 	.about-content__title {
 		font-style: italic;
+		text-align: left;
 		letter-spacing: .12em;
 	}
 
