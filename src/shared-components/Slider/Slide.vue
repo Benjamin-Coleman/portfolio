@@ -151,7 +151,7 @@ export default {
 			this.closeMenuAnim.call(()=>{
 				this.openMenuAnim.kill()
 			})
-			this.closeMenuAnim.staggerTo(this.$refs.slideInfo.children, .3, {y: 100, autoAlpha: 0,ease: Expo.easeIn, force3D: true}, -.04)
+			this.closeMenuAnim.staggerTo(this.$refs.slideInfo.children, .2, {y: 100, autoAlpha: 0,ease: Expo.easeIn, force3D: true}, -.04)
 			this.closeMenuAnim.to(this.$refs.slideImg, 1.5, {z: -800, ease: Expo.easeOut}, 0)
 
 		this.buttonHoverAnim = new TimelineLite({paused: true})
@@ -412,8 +412,8 @@ export default {
 
 		leaveForward(){
 			let tl = new TimelineLite()
-				tl.to(this.$refs.slideImg, 1, {z: 1000, opacity: 0, ease: Expo.easeIn})
-				tl.add(TweenMax.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}, -.03), 0)
+				tl.add( TweenMax.to(this.$refs.slideImg, 1, {z: 1000, opacity: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}) )
+				tl.add( TweenMax.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}, -.03), 0)
 		},
 
 		appearBackward(delay){
@@ -425,13 +425,13 @@ export default {
 				tl.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
 				tl.set(this.$refs.slideImg, {z: 1000, opacity: 0})
 				tl.to(this.$refs.slideImg, 1.5, {z: 0, opacity: 1, ease: Expo.easeOut})
-				tl.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut, force3D: true}, .08, 0)
+				tl.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut, force3D: true}, .08, '-=.9')
 
 			let tlCaseStudy = new TimelineLite({paused: true})
 				tlCaseStudy.set(this.$el, {autoAlpha: 1})
 				tlCaseStudy.set(this.$refs.slideImg, {z: 1000, opacity: 0})
 				tlCaseStudy.set(this.$refs.slideInfo.children, {y: 200, autoAlpha: 0})
-				tlCaseStudy.to(this.$refs.slideImg, 1.5, {z: -100, opacity: 1, ease: Expo.easeOut})
+				tlCaseStudy.to(this.$refs.slideImg, 1, {z: -100, opacity: 1, ease: Expo.easeOut})
 				tlCaseStudy.to(this.$refs.slideInfo.children[0], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, 0)
 				tlCaseStudy.to(this.$refs.slideInfo.children[1], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, '-=1.8')
 

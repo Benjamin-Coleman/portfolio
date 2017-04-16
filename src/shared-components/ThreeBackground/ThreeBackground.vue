@@ -30,7 +30,18 @@ export default {
 			menuState: MenuStore.state,
 			animationState: AnimationStore.state,
 			loaderState: LoaderStore.state,
-			targetZ: 10
+			targetZ: 10,
+			lookAt: false,
+			isSliding: false,
+			oldWheelPosition: 0,
+			mouse: {
+				x: 0,
+				y: 0,
+				ratio: {
+					x: 0,
+					y: 0
+				}
+			}
 		}
 	},
 
@@ -66,16 +77,23 @@ export default {
 
 	mounted(){
 		this.init()
+
+
 		this.animate()
 		this.events()
 
+
 		this.materials = []
 		this.generateMaterials()
+
+		this.initCube()
+		this.lookAt = true
 		this.initBg(this.$route.name)
 
 		if (this.pageReady) {
 			this.$route.name === 'case-study' ? this.appearCaseStudy() : this.appearAnim()
 		}
+
 
 	},
 
@@ -97,13 +115,27 @@ export default {
 			this.render()
 		},
 
+		initCube(){
+			let geometry = new THREE.BoxBufferGeometry( 1, 1, 1 )
+			let material = new THREE.MeshBasicMaterial( {color: 0x00ff00} )
+			this.cube = new THREE.Mesh( geometry, material )
+			this.cube.position.set( 0,0,0 )
+			this.scene.add( this.cube )
+		},
+
 		loaderReady(){
 			this.$route.name === 'case-study' ? this.appearCaseStudy() : this.appearAnim()
 		},
 
 		appearAnim(){
+			this.addMousemove()
 			let tl = new TimelineLite()
 				tl.fromTo(this.camera.position, 3, {z: 17},{z: 10, ease: Expo.easeOut})
+		},
+
+		remove3dMouse(){
+			this.isSliding = true
+			window.removeEventListener('mousemove', this.mousemove)
 		},
 
 		appearCaseStudy(){
@@ -127,25 +159,40 @@ export default {
 
 		rendererResize(){
 			this.renderer.setSize(window.innerWidth, window.innerHeight)
-			this.camera.aspect = window.innerWidth / window.innerHeight;
-			this.camera.updateProjectionMatrix();
+			this.camera.aspect = window.innerWidth / window.innerHeight
+			this.camera.updateProjectionMatrix()
 		},
 
 		animate() {
 			this.wheel()
+			this.renderCameraRotation()
 			this.render()
 			requestAnimationFrame(this.animate.bind(this))
 		},
 
 		wheel(){
-			if (!this.sliderIsAnimated && this.sliderIsActive && this.menuIsClosed) {
-				this.camera.position.y = this.getCurrentSlidePosY / 100
+			if ( !this.sliderIsAnimated && this.sliderIsActive && this.menuIsClosed ) {
+
+				let positionY = this.getCurrentSlidePosY / 100
+				let positionToAdd = this.oldWheelPosition - positionY
+
+
+				if (positionY !== this.oldWheelPosition) {
+					this.isSliding = true
+					TweenLite.killTweensOf( this.camera.position, false, {y:true} )
+					this.cube.position.y -= positionToAdd
+					this.camera.position.y -= positionToAdd
+				}
+
+				this.oldWheelPosition = positionY
 			}
+
+			this.isSliding = false
 		},
 
 		events(){
 			window.addEventListener('resize', this.rendererResize.bind(this))
-			EventBus.$on('toggle-menu', this.toggleMenu);
+			EventBus.$on('toggle-menu', this.toggleMenu)
 			EventBus.$on('slide-next',this.nextAnim)
 			EventBus.$on('slide-prev', this.prevAnim)
 			EventBus.$on('leave-page', this.goToPage)
@@ -157,14 +204,37 @@ export default {
 
 		unlistenEvents(){
 			window.removeEventListener('resize', this.rendererResize.bind(this))
-			EventBus.$off('toggle-menu', this.toggleMenu);
+			window.removeEventListener('mousemove', this.mousemove)
+			EventBus.$off('toggle-menu', this.toggleMenu)
 			EventBus.$off('page-ready', this.loaderReady)
 			EventBus.$off('slide-next',this.nextAnim)
 			EventBus.$off('slide-prev', this.prevAnim)
 			EventBus.$off('leave-page', this.goToPage)
-			EventBus.$off('close-case-study', this.leaveCaseStudy)
+			EventBus.$off('go-to-case-study', this.goToCaseStudy)
 			EventBus.$off('close-case-study', this.leaveCaseStudy)
 			EventBus.$off('hide-case-study', this.nextCaseStudy)
+		},
+
+		mousemove(e){
+			e.preventDefault()
+
+			if (!this.isSliding) {
+				this.mouse.y = e.clientY
+				this.mouse.ratio.y = this.mouse.y / window.innerHeight
+
+				let cameraPosY = this.camera.position.y + ( ( ( this.mouse.ratio.y - 0.5 ) * 4 * .5) - this.camera.position.y )
+				TweenLite.to(this.camera.position, .8, {y: cameraPosY})
+			}
+
+			this.mouse.x = e.clientX
+			this.mouse.ratio.x = this.mouse.x / window.innerWidth
+
+			let cameraPosX = this.camera.position.x + ( ( - ( this.mouse.ratio.x - 0.5 ) * 4 * .5) - this.camera.position.x )
+			TweenLite.to(this.camera.position, .8, {x: cameraPosX})
+		},
+
+		renderCameraRotation(){
+			this.lookAt && this.camera.lookAt( this.cube.position )
 		},
 
 		toggleMenu(){
@@ -195,11 +265,24 @@ export default {
 		},
 
 		goToCaseStudy(){
-			TweenLite.to(this.camera.position, 2,{z: 10.5, ease: Expo.easeOut})
+			window.removeEventListener('mousemove', this.mousemove)
+			TweenLite.to(this.camera.position, 2,{
+				z: 10.5,
+				y:0,
+				x:0,
+				ease: Expo.easeOut,
+				onComplete: ()=>{
+					this.isSliding = true
+				}
+			})
+
 		},
 
 		leaveCaseStudy(){
 			TweenLite.to(this.camera.position, 2,{z: 10, ease: Expo.easeOut})
+
+			this.isSliding = false
+			this.addMousemove()
 		},
 
 		setCaseStudyId(projectToSearch){
@@ -212,46 +295,69 @@ export default {
 			}
 		},
 
+		addMousemove(){
+			EventBus.$emit('add-mousemove')
+			window.addEventListener('mousemove', this.mousemove)
+		},
+
 		nextAnim(){
+			this.oldWheelPosition = 0
+			window.removeEventListener('mousemove', this.mousemove)
 			let targetedBg = slides[this.$route.name][this.currentSlideId].backgroundColor
-			let tl = new TimelineLite()
+			let tl = new TimelineLite({onComplete: this.addMousemove})
 				tl.to(this.camera.position, .5,{y: -25, ease: Power1.easeIn})
+				tl.to(this.cube.position, .5,{y: -25, ease: Power1.easeIn}, 0)
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
 				tl.call(this.generateShapesForSlide, [this.$route.name, this.currentSlideId])
 				tl.set(this.camera.position, {y: 20})
-				tl.to(this.camera.position, .7,{z: 10, y: 0, ease: Expo.easeOut})
+				tl.set(this.cube.position, {y: 20})
+				tl.to(this.cube.position, .7,{y: 0, ease: Expo.easeOut})
+				tl.to(this.camera.position, .7,{z: 10, y: 0, ease: Expo.easeOut}, '-=.7')
 		},
 
 		prevAnim(){
+			this.oldWheelPosition = 0
+			window.removeEventListener('mousemove', this.mousemove)
 			let targetedBg = slides[this.$route.name][this.currentSlideId].backgroundColor
-			let tl = new TimelineLite()
+			let tl = new TimelineLite({onComplete: this.addMousemove})
 				tl.to(this.camera.position, .5,{y: 25, ease: Power1.easeIn})
+				tl.to(this.cube.position, .5,{y: 25, ease: Power1.easeIn}, 0)
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
 				tl.call(this.generateShapesForSlide, [this.$route.name, this.currentSlideId])
 				tl.set(this.camera.position, {y: -20})
-				tl.to(this.camera.position, .7,{z: 10, y: 0, ease: Expo.easeOut})
+				tl.set(this.cube.position, {y: -20})
+				tl.to(this.cube.position, .7,{y: 0, ease: Expo.easeOut})
+				tl.to(this.camera.position, .7,{z: 10, y: 0, ease: Expo.easeOut}, '-=.7')
 		},
 
 		leaveUp(to){
+			this.remove3dMouse()
 			let targetedBg = this.findTargetedBg(to)
 			TweenLite.to(this.camera.position, .8, {z: 10, ease: Expo.easeOut})
-			let tl = new TimelineLite()
+			let tl = new TimelineLite({onComplete: this.addMousemove})
 				tl.to(this.camera.position, 1,{y: -25, ease: Expo.easeIn})
+				tl.to(this.cube.position, 1,{y: -25, ease: Expo.easeIn}, '-=1')
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
 				tl.call(this.generateShapesForSlide, [to, this.currentSlideId])
 				tl.set(this.camera.position, {y: 20})
+				tl.set(this.cube.position, {y: 20})
 				tl.to(this.camera.position, 1,{y: 0, z: this.targetZ, ease: Expo.easeOut})
+				tl.to(this.cube.position, 1,{y: 0, ease: Expo.easeOut}, '-=1')
 		},
 
 		leaveDown(to){
+			this.remove3dMouse()
 			let targetedBg = this.findTargetedBg(to)
 			TweenLite.to(this.camera.position, .8, {z: 10, ease: Expo.easeOut})
-			let tl = new TimelineLite()
+			let tl = new TimelineLite({onComplete: this.addMousemove})
 				tl.to(this.camera.position, 1,{y: 25, ease: Expo.easeIn})
+				tl.to(this.cube.position, 1,{y: 25, ease: Expo.easeIn}, '-=1')
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
 				tl.call(this.generateShapesForSlide, [to, 0])
 				tl.set(this.camera.position, {y: -20})
-				tl.to(this.camera.position, 1,{y: 0, ease: Expo.easeOut})
+				tl.set(this.cube.position, {y: -20})
+				tl.to(this.cube.position, 1,{y: 0, ease: Expo.easeOut})
+				tl.to(this.camera.position, 1,{y: 0, ease: Expo.easeOut}, '-=1')
 		},
 
 		leaveForward(to){
@@ -266,14 +372,25 @@ export default {
 				tl.to(this.camera.position, 1,{z: 10, ease: Expo.easeOut}, '-=2')
 		},
 
+		remove3dIfCaseStudy(){
+			if (this.$route.name === 'case-study') {
+				this.remove3dMouse()
+			}
+		},
+
 		leaveBackward(to){
+			window.removeEventListener('mousemove', this.mousemove)
 			let targetedBg = this.findTargetedBg(to)
-			let tl = new TimelineLite()
+
+			let tl = new TimelineLite({onComplete: ()=>{
+				this.$route.name !== 'case-study' ? this.addMousemove() : undefined
+			}})
 				tl.to(this.camera.position, 1.5,{z: 50, ease: Expo.easeIn})
 				tl.to(this.$refs.bgRenderer.children, .5, {opacity: 0, ease: Power1.easeInOut}, '-=1')
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut}, '-=.5')
 				tl.call(this.generateShapesForSlide, [to, this.currentSlideId])
-				tl.set(this.camera.position, {z: 0})
+				tl.call(this.remove3dIfCaseStudy)
+				tl.set(this.camera.position, {z: 0, y:0, x:0})
 				tl.to(this.$refs.bgRenderer.children, 2, {opacity: 1, ease: Expo.easeOut})
 				tl.to(this.camera.position, 1,{z: this.targetZ, ease: Expo.easeOut}, '-=2')
 		},
@@ -297,7 +414,7 @@ export default {
 		},
 
 		createGradientTexture(firstColor, secondColor){
-			let size = 16;
+			let size = 16
 			let canvas = document.createElement('canvas')
 			canvas.width = size
 			canvas.height = size
@@ -311,7 +428,7 @@ export default {
 			context.fillStyle = gradient
 			context.fill()
 
-			return canvas;
+			return canvas
 		},
 
 		generateShapesForSlide(page, slideId){
@@ -325,7 +442,7 @@ export default {
 
 			for (let i = 0; i < slide.shapes.length; i++) {
 				let shape = slide.shapes[i]
-				let geometry = new THREE.CircleGeometry(shape.size, shape.edges);
+				let geometry = new THREE.CircleGeometry(shape.size, shape.edges)
 				let material = this.materials[shape.materialId]
 
 				let mesh = new THREE.Mesh(geometry, material)
@@ -343,7 +460,7 @@ export default {
 
 		initBg(page){
 			if (slides[page] === undefined) {
-				return;
+				return
 			}
 			if( this.$route.name === 'case-study' ){
 				let targetedBg = slides['work'][this.currentSlideId].backgroundColor

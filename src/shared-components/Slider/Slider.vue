@@ -1,7 +1,7 @@
 <template lang="html">
-	<div class="slider">
+	<div class="slider" style="opacity: 1">
 		<slide-indicator></slide-indicator>
-		<div class="slide-container" ref="slideContainer" :style="transformStyle">
+		<div class="slide-container" ref="slideContainer">
 			<slide
 				v-for="(slide, index) in slides"
 				:title="slide.title"
@@ -68,9 +68,7 @@
 				oldDeltaY: 0,
 				leave: false,
 				directionQueue: '',
-				transformStyle: {
-					transform: 'translate3d(0, '+this.slideTransform+'px, 0)'
-				}
+				mousemoveIsActive: false
 			}
 		},
 
@@ -103,20 +101,25 @@
 			events(){
 				document.addEventListener('keyup', this.keyUp)
 				this.vs.on(this.wheel)
-				EventBus.$on('appear-slide', this.wheelLoop)
+				EventBus.$on('appear-slide', this.appearSlide)
+				EventBus.$on('add-mousemove', this.addMousemove)
 				EventBus.$on('leave-page', this.leavePage)
 				EventBus.$on('go-to-case-study', this.goToCaseStudy)
-				EventBus.$on('case-study-closed', this.closeCaseStudy)
+				EventBus.$on('close-case-study', this.closeCaseStudy)
+				EventBus.$on('case-study-closed', this.caseStudyClosed)
 				EventBus.$on('page-ready', this.loaderReady)
 			},
 
 			unlistenEvents(){
 				document.removeEventListener('keyup', this.keyUp)
+				this.removeMousemove()
 				this.vs.destroy()
+				EventBus.$off('add-mousemove', this.addMousemove)
 				EventBus.$off('appear-slide', this.wheelLoop)
 				EventBus.$off('leave-page', this.leavePage)
 				EventBus.$off('go-to-case-study', this.goToCaseStudy)
-				EventBus.$off('case-study-closed', this.closeCaseStudy)
+				EventBus.$off('close-case-study', this.closeCaseStudy)
+				EventBus.$off('case-study-closed', this.caseStudyClosed)
 				EventBus.$off('page-ready', this.loaderReady)
 			},
 
@@ -124,8 +127,27 @@
 				this.leave = true
 			},
 
+			mousemove(e){
+				e.preventDefault()
+
+				let centroX = e.clientX - window.innerWidth / 2
+				let centroY = window.innerHeight / 2 - (e.clientY + 100)
+				let degX = centroX * .01
+				let degY = centroY * .015
+				TweenLite.to(this.$refs.slideContainer, .8,{rotationY: degX, rotationX: degY})
+			},
+
 			loaderReady(){
 				this.$route.name === 'case-study' && this.pageReady ? this.goToCaseStudy(): undefined
+			},
+
+			addMousemove(){
+				!this.mousemoveIsActive ? window.addEventListener('mousemove', this.mousemove) : undefined
+				this.mousemoveIsActive = true
+			},
+
+			removeMousemove(){
+				window.removeEventListener('mousemove', this.mousemove)
 			},
 
 			goToCaseStudy(){
@@ -134,9 +156,21 @@
 				document.removeEventListener('keyup', this.keyUp)
 				this.wheelCaseStudy()
 				this.leave = true
+
+				this.removeMousemove()
+				this.mousemoveIsActive = false
+				TweenLite.to(this.$refs.slideContainer, 2, {
+					rotationY: 0,
+					rotationX: 0
+				})
+
 			},
 
-			closeCaseStudy(loadNextProject){
+			closeCaseStudy(){
+				this.addMousemove()
+			},
+
+			caseStudyClosed(loadNextProject){
 				if (!loadNextProject || !slides[this.currentSlideId]['case-study']) {
 					_.delay( ()=>{
 						this.caseStudyOpen = false
@@ -171,8 +205,13 @@
 			wheelCaseStudy(){
 				let newSlideTransform = this.getSliderPosY
 				this.slideTransform = newSlideTransform
-				this.transformStyle.transform = 'translate3d(0, '+this.slideTransform+'px, 0)'
+				TweenLite.set(this.$refs.slideContainer, {y: this.slideTransform, force3D: true})
 				this.caseStudyOpen ? requestAnimationFrame(this.wheelCaseStudy) : undefined
+			},
+
+			appearSlide(){
+				this.addMousemove()
+				this.wheelLoop()
 			},
 
 			wheelLoop(){
@@ -183,7 +222,7 @@
 				if (newSlideTransform !== this.oldSlideTransform) {
 					this.oldSlideTransform = this.slideTransform
 					this.slideTransform = newSlideTransform
-					this.transformStyle.transform = 'translate3d(0, '+this.slideTransform+'px, 0)'
+					TweenLite.set(this.$refs.slideContainer, {y: this.slideTransform, force3D: true})
 					SliderStore.setPosY(this.slideTransform)
 				}
 
@@ -213,7 +252,7 @@
 				this.slideTransform = 0
 				this.oldDeltaY = 0
 				this.directionQueue = ''
-				this.transformStyle.transform = 'translate3d(0, 0, 0)'
+				TweenLite.set(this.$refs.slideContainer, {y: 0, force3D: true})
 			},
 
 			keyUp(event){
@@ -261,8 +300,13 @@
 					this.currentSlideId < slideId ? direction = 'next' : direction= 'prev'
 					direction === 'next' ? SliderStore.increment() : SliderStore.decrement()
 				}
+
+				this.mousemoveIsActive = false
+				this.removeMousemove()
+
 				EventBus.$emit('slide-'+direction, lastSlideId)
 				SliderStore.sliderIsAnimated()
+
 			}
 		},
 		components: {
@@ -280,6 +324,7 @@
 		top: 0;
 		left: 0;
 		z-index: 0;
+		perspective: 1000px;
 	}
 
 	.slide-container {

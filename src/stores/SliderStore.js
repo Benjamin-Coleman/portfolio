@@ -6,7 +6,8 @@ class SliderStore {
 			isAnimated: false,
 			posY: 0,
 			isActive: false,
-			caseStudyIsOpen: false
+			caseStudyIsOpen: false,
+			lookAt: true
 		}
 	}
 
@@ -16,6 +17,10 @@ class SliderStore {
 
 	decrement(){
 		this.state.currentSlideId --
+	}
+
+	setLookAt(lookAt){
+		this.state.lookAt = lookAt
 	}
 
 	setSlideId(slideIdToSet){

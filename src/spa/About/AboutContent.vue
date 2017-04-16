@@ -3,15 +3,20 @@
 	<div class="about-content" ref="aboutContent">
 		<div class="about-content__title" v-html="title"></div>
 		<div class="about-content__mobile-message">See my work on desktop</div>
-		<div class="about-content__content" v-html="content"></div>
-		<div class="about-content__social">
-			<div class="about-content__social-title">{{ socialTitle }}</div>
-			<div class="about-content__networks">
-				<div class="about-content__network" v-for="network in networks">
-					<a class="about-content__network__link" :href="network.link" target="_blank">{{ network.name }}</a>
+		<div class="about-content__content-container">
+
+			<div class="about-content__content" v-html="content"></div>
+			<div class="about-content__social">
+				<div class="about-content__social-title">{{ socialTitle }}</div>
+				<div class="about-content__networks">
+					<div class="about-content__network" v-for="network in networks">
+						<a class="about-content__network__link" :href="network.link" target="_blank">{{ network.name }}</a>
+					</div>
 				</div>
 			</div>
+
 		</div>
+
 	</div>
 
 </template>
@@ -147,11 +152,15 @@ export default {
 	}
 
 	.about-content__content {
-		font-size: 14px;
-		text-align: left;
-		max-width: 31em;
 		line-height: 1.8em;
-		margin: 3.5em auto;
+		margin: 3.5em 0em;
+	}
+
+	.about-content__content-container {
+		margin: 0em auto;
+		font-size: 14px;
+		max-width: 35em;
+		text-align: left;
 	}
 
 	.about-content__link {
@@ -179,7 +188,7 @@ export default {
 
 	.about-content__social-title {
 		font-size: 14px;
-		margin-bottom: 1em;
+		margin-bottom: .9em;
 		letter-spacing: .1em;
 		font-style: italic;
 		color: $about-blue;
@@ -223,7 +232,7 @@ export default {
 		.about-content__social-title { font-size: 15px;}
 		.about-content__mobile-message { display: block;}
 		.about-content { font-size: 14px; margin: 3em 3em; text-align: left; max-width: none; display: block; visibility: visible; opacity: 1;}
-		.about-content__content { font-size: 15px;}
+		.about-content__content-container { font-size: 15px;}
 		.about-content__big-title { font-size: 60px;}
 		.about-content__title { font-size: 24px; letter-spacing: .08em; line-height: 3em;}
 	}
@@ -232,7 +241,7 @@ export default {
 		.about-content__social-title { font-size: 15px;}
 		.about-content__mobile-message { display: block;}
 		.about-content { font-size: 14px; margin: 3em 2em; text-align: left; max-width: none; display: block; visibility: visible; opacity: 1;}
-		.about-content__content { font-size: 14px;}
+		.about-content__content-container { font-size: 14px;}
 		.about-content__big-title { font-size: 36px;}
 		.about-content__title { font-size: 19px; letter-spacing: .02em; line-height: 2em;}
 	}
@@ -242,7 +251,7 @@ export default {
 	}
 
 	@media screen and (max-width: 960px){
-		.about-content__content { max-width: none; }
+		.about-content__content-container { max-width: none; }
 	}
 
 </style>

@@ -2,7 +2,7 @@
 
 	<div class="name-title">
 
-		<div class="name-title__title-container">
+		<div class="name-title__title-container" ref="titleContainer">
 			<div class="name-title__title" ref="title">
 				{{ name }}
 			</div>
@@ -65,7 +65,7 @@ export default {
 		this.closeMenuAnim = new TimelineLite({paused: true})
 			this.closeMenuAnim.to(this.$refs.title, 1.5, {z:0, ease: Expo.easeOut})
 			this.closeMenuAnim.staggerTo(this.$refs.subtitle.children, 2, { y:0, autoAlpha: 1, ease: Expo.easeOut}, .1, .5)
-			this.closeMenuAnim.to(this.$refs.square, 1.5, {z:-200, ease: Expo.easeOut}, 0)
+			this.closeMenuAnim.to(this.$refs.square, 1.5, {z:-300, ease: Expo.easeOut}, 0)
 
 	},
 
@@ -76,19 +76,35 @@ export default {
 	methods: {
 		events(){
 			EventBus.$on('toggle-menu', this.toggleMenu)
+			EventBus.$on('add-mousemove', this.addMousemove)
 			EventBus.$on('leave-page', this.leavePage)
 			EventBus.$on('page-ready', this.appearPage)
 		},
 
 		unlistenEvents(){
+			window.removeEventListener('mousemove', this.mousemove)
+			EventBus.$off('add-mousemove', this.addMousemove)
 			EventBus.$off('toggle-menu', this.toggleMenu)
 			EventBus.$off('leave-page', this.leavePage)
-			EventBus.$on('page-ready', this.appearPage)
+			EventBus.$off('page-ready', this.appearPage)
+		},
+
+		addMousemove(){
+			window.addEventListener('mousemove', this.mousemove)
+		},
+
+		mousemove(e){
+			let centroX = e.clientX - window.innerWidth / 2
+			let centroY = window.innerHeight / 2 - (e.clientY + 100)
+			let degX = centroX * .015
+			let degY = centroY * .03
+			TweenLite.to(this.$refs.title, .8,{rotationY: degX, rotationX: degY})
+			TweenLite.to(this.$refs.square, .8,{rotationY: degX, rotationX: degY})
 		},
 
 		leavePage(){
 			let leaveAnim = this.getCurrentAnimLeave
-			TweenLite.to(this.$refs.square, .8, {z: -200, ease: Expo.easeOut})
+			TweenLite.to(this.$refs.square, .8, {z: -300, ease: Expo.easeOut})
 			TweenLite.to(this.$refs.title, .8, {z: 0, ease: Expo.easeOut})
 			this[leaveAnim]()
 		},
@@ -116,7 +132,7 @@ export default {
 			let tl = new TimelineLite()
 				tl.set(this.$refs.square, {z: 500, opacity: 0})
 				tl.set(this.$refs.title, {z: 500, opacity: 0})
-				tl.to(this.$refs.square, 1.5, {z: -200, opacity: 1 ,ease: Expo.easeOut}, 0)
+				tl.to(this.$refs.square, 1.5, {z: -300, opacity: 1 ,ease: Expo.easeOut}, 0)
 				tl.to(this.$refs.title, 1.5, {z: 0, opacity: 1 ,ease: Expo.easeOut}, 0)
 				tl.staggerFromTo(this.$refs.subtitle.children, 2, {y:20, autoAlpha: 0}, { y:0, autoAlpha: 1, ease: Expo.easeOut}, .1, .5)
 		},
@@ -124,15 +140,15 @@ export default {
 		leaveForward(){
 			let tl = new TimelineLite()
 				tl.add(TweenMax.staggerTo(this.$refs.subtitle.children, .5, { y:-20, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}, .05))
-				tl.to(this.$refs.square, 1, {z: 1100, opacity: 0, ease: Expo.easeIn}, 0)
-				tl.to(this.$refs.title, 1, {z: 1100, opacity: 0, ease: Expo.easeIn}, 0)
+				tl.add( TweenLite.to(this.$refs.square, 1, {z: 1000, opacity: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}), 0)
+				tl.add( TweenLite.to(this.$refs.title, 1, {z: 1000, opacity: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}), 0)
 		},
 
 		appearAnim(){
-			let appearAnim = new TimelineLite()
+			let appearAnim = new TimelineLite({onComplete: this.addMousemove})
 				appearAnim.fromTo(this.$refs.title, 3,{z: -500, autoAlpha:0}, {z:0, autoAlpha: 1, ease: Expo.easeOut})
 				appearAnim.staggerFromTo(this.$refs.subtitle.children, 2, {y:20, autoAlpha: 0}, { y:0, autoAlpha: 1, ease: Expo.easeOut}, .1, .5)
-				appearAnim.fromTo(this.$refs.square, 3, {z:-1000, autoAlpha: 0}, {z: -200, autoAlpha: 1, ease: Expo.easeOut}, 0)
+				appearAnim.fromTo(this.$refs.square, 3, {z:-1000, autoAlpha: 0}, {z: -300, autoAlpha: 1, ease: Expo.easeOut}, 0)
 		},
 
 		leaveAnim(){
@@ -205,7 +221,7 @@ export default {
 		height: 1.6em;
 		top: 50%;
 		left: 50%;
-		transform: translate3d(-50%, -85%, -200px);
+		transform: translate3d(-50%, -85%, -300px);
 		border: 15px solid #001429;
 		z-index: -1;
 	}
