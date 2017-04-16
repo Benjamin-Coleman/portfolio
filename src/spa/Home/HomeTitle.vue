@@ -140,8 +140,8 @@ export default {
 		leaveForward(){
 			let tl = new TimelineLite()
 				tl.add(TweenMax.staggerTo(this.$refs.subtitle.children, .5, { y:-20, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}, .05))
-				tl.add( TweenLite.to(this.$refs.square, 1, {z: 1000, opacity: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}), 0)
-				tl.add( TweenLite.to(this.$refs.title, 1, {z: 1000, opacity: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}), 0)
+				tl.add( TweenLite.to(this.$refs.square, 1, {z: 1000, opacity: 0, ease: Expo.easeIn, overwrite: 'all'}), 0)
+				tl.add( TweenLite.to(this.$refs.title, 1, {z: 1000, opacity: 0, ease: Expo.easeIn, overwrite: 'all'}), 0)
 		},
 
 		appearAnim(){

@@ -412,7 +412,7 @@ export default {
 
 		leaveForward(){
 			let tl = new TimelineLite()
-				tl.add( TweenMax.to(this.$refs.slideImg, 1, {z: 1000, opacity: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}) )
+				tl.add( TweenMax.to(this.$refs.slideImg, 1, {z: 1000, opacity: 0, ease: Expo.easeIn, overwrite: 'all'}) )
 				tl.add( TweenMax.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}, -.03), 0)
 		},
 
