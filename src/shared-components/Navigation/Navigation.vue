@@ -27,6 +27,7 @@
 
 import {TimelineLite, TweenLite, Power4, Power0, Expo} from 'gsap'
 import SplitText from '../../commons/script/SplitText.js'
+import _ from 'lodash'
 
 import {EventBus} from '../../event-bus.js'
 import NavItem from './NavItem.vue'
@@ -89,6 +90,8 @@ export default {
 
   mounted: function(){
     let el = this.$el
+
+    this.throttledOnResize = _.throttle(this.onResize, 300)
 
     this.$menuLines = this.$refs.menuIcon.children
     this.$menuCircleHover = this.$refs.menuCircleHover
@@ -155,6 +158,7 @@ export default {
   methods: {
 
     events(){
+      window.addEventListener( 'resize', this.throttledOnResize )
       EventBus.$on('slide-next', this.changeSlide)
       EventBus.$on('slide-prev', this.changeSlide)
       EventBus.$on('leave-page', this.leavePage)
@@ -166,6 +170,7 @@ export default {
     },
 
     unlistenEvents(){
+      window.removeEventListener( 'resize', this.throttledOnResize )
       EventBus.$off('click-current-link', this.toggleClose)
       EventBus.$off('slide-next', this.changeSlide)
       EventBus.$off('slide-prev', this.changeSlide)
@@ -174,6 +179,12 @@ export default {
       EventBus.$off('next-case-study', this.nextCaseStudy)
       EventBus.$off('hide-case-study', this.loaderReady)
       EventBus.$off('close-menu', this.closeMenu)
+    },
+
+    onResize(){
+      if ( window.innerWidth < 960 && !this.isClosed ) {
+        this.closeMenu()
+      }
     },
 
     nextCaseStudy(){

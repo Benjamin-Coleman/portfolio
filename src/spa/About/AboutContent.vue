@@ -103,6 +103,11 @@ export default {
 		},
 
 		leave(){
+
+			if (this.isMobile) {
+				return undefined
+			}
+
 			let tl = new TimelineLite()
 				tl.add(TweenMax.staggerTo(this.$refs.aboutContent.children, .3, {y: 40, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'all'}, -.08))
 		},
