@@ -1,16 +1,24 @@
 {
 	"default": {
 		"1x": [
-			"../../../assets/imgs/slider/lightswan.png",
-			"../../../assets/imgs/slider/maje.png",
-			"../../../assets/imgs/slider/shopsquare.png",
-			"../../../assets/imgs/slider/google.png"
+			"../../../assets/imgs/slider/lightswan/shape.png",
+			"../../../assets/imgs/slider/lightswan/illustration.png",
+			"../../../assets/imgs/slider/maje/shape.png",
+			"../../../assets/imgs/slider/maje/illustration.png",
+			"../../../assets/imgs/slider/shopsquare/illustration.png",
+			"../../../assets/imgs/slider/shopsquare/shape.png",
+			"../../../assets/imgs/slider/google/illustration.png",
+			"../../../assets/imgs/slider/google/shape.png"
 		],
 		"2x": [
-			"../../../assets/imgs/slider/lightswan@2x.png",
-			"../../../assets/imgs/slider/maje@2x.png",
-			"../../../assets/imgs/slider/shopsquare@2x.png",
-			"../../../assets/imgs/slider/google@2x.png"
+			"../../../assets/imgs/slider/lightswan/shape@2x.png",
+			"../../../assets/imgs/slider/lightswan/illustration@2x.png",
+			"../../../assets/imgs/slider/maje/shape@2x.png",
+			"../../../assets/imgs/slider/maje/illustration@2x.png",
+			"../../../assets/imgs/slider/shopsquare/illustration@2x.png",
+			"../../../assets/imgs/slider/shopsquare/shape@2x.png",
+			"../../../assets/imgs/slider/google/illustration@2x.png",
+			"../../../assets/imgs/slider/google/shape@2x.png"
 		]
 	},
 	"case-study": {

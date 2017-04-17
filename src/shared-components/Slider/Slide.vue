@@ -1,10 +1,14 @@
 <template lang="html">
 	<div class="slide">
-		<div class="slide-img">
-			<img :src="imgPath" alt=""
-					 :srcset="imgPath2x + ' 2x'"
-					 class="slide-img__img" ref="slideImg"
-			>
+		<div class="slide-img" ref="slideImg">
+			<img class="slide-img__shape"
+			:src="shapePath"
+			:srcset="shapePath2x + ' 2x'"
+			alt="">
+			<img class="slide-img__img"
+			:src="illustrationPath"
+			:srcset="illustrationPath2x + ' 2x'"
+			alt="">
 		</div>
 		<div class="slide__info" ref="slideInfo">
 			<div class="slide__id" :style="titleColorStyle">
@@ -65,7 +69,22 @@ import LoaderMixin from '../Loader/LoaderMixin.js'
 const slides = require('./slides.json').slides
 
 export default {
-	props: ['title', 'description', 'context', 'role', 'period', 'slideId', 'titleColor', 'textColor', 'imgPath', 'imgPath2x', 'caseStudy', 'url'],
+	props: [
+		'title',
+		'description',
+		'context',
+		'role',
+		'period',
+		'slideId',
+		'titleColor',
+		'textColor',
+		'shapePath',
+		'shapePath2x',
+		'illustrationPath',
+		'illustrationPath2x',
+		'caseStudy',
+		'url'
+ 	],
 
 	mixins: [LoaderMixin],
 
@@ -152,7 +171,7 @@ export default {
 				this.openMenuAnim.kill()
 			})
 			this.closeMenuAnim.staggerTo(this.$refs.slideInfo.children, .2, {y: 100, autoAlpha: 0,ease: Expo.easeIn, force3D: true}, -.04)
-			this.closeMenuAnim.to(this.$refs.slideImg, 1.5, {z: -800, ease: Expo.easeOut}, 0)
+			this.closeMenuAnim.to(this.$refs.slideImg, 1.5, {z: -500, ease: Expo.easeOut}, 0)
 
 		this.buttonHoverAnim = new TimelineLite({paused: true})
 			this.buttonHoverAnim.to(this.$refs.buttonText, .2,{y: -20, rotationX: 45,autoAlpha: 0, ease: Expo.easeIn})
@@ -332,7 +351,7 @@ export default {
 			}})
 				tl.set(this.$el, {autoAlpha: 1})
 				tl.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
-				tl.set(this.$refs.slideImg, {z: -1000})
+				tl.set(this.$refs.slideImg, {z: -800})
 				tl.to(this.$refs.slideImg, 3, {z: 0,ease: Expo.easeOut})
 				tl.staggerTo(this.$refs.slideInfo.children, 2, {y: 0, autoAlpha: 1,ease: Expo.easeOut}, .05, '-=2.5')
 
@@ -412,7 +431,7 @@ export default {
 
 		leaveForward(){
 			let tl = new TimelineLite()
-				tl.add( TweenMax.to(this.$refs.slideImg, 1, {z: 1000, opacity: 0, ease: Expo.easeIn, overwrite: 'all'}) )
+				tl.add( TweenMax.to(this.$refs.slideImg, 1, {z: 1000, opacity: 0, ease: Expo.easeIn, overwrite: 'all', force3D: true}) )
 				tl.add( TweenMax.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}, -.03), 0)
 		},
 
@@ -478,16 +497,13 @@ export default {
 		height: 100%;
 		align-items: center;
 		justify-content: center;
+		transform-style: preserve-3d;
+		transform: translate3d(0px, 0px, 0px);
 	}
 
 	.slide__info {
-		max-width: 500px;
+		width: 40%;
 		font-family: 'SorrenMedium';
-
-		@media screen and (max-width: $medium-mq){
-			max-width: 400px;
-		}
-
 	}
 
 	.slide__id__text {
@@ -516,6 +532,7 @@ export default {
 		font-family: 'PlayfairDisplay';
 		font-size: 13px;
 		line-height: 2em;
+		max-width: 40em;
 
 		@media screen and (max-width: $medium-mq){
 			font-size: 12px;
@@ -525,6 +542,7 @@ export default {
 
 	.slide__sub-info__info {
 		display: inline-block;
+		max-width: 50%;
 		margin-left: 30px;
 		margin-top: 30px;
 
@@ -539,28 +557,28 @@ export default {
 	}
 
 	.slide-img {
-		margin-right: 200px;
+		width: 50%;
+		height: 100%;
+
+		transform-style: preserve-3d;
+		transform: translate3d(0px, 0px, 0px);
 		perspective-origin: 150% 50%;
-		perspective: 1000px;
+	}
 
-		@media screen and (max-width: $large-mq){
-			margin-right: 90px;
-		}
-
-		@media screen and (max-width: $medium-mq){
-			margin-right: 100px;
-			margin-left: 70px;
-		}
-
+	.slide-img__shape {
+		display: block;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate3d(-50%, -50%, -100px);
 	}
 
 	.slide-img__img {
 		display: block;
-
-		@media screen and (max-width: 1300px){
-			width: 30vw;
-		}
-
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate3d(-50%, -50%, 0px);
 	}
 
 	.slide__sub-info__info__title {

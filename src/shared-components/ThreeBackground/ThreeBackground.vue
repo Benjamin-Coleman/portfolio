@@ -127,6 +127,12 @@ export default {
 			this.$route.name === 'case-study' ? this.appearCaseStudy() : this.appearAnim()
 		},
 
+		addMousemove(){
+			if (this.$route.name !== 'case-study') {
+				window.addEventListener('mousemove', this.mousemove)
+			}
+		},
+
 		appearAnim(){
 			this.addMousemove()
 			let tl = new TimelineLite()
@@ -144,11 +150,13 @@ export default {
 		},
 
 		openMenuAnim(){
+			window.removeEventListener('mousemove', this.mousemove)
 			let tl= new TimelineLite()
 				tl.add(TweenLite.to(this.camera.position, 1.5,{z: 15, ease: Expo.easeOut, overwrite: 'all'}))
 		},
 
 		closeMenuAnim(){
+			this.addMousemove()
 			let tl = new TimelineLite()
 				tl.add(TweenLite.to(this.camera.position, 1.5,{z: 10, ease: Expo.easeOut, overwrite: 'all'}))
 		},

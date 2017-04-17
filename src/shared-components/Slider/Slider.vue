@@ -11,10 +11,14 @@
 				:context="slide.context"
 				:role="slide.role"
 				:period="slide.period"
-				:imgPath="slide.imgPath"
-				:imgPath2x="slide.imgPath2x"
+				:shapePath="slide.shapePath"
+				:shapePath2x="slide.shapePath2x"
+				:illustrationPath="slide.illustrationPath"
+				:illustrationPath2x="slide.illustrationPath2x"
 				:caseStudy="slide['case-study']"
 				:url="slide.url"
+				:rotationX="rotationX"
+				:rotationY="rotationY"
 				:slideId="index">
 			</slide>
 		</div>
@@ -68,7 +72,9 @@
 				oldDeltaY: 0,
 				leave: false,
 				directionQueue: '',
-				mousemoveIsActive: false
+				mousemoveIsActive: false,
+				rotationX: 0,
+				rotationY: 0,
 			}
 		},
 
@@ -134,7 +140,7 @@
 				let centroY = window.innerHeight / 2 - (e.clientY + 100)
 				let degX = centroX * .01
 				let degY = centroY * .015
-				TweenLite.to(this.$refs.slideContainer, .8,{rotationY: degX, rotationX: degY})
+				this.menuIsClosed ? TweenLite.to(this.$refs.slideContainer, .8,{rotationY: degX, rotationX: degY}) : undefined
 			},
 
 			loaderReady(){
@@ -331,6 +337,7 @@
 		width: 100%;
 		height: 100%;
 		position: absolute;
+		transform-style: preserve-3d;
 	}
 
 </style>
