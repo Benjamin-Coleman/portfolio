@@ -296,7 +296,6 @@ export default {
 		},
 
 		goToCaseStudy(){
-			event.preventDefault()
 			this.buttonIsClickable = false
 			if (this.slideId === this.currentSlideId) {
 				EventBus.$emit('go-to-case-study')

@@ -189,7 +189,7 @@
 				}
 			},
 
-			wheel(){
+			wheel(event){
 				let targetModifier = event.deltaY
 
 				if (!this.menuIsClosed) {
