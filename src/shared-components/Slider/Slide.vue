@@ -219,7 +219,11 @@ export default {
 			let currentSlideId = payload.currentId
 			let oldSlideId = payload.oldId
 
-			this.slideId === this.currentSlideId ? this.loadNextProject = true : undefined
+			if (this.slideId === this.currentSlideId) {
+				this.loadNextProject = true
+				this.isLoading = true
+			}
+			
 			this.nextHook = true
 
 			if (this.slideId === currentSlideId) {
