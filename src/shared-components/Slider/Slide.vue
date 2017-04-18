@@ -568,7 +568,7 @@ export default {
 		transform: translate3d(-50%, -50%, -100px);
 
 		@media screen and (max-width: $medium-mq){
-			max-width: 400px;
+			max-width: 300px;
 		}
 
 	}
@@ -581,8 +581,8 @@ export default {
 		transform: translate3d(-50%, -50%, 0px);
 
 		@media screen and (max-width: $medium-mq){
-			max-width: 450px;
-			max-height: 450px;
+			max-width: 300px;
+			max-height: 350px;
 		}
 
 	}
@@ -590,8 +590,8 @@ export default {
 	.slide__shopsquare {
 		.slide-img__img {
 			@media screen and (max-width: $medium-mq){
-				max-width: 400px;
-				max-height: 400px;
+				max-width: 300px;
+				max-height: 300px;
 			}
 		}
 	}

@@ -166,6 +166,8 @@ export default {
 
 <style lang="scss">
 
+	$medium-mq: 1500px;
+
 	.name-title {
 		height: 100%;
 		width: 100%;
@@ -173,6 +175,11 @@ export default {
 		position: absolute;
 		z-index: -1;
 		perspective: 1000px;
+
+		@media screen and (max-width: $medium-mq){
+			font-size: 80px;
+		}
+
 	}
 
 	.home-title-st {
