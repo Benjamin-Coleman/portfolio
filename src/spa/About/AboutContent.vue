@@ -100,7 +100,7 @@ export default {
 		appear(){
 			let tl = new TimelineLite({delay: .3})
 				tl.staggerFromTo(this.$refs.aboutContent.children, 1.5, {y: 40, autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, .1)
-				tl.fromTo(this.$refs.network, 1.5, {y: 40, autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, '-=1.4')
+				tl.fromTo(this.$refs.network, 1.5, {y: 30, autoAlpha: 0}, {y: 0, autoAlpha: 1, ease: Expo.easeOut}, '-=1.3')
 		},
 
 		leave(){
@@ -195,7 +195,7 @@ export default {
 
 	.about-content__social-title {
 		font-size: 14px;
-		margin-bottom: .9em;
+		margin-bottom: .6em;
 		letter-spacing: .1em;
 		font-style: italic;
 		color: $about-blue;
