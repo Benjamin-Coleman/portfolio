@@ -144,8 +144,18 @@
 				let degX = centroX * .01
 				let degY = centroY * .02
 
-				this.menuIsClosed ? TweenLite.to(this.$refs.slideContainer, .8,{rotationY: degX}) : undefined
-				this.menuIsClosed && !this.isSliding ? TweenLite.to(this.$refs.slideContainer, .8,{rotationX: degY}) : undefined
+				if (this.menuIsClosed) {
+
+					TweenLite.killTweensOf(this.$refs.slideContainer, false, {rotationX: true, rotationY: true})
+
+					if (this.menuIsClosed && !this.isSliding) {
+						TweenLite.to(this.$refs.slideContainer, .8,{rotationX: degY})
+					}
+
+					TweenLite.to(this.$refs.slideContainer, .8,{rotationY: degX})
+
+				}
+
 			},
 
 			loaderReady(){

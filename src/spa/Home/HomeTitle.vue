@@ -3,13 +3,11 @@
 	<div class="name-title">
 
 		<div class="name-title__title-container" ref="titleContainer">
-			<div class="name-title__title" ref="title">
-				{{ name }}
+			<div class="name-title__main-container">
+				<div class="name-title__title" ref="title">{{ name }}</div>
+				<div class="name-title__square" ref="square"></div>
 			</div>
-			<div class="name-title__subtitle" ref="subtitle">
-				{{ subtitle }}
-			</div>
-			<div class="name-title__square" ref="square"></div>
+			<div class="name-title__subtitle" ref="subtitle">{{ subtitle }}</div>
 		</div>
 
 	</div>
@@ -98,6 +96,8 @@ export default {
 			let centroY = window.innerHeight / 2 - (e.clientY + 100)
 			let degX = centroX * .01
 			let degY = centroY * .03
+			TweenLite.killTweensOf(this.$refs.title, true, {rotationY: true, rotationX: true})
+			TweenLite.killTweensOf(this.$refs.square, true, {rotationY: true, rotationX: true})
 			TweenLite.to(this.$refs.title, .8,{rotationY: degX, rotationX: degY})
 			TweenLite.to(this.$refs.square, .8,{rotationY: degX, rotationX: degY})
 		},
@@ -184,10 +184,13 @@ export default {
 	}
 
 	.name-title__title-container {
-		perspective: 1000px;
 		transform: translateY(-50%);
 		position: relative;
 		top: 50%;
+	}
+
+	.name-title__main-container {
+		perspective: 1000px;
 	}
 
 	.name-title__title {
@@ -229,7 +232,7 @@ export default {
 		height: 1.6em;
 		top: 50%;
 		left: 50%;
-		transform: translate3d(-50%, -85%, -300px);
+		transform: translate3d(-50%, -50%, -300px);
 		border: 15px solid #001429;
 		z-index: -1;
 	}

@@ -110,7 +110,7 @@ export default {
 			this.camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000)
 			this.camera.position.z = 10
 
-			this.renderer = new THREE.WebGLRenderer({antialias: false, alpha: true})
+			this.renderer = new THREE.WebGLRenderer({antialias: true, alpha: true})
 			this.renderer.setPixelRatio((window.devicePixelRatio) ? window.devicePixelRatio : 1)
 			this.renderer.setSize(window.innerWidth, window.innerHeight)
 			this.$refs.bgRenderer.appendChild(this.renderer.domElement)
@@ -234,6 +234,7 @@ export default {
 				this.mouse.ratio.y = this.mouse.y / window.innerHeight
 
 				let cameraPosY = this.camera.position.y + ( ( ( this.mouse.ratio.y - 0.5 ) * 4 * .5) - this.camera.position.y )
+				TweenLite.killTweensOf(this.camera.position, false, {y: true})
 				TweenLite.to(this.camera.position, .8, {y: cameraPosY})
 			}
 

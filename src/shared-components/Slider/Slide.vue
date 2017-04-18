@@ -635,7 +635,6 @@ export default {
 		letter-spacing: .09em;
 		text-transform: uppercase;
 		color: white;
-		perspective: 1000px;
 		overflow: hidden;
 		cursor: pointer;
 
