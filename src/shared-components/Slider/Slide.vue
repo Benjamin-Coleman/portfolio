@@ -223,7 +223,7 @@ export default {
 				this.loadNextProject = true
 				this.isLoading = true
 			}
-			
+
 			this.nextHook = true
 
 			if (this.slideId === currentSlideId) {

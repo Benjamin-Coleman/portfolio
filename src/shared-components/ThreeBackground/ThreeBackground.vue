@@ -32,7 +32,6 @@ export default {
 			loaderState: LoaderStore.state,
 			targetZ: 10,
 			lookAt: false,
-			isSliding: false,
 			oldWheelPosition: 0,
 			mouse: {
 				x: 0,
@@ -72,6 +71,9 @@ export default {
 		},
 		caseStudyIsOpen(){
 			return this.state.caseStudyIsOpen
+		},
+		isSliding(){
+			return this.state.isSliding
 		}
 	},
 
@@ -140,7 +142,7 @@ export default {
 		},
 
 		remove3dMouse(){
-			this.isSliding = true
+			SliderStore.setIsSliding(true)
 			window.removeEventListener('mousemove', this.mousemove)
 		},
 
@@ -186,16 +188,18 @@ export default {
 
 
 				if (positionY !== this.oldWheelPosition) {
-					this.isSliding = true
+					SliderStore.setIsSliding(true)
 					TweenLite.killTweensOf( this.camera.position, false, {y:true} )
 					this.cube.position.y -= positionToAdd
 					this.camera.position.y -= positionToAdd
 				}
 
+				if ( this.getCurrentSlidePosY >= -.5 && this.getCurrentSlidePosY <= .5) {
+					SliderStore.setIsSliding(false)
+				}
+
 				this.oldWheelPosition = positionY
 			}
-
-			this.isSliding = false
 		},
 
 		events(){
@@ -225,7 +229,6 @@ export default {
 
 		mousemove(e){
 			e.preventDefault()
-
 			if (!this.isSliding) {
 				this.mouse.y = e.clientY
 				this.mouse.ratio.y = this.mouse.y / window.innerHeight
@@ -238,6 +241,7 @@ export default {
 			this.mouse.ratio.x = this.mouse.x / window.innerWidth
 
 			let cameraPosX = this.camera.position.x + ( ( - ( this.mouse.ratio.x - 0.5 ) * 4 * .5) - this.camera.position.x )
+			TweenLite.killTweensOf(this.camera.position, false, {x: true})
 			TweenLite.to(this.camera.position, .8, {x: cameraPosX})
 		},
 
@@ -280,7 +284,7 @@ export default {
 				x:0,
 				ease: Expo.easeOut,
 				onComplete: ()=>{
-					this.isSliding = true
+					SliderStore.setIsSliding(true)
 				}
 			})
 
@@ -289,7 +293,7 @@ export default {
 		leaveCaseStudy(){
 			TweenLite.to(this.camera.position, 2,{z: 10, ease: Expo.easeOut})
 
-			this.isSliding = false
+			SliderStore.setIsSliding(false)
 			this.addMousemove()
 		},
 

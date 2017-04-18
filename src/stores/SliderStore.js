@@ -5,7 +5,9 @@ class SliderStore {
 			currentSlideId: 0,
 			isAnimated: false,
 			posY: 0,
+			isSliding: false,
 			isActive: false,
+			isSliding: false,
 			caseStudyIsOpen: false,
 			lookAt: true
 		}
@@ -13,6 +15,10 @@ class SliderStore {
 
 	increment(){
 		this.state.currentSlideId ++
+	}
+
+	setIsSliding(isSliding){
+		this.state.isSliding = isSliding
 	}
 
 	decrement(){

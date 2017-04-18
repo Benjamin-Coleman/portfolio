@@ -96,7 +96,7 @@ export default {
 		mousemove(e){
 			let centroX = e.clientX - window.innerWidth / 2
 			let centroY = window.innerHeight / 2 - (e.clientY + 100)
-			let degX = centroX * .015
+			let degX = centroX * .01
 			let degY = centroY * .03
 			TweenLite.to(this.$refs.title, .8,{rotationY: degX, rotationX: degY})
 			TweenLite.to(this.$refs.square, .8,{rotationY: degX, rotationX: degY})

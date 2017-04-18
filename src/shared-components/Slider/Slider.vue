@@ -49,7 +49,8 @@
 		mounted(){
 			this.vs = new VirtualScroll({
 				el: this.$el,
-				mouseMultiplier: .2
+				mouseMultiplier: .2,
+				keyStep: 400
 			})
 			this.events()
 			this.loaderReady()
@@ -100,13 +101,15 @@
 			},
 			getSliderPosY(){
 				return this.state.posY
+			},
+			isSliding(){
+				return this.state.isSliding
 			}
 		},
 
 		methods: {
 
 			events(){
-				document.addEventListener('keyup', this.keyUp)
 				this.vs.on(this.wheel)
 				EventBus.$on('appear-slide', this.appearSlide)
 				EventBus.$on('add-mousemove', this.addMousemove)
@@ -118,7 +121,6 @@
 			},
 
 			unlistenEvents(){
-				document.removeEventListener('keyup', this.keyUp)
 				this.removeMousemove()
 				this.vs.destroy()
 				EventBus.$off('add-mousemove', this.addMousemove)
@@ -142,7 +144,8 @@
 				let degX = centroX * .01
 				let degY = centroY * .02
 
-				this.menuIsClosed ? TweenLite.to(this.$refs.slideContainer, .8,{rotationY: degX, rotationX: degY}) : undefined
+				this.menuIsClosed ? TweenLite.to(this.$refs.slideContainer, .8,{rotationY: degX}) : undefined
+				this.menuIsClosed && !this.isSliding ? TweenLite.to(this.$refs.slideContainer, .8,{rotationX: degY}) : undefined
 			},
 
 			loaderReady(){
@@ -161,7 +164,6 @@
 			goToCaseStudy(){
 				this.caseStudyOpen = true
 				this.vs.off(this.wheel)
-				document.removeEventListener('keyup', this.keyUp)
 				this.wheelCaseStudy()
 				this.leave = true
 
@@ -183,7 +185,6 @@
 					_.delay( ()=>{
 						this.caseStudyOpen = false
 						this.vs.on(this.wheel)
-						document.addEventListener('keyup', this.keyUp)
 						SliderStore.setActive()
 						this.leave = false
 						this.wheelLoop()
@@ -261,18 +262,6 @@
 				this.oldDeltaY = 0
 				this.directionQueue = ''
 				TweenLite.set(this.$refs.slideContainer, {y: 0, force3D: true})
-			},
-
-			keyUp(event){
-				event.preventDefault()
-				if (!this.sliderIsAnimated && this.menuIsClosed && !this.menuIsAnimated) {
-					if (event.keyCode === 38) {
-						this.directionQueue = 'prev'
-					}
-					else if (event.keyCode === 40) {
-						this.directionQueue = 'next'
-					}
-				}
 			},
 
 			containSlide(slideId){
