@@ -1,5 +1,5 @@
 <template lang="html">
-	<div class="slide">
+	<div class="slide" :class=" 'slide__' + title ">
 		<div class="slide-img" ref="slideImg">
 			<img class="slide-img__shape"
 			:src="shapePath"
@@ -15,7 +15,7 @@
 				<div class="slide__id__text">0{{ slideId + 1 }}.</div>
 			</div>
 
-			<div class="slide__title" :style="titleColorStyle">{{ title }}</div>
+			<h2 class="slide__title" :style="titleColorStyle">{{ title }}</h2>
 			<div class="slide__description" :style="textColorStyle">{{ description }}</div>
 
 			<div class="slide__sub-info">
@@ -171,7 +171,7 @@ export default {
 				this.openMenuAnim.kill()
 			})
 			this.closeMenuAnim.staggerTo(this.$refs.slideInfo.children, .2, {y: 100, autoAlpha: 0,ease: Expo.easeIn, force3D: true}, -.04)
-			this.closeMenuAnim.to(this.$refs.slideImg, 1.5, {z: -500, ease: Expo.easeOut}, 0)
+			this.closeMenuAnim.to(this.$refs.slideImg, 1.5, {z: -800, ease: Expo.easeOut}, 0)
 
 		this.buttonHoverAnim = new TimelineLite({paused: true})
 			this.buttonHoverAnim.to(this.$refs.buttonText, .2,{y: -20, rotationX: 45,autoAlpha: 0, ease: Expo.easeIn})
@@ -430,7 +430,7 @@ export default {
 
 		leaveForward(){
 			let tl = new TimelineLite()
-				tl.add( TweenMax.to(this.$refs.slideImg, 1, {z: 1000, opacity: 0, ease: Expo.easeIn, overwrite: 'all', force3D: true}) )
+				tl.add( TweenMax.to(this.$refs.slideImg, 1, {z: 1000, ease: Expo.easeIn, overwrite: 'all', force3D: true}) )
 				tl.add( TweenMax.staggerTo(this.$refs.slideInfo.children, .5, {y: 100, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}, -.03), 0)
 		},
 
@@ -441,8 +441,8 @@ export default {
 			}})
 				tl.set(this.$el, {autoAlpha: 1})
 				tl.set(this.$refs.slideInfo.children, {y: 100, autoAlpha: 0})
-				tl.set(this.$refs.slideImg, {z: 1000, opacity: 0})
-				tl.to(this.$refs.slideImg, 1.5, {z: 0, opacity: 1, ease: Expo.easeOut})
+				tl.set(this.$refs.slideImg, {z: 1000})
+				tl.to(this.$refs.slideImg, 1.5, {z: 0, opacity: 1, ease: Expo.easeOut, force3D: true})
 				tl.staggerTo(this.$refs.slideInfo.children, .9, {y: 0, autoAlpha: 1,ease: Expo.easeOut, force3D: true}, .08, '-=.9')
 
 			let tlCaseStudy = new TimelineLite({paused: true})
@@ -484,8 +484,7 @@ export default {
 
 <style lang="scss">
 
-	$medium-mq: 1300px;
-	$large-mq: 1500px;
+	$medium-mq: 1500px;
 
 	.slide {
 		position: absolute;
@@ -509,7 +508,7 @@ export default {
 		font-size: 90px;
 		letter-spacing: .05em;
 		opacity: .2;
-		transform: translateY(.3em);
+		transform: translateY(.1em);
 
 		@media screen and (max-width: $medium-mq){
 			font-size: 80px;
@@ -523,7 +522,7 @@ export default {
 		letter-spacing: .05em;
 
 		@media screen and (max-width: $medium-mq){
-			font-size: 100px;
+			font-size: 90px;
 		}
 	}
 
@@ -534,7 +533,7 @@ export default {
 		max-width: 40em;
 
 		@media screen and (max-width: $medium-mq){
-			font-size: 12px;
+			font-size: 11px;
 		}
 
 	}
@@ -547,10 +546,6 @@ export default {
 
 		&:first-child {
 			margin-left: 0px;
-		}
-
-		@media screen and (max-width: $medium-mq){
-			font-size: 5px;
 		}
 
 	}
@@ -567,9 +562,15 @@ export default {
 	.slide-img__shape {
 		display: block;
 		position: absolute;
+		z-index: -100;
 		top: 50%;
 		left: 50%;
 		transform: translate3d(-50%, -50%, -100px);
+
+		@media screen and (max-width: $medium-mq){
+			max-width: 400px;
+		}
+
 	}
 
 	.slide-img__img {
@@ -578,6 +579,21 @@ export default {
 		top: 50%;
 		left: 50%;
 		transform: translate3d(-50%, -50%, 0px);
+
+		@media screen and (max-width: $medium-mq){
+			max-width: 450px;
+			max-height: 450px;
+		}
+
+	}
+
+	.slide__shopsquare {
+		.slide-img__img {
+			@media screen and (max-width: $medium-mq){
+				max-width: 400px;
+				max-height: 400px;
+			}
+		}
 	}
 
 	.slide__sub-info__info__title {
@@ -585,6 +601,11 @@ export default {
 		font-size: 21px;
 		letter-spacing: .09em;
 		text-transform: uppercase;
+
+		@media screen and (max-width: $medium-mq){
+			font-size: 18px;
+		}
+
 	}
 
 	.slide__sub-info__info__description {
@@ -615,7 +636,7 @@ export default {
 		cursor: pointer;
 
 		@media screen and (max-width: $medium-mq){
-			font-size: 17px;
+			font-size: 15px;
 		}
 
 	}

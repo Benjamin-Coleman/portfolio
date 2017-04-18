@@ -48,7 +48,8 @@
 
 		mounted(){
 			this.vs = new VirtualScroll({
-				el: this.$el
+				el: this.$el,
+				mouseMultiplier: .2
 			})
 			this.events()
 			this.loaderReady()
@@ -139,7 +140,8 @@
 				let centroX = e.clientX - window.innerWidth / 2
 				let centroY = window.innerHeight / 2 - (e.clientY + 100)
 				let degX = centroX * .01
-				let degY = centroY * .015
+				let degY = centroY * .02
+
 				this.menuIsClosed ? TweenLite.to(this.$refs.slideContainer, .8,{rotationY: degX, rotationX: degY}) : undefined
 			},
 
@@ -197,7 +199,7 @@
 				}
 
 				if (!this.sliderIsAnimated) {
-					this.targetPosY -= targetModifier
+					this.targetPosY += targetModifier
 					this.oldDeltaY = event.deltaY
 				}
 

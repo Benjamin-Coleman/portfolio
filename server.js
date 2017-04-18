@@ -1,9 +1,12 @@
 var express = require('express');
+var compression = require('compression');
 var path = require('path');
 var serveStatic = require('serve-static');
 var env = process.env.NODE_ENV || 'development';
 
 app = express();
+
+app.use( compression() )
 
 var forceSsl = function (req, res, next) {
 	if (req.headers['x-forwarded-proto'] !== 'https') {

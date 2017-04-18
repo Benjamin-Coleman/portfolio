@@ -3,13 +3,11 @@
 	<div class="name-title">
 
 		<div class="name-title__title-container" ref="titleContainer">
-			<div class="name-title__title" ref="title">
-				{{ name }}
+			<div class="name-title__3d-container" ref="dContainer">
+				<h1 class="name-title__title" ref="title">{{ name }}</h1>
+				<div class="name-title__square" ref="square"></div>
 			</div>
-			<div class="name-title__subtitle" ref="subtitle">
-				{{ subtitle }}
-			</div>
-			<div class="name-title__square" ref="square"></div>
+			<div class="name-title__subtitle" ref="subtitle">{{ subtitle }}</div>
 		</div>
 
 	</div>
@@ -23,6 +21,7 @@ import {EventBus} from '../../event-bus.js'
 
 import AnimationStore from '../../stores/AnimationStore.js'
 import LoaderStore from '../../stores/LoaderStore.js'
+import MenuStore from '../../stores/MenuStore.js'
 
 export default {
 
@@ -31,11 +30,15 @@ export default {
 			name: 'Raoul Gaillard',
 			subtitle: "I’m a Dev & Ui student at Hetic.<br> Looking  for a 6-month internship.",
 			animationState: AnimationStore.state,
-			loaderState: LoaderStore.state
+			loaderState: LoaderStore.state,
+			menuState: MenuStore.state
 		}
 	},
 
 	computed: {
+		menuIsClosed(){
+			return this.menuState.isClosed
+		},
 		getCurrentAnimAppear(){
 			return this.animationState.appear
 		},
@@ -58,14 +61,12 @@ export default {
 		this.events()
 
 		this.openMenuAnim = new TimelineLite({paused: true})
-			this.openMenuAnim.to(this.$refs.title, 1.5, {z:-500, ease: Expo.easeOut})
+			this.openMenuAnim.to(this.$refs.dContainer, 1.5, {z:-500, ease: Expo.easeOut})
 			this.openMenuAnim.staggerTo(this.$refs.subtitle.children, 2, { y:20, autoAlpha: 0, ease: Expo.easeOut}, .1, 0)
-			this.openMenuAnim.to(this.$refs.square, 1.5, {z:-1000, ease: Expo.easeOut}, 0)
 
 		this.closeMenuAnim = new TimelineLite({paused: true})
-			this.closeMenuAnim.to(this.$refs.title, 1.5, {z:0, ease: Expo.easeOut})
+			this.closeMenuAnim.to(this.$refs.dContainer, 1.5, {z:0, ease: Expo.easeOut})
 			this.closeMenuAnim.staggerTo(this.$refs.subtitle.children, 2, { y:0, autoAlpha: 1, ease: Expo.easeOut}, .1, .5)
-			this.closeMenuAnim.to(this.$refs.square, 1.5, {z:-300, ease: Expo.easeOut}, 0)
 
 	},
 
@@ -97,14 +98,14 @@ export default {
 			let centroX = e.clientX - window.innerWidth / 2
 			let centroY = window.innerHeight / 2 - (e.clientY + 100)
 			let degX = centroX * .015
-			let degY = centroY * .03
-			TweenLite.to(this.$refs.title, .8,{rotationY: degX, rotationX: degY})
-			TweenLite.to(this.$refs.square, .8,{rotationY: degX, rotationX: degY})
+			let degY = centroY * .02
+
+			this.menuIsClosed && TweenLite.to(this.$refs.dContainer, .8,{rotationY: degX, rotationX: degY})
 		},
 
 		leavePage(){
 			let leaveAnim = this.getCurrentAnimLeave
-			TweenLite.to(this.$refs.square, .8, {z: -300, ease: Expo.easeOut})
+			TweenLite.to(this.$refs.square, .8, {z: -70, ease: Expo.easeOut})
 			TweenLite.to(this.$refs.title, .8, {z: 0, ease: Expo.easeOut})
 			this[leaveAnim]()
 		},
@@ -132,7 +133,7 @@ export default {
 			let tl = new TimelineLite()
 				tl.set(this.$refs.square, {z: 500, opacity: 0})
 				tl.set(this.$refs.title, {z: 500, opacity: 0})
-				tl.to(this.$refs.square, 1.5, {z: -300, opacity: 1 ,ease: Expo.easeOut}, 0)
+				tl.to(this.$refs.square, 1.5, {z: -70, opacity: 1 ,ease: Expo.easeOut}, 0)
 				tl.to(this.$refs.title, 1.5, {z: 0, opacity: 1 ,ease: Expo.easeOut}, 0)
 				tl.staggerFromTo(this.$refs.subtitle.children, 2, {y:20, autoAlpha: 0}, { y:0, autoAlpha: 1, ease: Expo.easeOut}, .1, .5)
 		},
@@ -140,15 +141,13 @@ export default {
 		leaveForward(){
 			let tl = new TimelineLite()
 				tl.add(TweenMax.staggerTo(this.$refs.subtitle.children, .5, { y:-20, autoAlpha: 0, ease: Expo.easeIn, overwrite: 'allOnStart'}, .05))
-				tl.add( TweenLite.to(this.$refs.square, 1, {z: 1000, opacity: 0, ease: Expo.easeIn, overwrite: 'all'}), 0)
-				tl.add( TweenLite.to(this.$refs.title, 1, {z: 1000, opacity: 0, ease: Expo.easeIn, overwrite: 'all'}), 0)
+				tl.add( TweenLite.to(this.$refs.dContainer, 1, {z: 1000, ease: Expo.easeIn, overwrite: 'all'}), 0)
 		},
 
 		appearAnim(){
 			let appearAnim = new TimelineLite({onComplete: this.addMousemove})
-				appearAnim.fromTo(this.$refs.title, 3,{z: -500, autoAlpha:0}, {z:0, autoAlpha: 1, ease: Expo.easeOut})
+				appearAnim.fromTo(this.$refs.dContainer, 3,{z: -500, autoAlpha:0}, {z:0, autoAlpha: 1, ease: Expo.easeOut})
 				appearAnim.staggerFromTo(this.$refs.subtitle.children, 2, {y:20, autoAlpha: 0}, { y:0, autoAlpha: 1, ease: Expo.easeOut}, .1, .5)
-				appearAnim.fromTo(this.$refs.square, 3, {z:-1000, autoAlpha: 0}, {z: -300, autoAlpha: 1, ease: Expo.easeOut}, 0)
 		},
 
 		leaveAnim(){
@@ -182,14 +181,18 @@ export default {
 	}
 
 	.name-title__title-container {
-		perspective: 1000px;
-		transform: translateY(-50%);
 		position: relative;
 		top: 50%;
 	}
 
+	.name-title__3d-container {
+		transform-style: preserve-3d;
+		transform: translate3d(0px, -50%, 0px);
+	}
+
 	.name-title__title {
     font-family: 'SorrenMedium';
+		transform: translate3d(0px, 0px, -10px);
 		letter-spacing: .3em;
 		text-transform: uppercase;
 		color: #ffffff;
@@ -200,7 +203,7 @@ export default {
 
 	.name-title__subtitle {
 		font-size: 14px;
-		padding-top: 60px;
+		padding-top: 1em;
 		line-height: 2em;
 		font-family: 'PlayfairDisplay';
 		font-style: italic;
@@ -217,12 +220,12 @@ export default {
 
 	.name-title__square {
 		position: absolute;
-		width: 6em;
-		height: 1.6em;
+		width: 5em;
+		height: 1.5em;
 		top: 50%;
 		left: 50%;
-		transform: translate3d(-50%, -85%, -300px);
-		border: 15px solid #001429;
+		transform: translate3d(-50%, -50%, -70px);
+		border: 13px solid #001429;
 		z-index: -1;
 	}
 

@@ -369,6 +369,8 @@ export default {
 		},
 
 		leaveForward(to){
+			this.remove3dMouse()
+			this.lookAt = false
 			let targetedBg = slides[to][0].backgroundColor
 			let tl = new TimelineLite()
 				tl.to(this.camera.position, 1,{z: -10, ease: Expo.easeIn})
@@ -376,6 +378,8 @@ export default {
 				tl.call(this.generateShapesForSlide, [to, 0])
 				tl.set(this.$refs.bgRenderer.children,{opacity: 0})
 				tl.set(this.camera.position, {z: 20})
+				tl.call(this.addMousemove)
+				tl.call( ()=>{ this.lookAt = true } )
 				tl.to(this.$refs.bgRenderer.children, 2, {opacity: 1, ease: Expo.easeOut})
 				tl.to(this.camera.position, 1,{z: 10, ease: Expo.easeOut}, '-=2')
 		},
