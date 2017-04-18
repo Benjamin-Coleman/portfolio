@@ -16,7 +16,11 @@
 			</div>
 		</div>
 
-		<case-study-video class="case-study__row"><source src="/assets/videos/case-study/shopsquare/desktop-xp.mp4" type="video/mp4"></case-study-video>
+		<div class="case-study__video-row">
+			<case-study-video class="case-study__row">
+				<source src="/assets/videos/case-study/shopsquare/desktop-xp.mp4" type="video/mp4">
+			</case-study-video>
+		</div>
 
 		<div class="case-study__row case-study__section">
 			<div class="case-study__title">What I learned</div>
@@ -25,7 +29,7 @@
 			</div>
 		</div>
 
-		<div class="case-study__row case-study__video-row">
+		<div class="case-study__row case-study__video-row case-study__video-half-row">
 			<case-study-video class="case-study__video-half"><source src="/assets/videos/case-study/shopsquare/mobile-xp.mp4" type="video/mp4"></case-study-video>
 			<case-study-video class="case-study__video-half"><source src="/assets/videos/case-study/shopsquare/mobile-search.mp4" type="video/mp4"></case-study-video>
 		</div>

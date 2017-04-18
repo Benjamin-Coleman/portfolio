@@ -14,10 +14,21 @@
       </div>
     </div>
 
-    <case-study-video class="case-study__row"><source src="/assets/videos/case-study/maje/maje1.mp4" type="video/mp4"></case-study-video>
-    <case-study-video class="case-study__row"><source src="/assets/videos/case-study/maje/maje2.mp4" type="video/mp4"></case-study-video>
-    <case-study-video class="case-study__row"><source src="/assets/videos/case-study/maje/maje3.mp4" type="video/mp4"></case-study-video>
-    <case-study-video class="case-study__row"><source src="/assets/videos/case-study/maje/maje4.mp4" type="video/mp4"></case-study-video>
+    <case-study-video class="case-study__row case-study__video-row">
+      <source src="/assets/videos/case-study/maje/maje1.mp4" type="video/mp4">
+    </case-study-video>
+
+    <case-study-video class="case-study__row case-study__video-row">
+      <source src="/assets/videos/case-study/maje/maje2.mp4" type="video/mp4">
+    </case-study-video>
+
+    <case-study-video class="case-study__row case-study__video-row">
+      <source src="/assets/videos/case-study/maje/maje3.mp4" type="video/mp4">
+    </case-study-video>
+
+    <case-study-video class="case-study__row case-study__video-row">
+      <source src="/assets/videos/case-study/maje/maje4.mp4" type="video/mp4">
+    </case-study-video>
 
   </div>
 </template>
