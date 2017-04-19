@@ -367,6 +367,9 @@ export default {
 				tl.to(this.cube.position, 1,{y: 25, ease: Expo.easeIn}, '-=1')
 				tl.to(this.$el, .5,{backgroundColor: targetedBg, ease: Power1.easeInOut})
 				tl.call(this.generateShapesForSlide, [to, 0])
+				tl.call(()=>{
+					SliderStore.setIsSliding(false)
+				})
 				tl.set(this.camera.position, {y: -20})
 				tl.set(this.cube.position, {y: -20})
 				tl.to(this.cube.position, 1,{y: 0, ease: Expo.easeOut})
@@ -384,7 +387,10 @@ export default {
 				tl.set(this.$refs.bgRenderer.children,{opacity: 0})
 				tl.set(this.camera.position, {z: 20})
 				tl.call(this.addMousemove)
-				tl.call( ()=>{ this.lookAt = true } )
+				tl.call( ()=>{
+					this.lookAt = true
+					SliderStore.setIsSliding(false)
+				})
 				tl.to(this.$refs.bgRenderer.children, 2, {opacity: 1, ease: Expo.easeOut})
 				tl.to(this.camera.position, 1,{z: 10, ease: Expo.easeOut}, '-=2')
 		},

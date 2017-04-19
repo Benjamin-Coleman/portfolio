@@ -99,7 +99,7 @@ export default {
 
 		appearAnim(){
 
-			let tl = new TimelineLite({delay: .3, paused: true})
+			let tl = new TimelineLite({delay: .5, paused: true})
 				tl.set(this.$el, {autoAlpha: 1})
 				tl.set(this.$refs.currentSlide, {color: this.currentTitleColor})
 				tl.set(this.$refs.sliderLength, {color: this.currentTitleColor})
