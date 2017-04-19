@@ -230,13 +230,14 @@ export default {
 		mousemove(e){
 			e.preventDefault()
 
-			TweenLite.killTweensOf(this.camera.position, false, {x: true, y: true})
+			TweenLite.killTweensOf(this.camera.position, true, {x: true})
 
 			if (!this.isSliding) {
 				this.mouse.y = e.clientY
 				this.mouse.ratio.y = this.mouse.y / window.innerHeight
 
 				let cameraPosY = this.camera.position.y + ( ( ( this.mouse.ratio.y - 0.5 ) * 4 * .5) - this.camera.position.y )
+				TweenLite.killTweensOf(this.camera.position, false, {y: true})
 				TweenLite.to(this.camera.position, .8, {y: cameraPosY})
 			}
 

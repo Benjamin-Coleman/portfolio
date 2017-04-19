@@ -451,9 +451,9 @@ export default {
 
 			let tlCaseStudy = new TimelineLite({paused: true})
 				tlCaseStudy.set(this.$el, {autoAlpha: 1})
-				tlCaseStudy.set(this.$refs.slideImg, {z: 1000, opacity: 0})
+				tlCaseStudy.set(this.$refs.slideImg, {z: 1000})
 				tlCaseStudy.set(this.$refs.slideInfo.children, {y: 200, autoAlpha: 0})
-				tlCaseStudy.to(this.$refs.slideImg, 1, {z: -100, opacity: 1, ease: Expo.easeOut})
+				tlCaseStudy.to(this.$refs.slideImg, 1, {z: -100, ease: Expo.easeOut})
 				tlCaseStudy.to(this.$refs.slideInfo.children[0], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, 0)
 				tlCaseStudy.to(this.$refs.slideInfo.children[1], 2, {y: 100, autoAlpha: 1,ease: Expo.easeOut}, '-=1.8')
 
