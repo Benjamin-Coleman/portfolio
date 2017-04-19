@@ -21,6 +21,7 @@ import {EventBus} from '../../event-bus.js'
 
 import AnimationStore from '../../stores/AnimationStore.js'
 import LoaderStore from '../../stores/LoaderStore.js'
+import MenuStore from '../../stores/MenuStore.js'
 
 export default {
 
@@ -29,7 +30,8 @@ export default {
 			name: 'Raoul Gaillard',
 			subtitle: "I’m a Dev & Ui student at Hetic.<br> Looking  for a 6-month internship.",
 			animationState: AnimationStore.state,
-			loaderState: LoaderStore.state
+			loaderState: LoaderStore.state,
+			menuState: MenuStore.state
 		}
 	},
 
@@ -42,6 +44,9 @@ export default {
 		},
 		pageReady(){
 			return this.loaderState.pageReady
+		},
+		menuIsClosed(){
+			return this.menuState.isClosed
 		}
 	},
 
@@ -92,6 +97,11 @@ export default {
 		},
 
 		mousemove(e){
+
+			if (!this.menuIsClosed) {
+				return undefined
+			}
+
 			let centroX = e.clientX - window.innerWidth / 2
 			let centroY = window.innerHeight / 2 - (e.clientY + 100)
 			let degX = centroX * .01

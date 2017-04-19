@@ -229,12 +229,14 @@ export default {
 
 		mousemove(e){
 			e.preventDefault()
+
+			TweenLite.killTweensOf(this.camera.position, false, {x: true, y: true})
+
 			if (!this.isSliding) {
 				this.mouse.y = e.clientY
 				this.mouse.ratio.y = this.mouse.y / window.innerHeight
 
 				let cameraPosY = this.camera.position.y + ( ( ( this.mouse.ratio.y - 0.5 ) * 4 * .5) - this.camera.position.y )
-				TweenLite.killTweensOf(this.camera.position, false, {y: true})
 				TweenLite.to(this.camera.position, .8, {y: cameraPosY})
 			}
 
@@ -242,7 +244,6 @@ export default {
 			this.mouse.ratio.x = this.mouse.x / window.innerWidth
 
 			let cameraPosX = this.camera.position.x + ( ( - ( this.mouse.ratio.x - 0.5 ) * 4 * .5) - this.camera.position.x )
-			TweenLite.killTweensOf(this.camera.position, false, {x: true})
 			TweenLite.to(this.camera.position, .8, {x: cameraPosX})
 		},
 
@@ -278,12 +279,11 @@ export default {
 		},
 
 		goToCaseStudy(){
-			window.removeEventListener('mousemove', this.mousemove)
+			this.remove3dMouse()
 			TweenLite.to(this.camera.position, 2,{
 				z: 10.5,
 				y:0,
 				x:0,
-				ease: Expo.easeOut,
 				onComplete: ()=>{
 					SliderStore.setIsSliding(true)
 				}
@@ -294,8 +294,8 @@ export default {
 		leaveCaseStudy(){
 			TweenLite.to(this.camera.position, 2,{z: 10, ease: Expo.easeOut})
 
-			SliderStore.setIsSliding(false)
 			this.addMousemove()
+			SliderStore.setIsSliding(false)
 		},
 
 		setCaseStudyId(projectToSearch){
