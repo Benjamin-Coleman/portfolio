@@ -127,6 +127,8 @@ export default {
 	$about-title-gradient-1: #FFC3CA;
 	$about-title-gradient-2: #A8A9E7;
 
+	$medium-mq: 1300px;
+
 	.about-content {
 		max-width: 27em;
 		margin: auto;
@@ -251,6 +253,14 @@ export default {
 		.about-content__content-container { font-size: 14px;}
 		.about-content__big-title { font-size: 36px;}
 		.about-content__title { font-size: 19px; letter-spacing: .02em; line-height: 2em;}
+	}
+
+	@media screen and (min-width: 961px) and (max-width: 1300px){
+		.about-content__social-title { font-size: 14px;}
+		.about-content { font-size: 14px; max-width: 29em;}
+		.about-content__content-container { font-size: 13px;}
+		.about-content__big-title { font-size: 40px;}
+		.about-content__title { font-size: 17px;}
 	}
 
 	@media screen and (max-width: 340px){
