@@ -189,7 +189,8 @@ export default {
 
 				if (positionY !== this.oldWheelPosition) {
 					SliderStore.setIsSliding(true)
-					TweenLite.killTweensOf( this.camera.position, false, {y:true} )
+					TweenLite.killTweensOf( this.camera.position, true, {y:true} )
+					TweenLite.killTweensOf( this.cube.position )
 					this.cube.position.y -= positionToAdd
 					this.camera.position.y -= positionToAdd
 				}

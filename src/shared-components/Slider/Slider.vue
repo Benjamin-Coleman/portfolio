@@ -49,7 +49,7 @@
 		mounted(){
 			this.vs = new VirtualScroll({
 				el: this.$el,
-				mouseMultiplier: .2,
+				mouseMultiplier: .4,
 				keyStep: 400
 			})
 			this.events()
