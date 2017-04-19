@@ -1,5 +1,5 @@
 <template lang="html">
-	<a class="next-button" @click.prevent.once="onClick" @mouseover.prevent="onMouseOver" @mouseout.prevent="onMouseOut">
+	<a class="next-button" :class="{ 'is-hiding': isHiding }" @click.prevent.once="onClick" @mouseover.prevent="onMouseOver" @mouseout.prevent="onMouseOut">
 		<div class="next-button__content" ref="buttonContent">
 			<div class="next-button__subtitle">Next project</div>
 			<div class="next-button__title-container">
@@ -30,7 +30,8 @@ export default {
 		return {
 			slide: this.$parent.slide,
 			sliderState: SliderStore.state,
-			blocked: false
+			blocked: false,
+			isHiding: false
 		}
 	},
 
@@ -90,6 +91,7 @@ export default {
 
 		hideCaseStudy(){
 			TweenLite.set(this.$el, {backgroundColor: 'rgba(0,0,0,0)'})
+			this.isHiding = true
 			EventBus.$emit('hide-case-study', {
 				currentId: this.newSlideId,
 				oldId: this.oldSlideId,
@@ -123,10 +125,27 @@ export default {
 		text-align: center;
 		z-index: 10;
 
+		&:before {
+			content: '';
+			position: absolute;
+			top: 0px;
+			display: block;
+			background-color: #011933;
+			width: 100%;
+			height: 5px;
+			transform: translateY(-5px);
+		}
+
 		@media screen and (max-width: 1300px){
 			font-size: 80px;
 		}
 
+	}
+
+	.next-button.is-hiding {
+		&:before {
+			visibility: hidden;
+		}
 	}
 
 	.next-button__title {
