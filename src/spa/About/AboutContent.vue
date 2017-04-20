@@ -162,6 +162,7 @@ export default {
 
 	.about-content__content {
 		line-height: 1.8em;
+		font-size: 16px;
 		margin: 3.5em 0em;
 	}
 
@@ -257,10 +258,10 @@ export default {
 
 	@media screen and (min-width: 961px) and (max-width: 1300px){
 		.about-content__social-title { font-size: 14px;}
-		.about-content { font-size: 14px; max-width: 29em;}
-		.about-content__content-container { font-size: 13px;}
-		.about-content__big-title { font-size: 40px;}
-		.about-content__title { font-size: 17px;}
+		.about-content {max-width: 29em;}
+		.about-content__content-container { font-size: 16px;}
+		.about-content__big-title { font-size: 50px;}
+		.about-content__title { font-size: 20px;}
 	}
 
 	@media screen and (max-width: 340px){

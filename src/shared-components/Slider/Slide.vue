@@ -532,12 +532,12 @@ export default {
 
 	.slide__description {
 		font-family: 'PlayfairDisplay';
-		font-size: 13px;
+		font-size: 14px;
 		line-height: 2em;
 		max-width: 40em;
 
 		@media screen and (max-width: $medium-mq){
-			font-size: 11px;
+			font-size: 12px;
 		}
 
 	}
@@ -616,7 +616,7 @@ export default {
 		font-family: 'PlayfairDisplay';
 		text-transform: capitalize;
 		font-style: italic;
-		font-size: 13px;
+		font-size: 14px;
 	}
 
 	.slide__button {
