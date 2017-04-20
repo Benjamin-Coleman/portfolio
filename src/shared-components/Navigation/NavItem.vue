@@ -87,6 +87,7 @@ export default {
 	}
 
 	.menu-link {
+		user-select: none;
 		visibility: hidden;
 		cursor: pointer;
 		margin-bottom: 60px;
