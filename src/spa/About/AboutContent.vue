@@ -197,7 +197,7 @@ export default {
 	}
 
 	.about-content__social-title {
-		font-size: 14px;
+		font-size: 15px;
 		margin-bottom: .6em;
 		letter-spacing: .1em;
 		font-style: italic;
@@ -261,7 +261,7 @@ export default {
 		.about-content {max-width: 29em;}
 		.about-content__content-container { font-size: 16px;}
 		.about-content__big-title { font-size: 50px;}
-		.about-content__title { font-size: 20px;}
+		.about-content__title { font-size: 20px; line-height: 3em;}
 	}
 
 	@media screen and (max-width: 340px){
