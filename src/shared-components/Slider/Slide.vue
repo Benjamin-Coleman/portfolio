@@ -336,8 +336,10 @@ export default {
 
 			let loader = AssetsLoader().add(assetsToLoad)
 			loader.on('progress', progress=>{
-				this.progress = progress
-				TweenLite.to(this.$refs.loadingBar, .6, {scaleX: progress, ease: Expo.easeOut})
+				if (this.progress === undefined || progress > this.progress) {
+					this.progress = progress
+					TweenLite.to(this.$refs.loadingBar, .6, {scaleX: progress, ease: Expo.easeOut})
+				}
 			})
 			loader.on('complete', ()=>{
 				this.goToCaseStudy()
