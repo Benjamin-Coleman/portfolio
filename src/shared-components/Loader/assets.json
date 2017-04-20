@@ -42,18 +42,32 @@
 		},
 		"maje": {
 			"1x": [
-				"../../../assets/imgs/case-study/maje/woman.png"
+				"../../../assets/imgs/case-study/maje/woman.png",
+				{ "url": "../../../assets/videos/case-study/maje/maje1.mp4", "blob": true },
+				{ "url": "../../../assets/videos/case-study/maje/maje2.mp4", "blob": true },
+				{ "url": "../../../assets/videos/case-study/maje/maje3.mp4", "blob": true },
+				{ "url": "../../../assets/videos/case-study/maje/maje4.mp4", "blob": true }
 			],
 			"2x": [
-				"../../../assets/imgs/case-study/maje/woman@2x.png"
+				"../../../assets/imgs/case-study/maje/woman@2x.png",
+				{ "url": "../../../assets/videos/case-study/maje/maje1.mp4", "blob": true },
+				{ "url": "../../../assets/videos/case-study/maje/maje2.mp4", "blob": true },
+				{ "url": "../../../assets/videos/case-study/maje/maje3.mp4", "blob": true },
+				{ "url": "../../../assets/videos/case-study/maje/maje4.mp4", "blob": true }
 			]
 		},
 		"shopsquare": {
 			"1x": [
-				"../../../assets/imgs/case-study/shopsquare/shoes.png"
+				"../../../assets/imgs/case-study/shopsquare/shoes.png",
+				{ "url": "../../../assets/videos/case-study/shopsquare/desktop-xp.mp4", "blob": true },
+				{ "url": "../../../assets/videos/case-study/shopsquare/mobile-search.mp4", "blob": true },
+				{ "url": "../../../assets/videos/case-study/shopsquare/mobile-xp.mp4", "blob": true }
 			],
 			"2x": [
-				"../../../assets/imgs/case-study/shopsquare/shoes@2x.png"
+				"../../../assets/imgs/case-study/shopsquare/shoes@2x.png",
+				{ "url": "../../../assets/videos/case-study/shopsquare/desktop-xp.mp4", "blob": true },
+				{ "url": "../../../assets/videos/case-study/shopsquare/mobile-search.mp4", "blob": true },
+				{ "url": "../../../assets/videos/case-study/shopsquare/mobile-xp.mp4", "blob": true }
 			]
 		}
 	}

@@ -348,6 +348,7 @@ export default {
 
 		&:after {
 			content: '';
+			margin-top: .2em;
 			display: block;
 			width: 1em;
 			height: 2px;

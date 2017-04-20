@@ -30,7 +30,17 @@ export default {
 		},
 
 		isVisible(){
-			inViewport(this.$refs.video) ? this.$refs.video.play() : this.$refs.video.pause()
+
+			if ( inViewport(this.$refs.video) ) {
+				if (this.$refs.video.paused) {
+					this.$refs.video.play()
+				}
+			}
+
+			else if (!this.$refs.video.paused) {
+				this.$refs.video.pause()
+			}
+
 		}
 
 	}
